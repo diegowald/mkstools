@@ -2,17 +2,22 @@
 #define MAINCOMMAND_H
 
 #include "commands/basecommand.h"
+#include "model/proyecto.h"
 
 class MainCommand : public BaseCommand
 {
 public:
-    MainCommand();
+    MainCommand(QObject *parent = 0);
     virtual ~MainCommand();
 
-    // BaseCommand interface
-public:
-    virtual QWidget *getWidget();
-    virtual QList<QAction *> getActions();
+private slots:
+    void on_HAtriggered();
+    void on_NewProjecttriggered();
+    void on_CloseProjecttriggered();
+    void on_NewElementtriggered();
+    void on_editElemento(const QString &name);
+private:
+    ProyectoPtr _proyecto;
 };
 
 #endif // MAINCOMMAND_H

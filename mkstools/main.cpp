@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include "commands/commands.h"
 
 int main(int argc, char *argv[])
 {
@@ -7,5 +8,8 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    return a.exec();
+    int execution = a.exec();
+
+    delete Commands::instance();
+    return execution;
 }
