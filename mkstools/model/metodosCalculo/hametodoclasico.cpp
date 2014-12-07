@@ -28,3 +28,23 @@ void HAMetodoClasico::calcularViga()
     calcularMaximosEsfuerzos();
     verificacionSecciones();
 }
+
+void HAMetodoClasico::calcularSolicitaciones()
+{
+}
+
+void HAMetodoClasico::calcularReacciones()
+{
+}
+
+void HAMetodoClasico::calcularEsfuerzosInternos()
+{
+}
+
+void HAMetodoClasico::calcularMaximosEsfuerzos()
+{
+}
+
+void HAMetodoClasico::verificacionSecciones()
+{
+}

@@ -26,6 +26,13 @@ public:
 
 private:
     void calcularViga();
+
+    void calcularSolicitaciones();
+    void calcularReacciones();
+    void calcularEsfuerzosInternos();
+    void calcularMaximosEsfuerzos();
+    void verificacionSecciones();
+
 };
 
 #endif // HAMETODOCLASICO_H
