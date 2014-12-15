@@ -17,6 +17,5 @@ public slots:
 
 };
 
-typedef QSharedPointer<Viga> VigaPtr;
 
 #endif // VIGA_H

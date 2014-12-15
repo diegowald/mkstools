@@ -19,7 +19,11 @@ void Tipologia::edit()
     dlg.setEsquemasEstructurales(getValidEsquemaEstructuralTypes());
     dlg.setCurrentSeccion(_seccion);
     dlg.setcurrentEsquema(_esquemaEstructural);
+    dlg.setSolicitaciones(_solicitaciones);
     if (dlg.exec() == QDialog::Accepted)
     {
+        _seccion = dlg.seccion();
+        _esquemaEstructural = dlg.esquemaEstructural();
+        _solicitaciones = dlg.solicitaciones();
     }
 }

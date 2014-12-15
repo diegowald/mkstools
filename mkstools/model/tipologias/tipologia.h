@@ -1,9 +1,8 @@
 #ifndef TIPOLOGIA_H
 #define TIPOLOGIA_H
 
+#include "../forward.h"
 #include "../base.h"
-#include "../secciones/seccion.h"
-#include "../esquemas_estructurales/esquemaestructural.h"
 
 class Tipologia : public Base
 {
@@ -23,8 +22,8 @@ protected:
     SeccionPtr _seccion;
     QString _tipoEsquema;
     EsquemaEstructuralPtr _esquemaEstructural;
+    QList<SolicitacionPtr> _solicitaciones;
 };
 
-typedef QSharedPointer<Tipologia> TipologiaPtr;
 
 #endif // TIPOLOGIA_H

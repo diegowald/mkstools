@@ -48,7 +48,8 @@ SOURCES += main.cpp\
     dialogs/dlgeditacero.cpp \
     dialogs/dlgedithormigonarmado.cpp \
     model/metodosCalculo/metodocalculo.cpp \
-    model/metodosCalculo/hametodoclasico.cpp
+    model/metodosCalculo/hametodoclasico.cpp \
+    model/esfuerzos_internos/esfuerzointerno.cpp
 
 HEADERS  += mainwindow.h \
     commands/basecommand.h \
@@ -85,7 +86,9 @@ HEADERS  += mainwindow.h \
     dialogs/dlgeditacero.h \
     dialogs/dlgedithormigonarmado.h \
     model/metodosCalculo/metodocalculo.h \
-    model/metodosCalculo/hametodoclasico.h
+    model/metodosCalculo/hametodoclasico.h \
+    model/forward.h \
+    model/esfuerzos_internos/esfuerzointerno.h
 
 FORMS    += mainwindow.ui \
     widgets/maincommandwidget.ui \

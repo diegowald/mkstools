@@ -74,3 +74,8 @@ void CargaUniformeConstante::edit()
         _cargaY = dlg.cargaY();
     }
 }
+
+
+void CargaUniformeConstante::calcularSolicitacion(SeccionPtr seccion, EsquemaEstructuralPtr esquemaEstructural)
+{
+}

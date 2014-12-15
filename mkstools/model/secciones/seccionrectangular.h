@@ -1,6 +1,7 @@
 #ifndef SECCIONRECTANGULAR_H
 #define SECCIONRECTANGULAR_H
 
+#include "../forward.h"
 #include "seccion.h"
 
 class SeccionRectangular : public Seccion
@@ -14,11 +15,15 @@ public:
     double areaAceroSuperior() const;
     double base();
     double altura();
+    double recubrimientoInferior();
+    double recubrimientoSuperior();
 
     void setAreaAceroInferior(double value);
     void setAreaAceroSuperior(double value);
     void setBase(double value);
     void setAltura(double value);
+    void setRecubrimientoInferior(double value);
+    void setRecubrimientoSuperior(double value);
 
 signals:
 
@@ -39,9 +44,9 @@ private:
     double _areaAceroSuperior;
     double _base;
     double _altura;
-
+    double _recubrimientoInferior;
+    double _recubrimientoSuperior;
 };
 
-typedef QSharedPointer<SeccionRectangular> SeccionRectangularPtr;
 
 #endif // SECCIONRECTANGULAR_H

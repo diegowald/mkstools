@@ -8,6 +8,8 @@ SeccionRectangular::SeccionRectangular(QObject *parent) :
     _areaAceroSuperior = 0.;
     _base = 0.;
     _altura = 0.;
+    _recubrimientoInferior = 0.;
+    _recubrimientoInferior = 0.;
 }
 
 SeccionRectangular::~SeccionRectangular()
@@ -37,12 +39,16 @@ void SeccionRectangular::edit()
     dlg.setAltura(_altura);
     dlg.setArmaduraInferior(_areaAceroInferior);
     dlg.setArmaduraSuperior(_areaAceroSuperior);
+    dlg.setRecubrimientoInferior(_recubrimientoInferior);
+    dlg.setRecubrimientoSuperior(_recubrimientoSuperior);
     if (dlg.exec() == QDialog::Accepted)
     {
         _base = dlg.base();
         _altura = dlg.altura();
         _areaAceroInferior = dlg.armaduraInferior();
         _areaAceroSuperior = dlg.armaduraSuperior();
+        _recubrimientoInferior = dlg.recubrimientoInferior();
+        _recubrimientoSuperior = dlg.recubrimientoSuperior();
     }
 }
 
@@ -84,4 +90,24 @@ void SeccionRectangular::setBase(double value)
 void SeccionRectangular::setAltura(double value)
 {
     _altura = value;
+}
+
+void SeccionRectangular::setRecubrimientoInferior(double value)
+{
+    _recubrimientoInferior = value;
+}
+
+void SeccionRectangular::setRecubrimientoSuperior(double value)
+{
+    _recubrimientoSuperior = value;
+}
+
+double SeccionRectangular::recubrimientoInferior()
+{
+    return _recubrimientoInferior;
+}
+
+double SeccionRectangular::recubrimientoSuperior()
+{
+    return _recubrimientoSuperior;
 }

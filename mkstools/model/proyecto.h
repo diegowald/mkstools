@@ -22,6 +22,6 @@ private:
     QMap<QString, ElementoPtr> _elementos;
 };
 
-typedef QSharedPointer<Proyecto> ProyectoPtr;
+
 
 #endif // PROYECTO_H

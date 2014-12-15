@@ -61,3 +61,8 @@ void CargaPuntual::edit()
         _fuerzaY = dlg.fuerzaY();
     }
 }
+
+
+void CargaPuntual::calcularSolicitacion(SeccionPtr seccion, EsquemaEstructuralPtr esquemaEstructural)
+{
+}

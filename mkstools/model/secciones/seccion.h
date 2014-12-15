@@ -20,6 +20,5 @@ public slots:
 
 };
 
-typedef QSharedPointer<Seccion> SeccionPtr;
 
 #endif // SECCION_H

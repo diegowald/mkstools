@@ -1,8 +1,9 @@
 #ifndef SOLICITACION_H
 #define SOLICITACION_H
 
-#include "../base.h"
 #include "../IClonable.h"
+#include "../forward.h"
+#include "../base.h"
 
 class Solicitacion : public Base, public IClonable<Solicitacion>
 {
@@ -15,13 +16,15 @@ public:
     virtual double resultanteX() = 0;
     virtual double resultanteY() = 0;
     virtual void edit() = 0;
+
+    virtual void calcularSolicitacion(SeccionPtr seccion, EsquemaEstructuralPtr esquemaEstructural) = 0;
+
 signals:
 
 public slots:
 
 };
 
-typedef QSharedPointer<Solicitacion> SolicitacionPtr;
 
 Q_DECLARE_METATYPE(SolicitacionPtr)
 

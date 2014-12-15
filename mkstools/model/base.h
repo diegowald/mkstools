@@ -21,6 +21,5 @@ private:
     QString _name;
 };
 
-typedef QSharedPointer<Base> BasePtr;
 
 #endif // BASE_H

@@ -22,6 +22,6 @@ private:
     QString _tipo;
 };
 
-typedef QSharedPointer<Elemento> ElementoPtr;
+
 
 #endif // ELEMENTO_H

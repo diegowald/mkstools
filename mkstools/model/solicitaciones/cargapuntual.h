@@ -33,8 +33,11 @@ private:
     // Solicitacion interface
 public:
     virtual void edit();
+
+    // Solicitacion interface
+public:
+    virtual void calcularSolicitacion(SeccionPtr seccion, EsquemaEstructuralPtr esquemaEstructural);
 };
 
-typedef QSharedPointer<CargaPuntual> CargaPuntualPtr;
 
 #endif // CARGAPUNTUAL_H

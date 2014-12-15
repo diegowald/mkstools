@@ -26,6 +26,5 @@ protected:
 
 };
 
-typedef QSharedPointer<Material> MaterialPtr;
 
 #endif // MATERIAL_H

@@ -2,10 +2,8 @@
 #define DLGEDITTOPOLOGIA_H
 
 #include <QDialog>
-#include "../model/secciones/seccion.h"
-#include "../model/esquemas_estructurales/esquemaestructural.h"
 #include <QListWidgetItem>
-
+#include "../model/forward.h"
 
 namespace Ui {
 class dlgEditTopologia;
@@ -22,6 +20,12 @@ public:
     void setEsquemasEstructurales(const QStringList &esquemas);
     void setCurrentSeccion(SeccionPtr seccion);
     void setcurrentEsquema(EsquemaEstructuralPtr esquema);
+
+    void setSolicitaciones(QList<SolicitacionPtr> &listaSolicitaciones);
+    QList<SolicitacionPtr> solicitaciones();
+
+    SeccionPtr seccion();
+    EsquemaEstructuralPtr esquemaEstructural();
 
 private slots:
     void on_btnDetailsEsquemas_released();

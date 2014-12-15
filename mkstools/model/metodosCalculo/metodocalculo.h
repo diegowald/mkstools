@@ -11,11 +11,10 @@ class MetodoCalculo : public Base
 {
     Q_OBJECT
 public:
-    explicit MetodoCalculo(
-            const QString &name,
+    explicit MetodoCalculo(const QString &name,
             TipologiaPtr tipologia,
             EsquemaEstructuralPtr esquemaEstructural,
-            SolicitacionPtr solicitacion,
+            const QList<SolicitacionPtr> &solicitacion,
             MaterialPtr material,
             SeccionPtr seccion,
             QObject *parent = 0);
@@ -29,7 +28,7 @@ public slots:
 protected:
     TipologiaPtr _tipologia;
     EsquemaEstructuralPtr _esquemaEstructural;
-    SolicitacionPtr _solicitacion;
+    QList<SolicitacionPtr> _solicitacion;
     MaterialPtr _material;
     SeccionPtr _seccion;
 };

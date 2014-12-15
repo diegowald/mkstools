@@ -101,3 +101,26 @@ void dlgEditTopologia::on_listSolicitaciones_itemDoubleClicked(QListWidgetItem *
 {
     SolicitacionPtr solicitacion = item->data(Qt::UserRole).value<SolicitacionPtr>();
 }
+
+SeccionPtr dlgEditTopologia::seccion()
+{
+    return _seccion;
+}
+
+EsquemaEstructuralPtr dlgEditTopologia::esquemaEstructural()
+{
+    return _esquema;
+}
+
+void dlgEditTopologia::setSolicitaciones(QList<SolicitacionPtr> &listaSolicitaciones)
+{
+    ui->listSolicitaciones->clear();
+    foreach (SolicitacionPtr solicitacion, listaSolicitaciones)
+    {
+        ui->listSolicitaciones->addItem(solicitacion->name());
+    }
+}
+
+QList<SolicitacionPtr> dlgEditTopologia::solicitaciones()
+{
+}

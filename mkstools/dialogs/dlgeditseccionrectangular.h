@@ -19,11 +19,15 @@ public:
     void setAltura(double value);
     void setArmaduraInferior(double value);
     void setArmaduraSuperior(double value);
+    void setRecubrimientoInferior(double value);
+    void setRecubrimientoSuperior(double value);
 
     double base() const;
     double altura() const;
     double armaduraInferior() const;
     double armaduraSuperior() const;
+    double recubrimientoInferior() const;
+    double recubrimientoSuperior() const;
 
 private:
     Ui::DlgEditSeccionRectangular *ui;

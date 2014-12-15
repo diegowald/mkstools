@@ -2,6 +2,7 @@
 #define HORMIGON_H
 
 #include "material.h"
+#include "../forward.h"
 
 class Hormigon : public Material
 {
@@ -26,6 +27,5 @@ public:
     virtual double E() const;
 };
 
-typedef QSharedPointer<Hormigon> HormigonPtr;
 
 #endif // HORMIGON_H

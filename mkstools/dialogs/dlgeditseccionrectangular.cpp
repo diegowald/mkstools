@@ -52,3 +52,23 @@ double DlgEditSeccionRectangular::armaduraSuperior() const
 {
     return ui->txtArmaduraSuperior->text().toDouble();
 }
+
+void DlgEditSeccionRectangular::setRecubrimientoInferior(double value)
+{
+    ui->txtRecubrimientoInferior->setText(QString::number(value));
+}
+
+void DlgEditSeccionRectangular::setRecubrimientoSuperior(double value)
+{
+    ui->txtRecubrimientoSuperior->setText(QString::number(value));
+}
+
+double DlgEditSeccionRectangular::recubrimientoInferior() const
+{
+    return ui->txtRecubrimientoInferior->text().toDouble();
+}
+
+double DlgEditSeccionRectangular::recubrimientoSuperior() const
+{
+    return ui->txtRecubrimientoSuperior->text().toDouble();
+}

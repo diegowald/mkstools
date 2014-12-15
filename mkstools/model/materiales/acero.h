@@ -2,6 +2,7 @@
 #define ACERO_H
 
 #include "material.h"
+#include "../forward.h"
 
 class Acero : public Material
 {
@@ -27,6 +28,5 @@ public:
 
 };
 
-typedef QSharedPointer<Acero> AceroPtr;
 
 #endif // ACERO_H

@@ -2,7 +2,7 @@
 #define DLGEDITHORMIGONARMADO_H
 
 #include <QDialog>
-#include "../model/materiales/material.h"
+#include "../model/forward.h"
 
 namespace Ui {
 class DlgEditHormigonArmado;

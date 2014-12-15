@@ -11,6 +11,10 @@ class HormigonArmado : public Material
 public:
     explicit HormigonArmado(QObject *parent = 0);
     virtual ~HormigonArmado();
+
+    HormigonPtr hormigon();
+    AceroPtr acero();
+
 signals:
 
 public slots:
@@ -28,8 +32,9 @@ public:
     virtual double tensionTraccion() const;
     virtual double tensionCompression() const;
     virtual double E() const;
+    
+    virtual void edit();
 };
 
-typedef QSharedPointer<HormigonArmado> HormigonArmadoPtr;
 
 #endif // HORMIGONARMADO_H

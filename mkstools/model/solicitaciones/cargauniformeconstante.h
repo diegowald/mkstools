@@ -31,8 +31,11 @@ private:
     double _cargaY;
     double _posInicio;
     double _posFinal;
+
+    // Solicitacion interface
+public:
+    virtual void calcularSolicitacion(SeccionPtr seccion, EsquemaEstructuralPtr esquemaEstructural);
 };
 
-typedef QSharedPointer<CargaUniformeConstante> CargaUniformeConstantePtr;
 
 #endif // CARGAUNIFORMECONSTANTE_H
