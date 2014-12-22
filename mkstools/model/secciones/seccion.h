@@ -14,10 +14,14 @@ public:
 
     virtual void edit() = 0;
 
+    virtual void setReporte(const QString &reporte);
+    virtual QString reporte();
 signals:
 
 public slots:
 
+protected:
+    QString _memoriaCalculo;
 };
 
 

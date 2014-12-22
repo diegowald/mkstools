@@ -19,32 +19,52 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Tension Traccion</string>
+        <string>Tension Admisible Tracción [t/cm2]</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="txtTensionTraccion"/>
+      <widget class="QLineEdit" name="txtTensionAdmisibleTraccion"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Tension Compresion</string>
+        <string>Tension Admisible Compresión [t/cm2]</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="txtTensionCompresion"/>
+      <widget class="QLineEdit" name="txtTensionAdmisibleCompresion"/>
      </item>
-     <item row="2" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Modulo Elasticidad</string>
+        <string>Modulo Elasticidad [t/cm2]</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="txtModuloElasticidad"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Tensión Rotura Compresion [t/cm2]</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Tensión Rotura Tracción [t/cm2\</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="txtModuloElasticidad"/>
+      <widget class="QLineEdit" name="txtTensionRoturaCompresion"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="txtTensionRoturaTraccion"/>
      </item>
     </layout>
    </item>

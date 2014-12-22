@@ -1,5 +1,5 @@
 #include "elemento.h"
-#include "tipologias/viga.h"
+#include "../factory.h"
 
 Elemento::Elemento(const QString &name, const QString &tipo, QObject *parent) :
     Base(name, parent)
@@ -14,13 +14,26 @@ Elemento::~Elemento()
 
 void Elemento::createInnerElement()
 {
-    if (_tipo == "viga")
-    {
-        _elemento = VigaPtr::create(name());
-    }
+    _elemento = Factory::crearTipologia(_tipo);
 }
 
 void Elemento::edit()
 {
     _elemento->edit();
+}
+
+
+QString Elemento::description()
+{
+    return _elemento.isNull() ? "" : _elemento->description();
+}
+
+void Elemento::calcular()
+{
+    _elemento->calcular();
+}
+
+QString Elemento::reporteCalculo()
+{
+    return _elemento->reporteCalculo();
 }

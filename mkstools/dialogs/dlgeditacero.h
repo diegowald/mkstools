@@ -15,13 +15,21 @@ public:
     explicit DlgEditMaterial(QWidget *parent = 0);
     ~DlgEditMaterial();
 
-    void setTensionTraccion(double value);
-    void setTensionCompresion(double value);
+    void setTensionAdmisibleTraccion(double value);
+    void setTensionAdmisibleCompresion(double value);
+    void setTensionRoturaTraccion(double value);
+    void setTensionRoturaCompresion(double value);
+
     void setModuloElasticidad(double value);
 
-    double tensionTraccion() const;
-    double tensionCompresion() const;
+
+    double tensionAdmisibleTraccion() const;
+    double tensionAdmisibleCompresion() const;
+    double tensionRoturaTraccion() const;
+    double tensionRoturaCompresion() const;
+
     double moduloElasticidad() const;
+
 
 private:
     Ui::DlgEditMaterial *ui;

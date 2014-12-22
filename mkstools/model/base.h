@@ -12,7 +12,7 @@ public:
     explicit Base(const QString &name, QObject *parent = 0);
     virtual ~Base();
     QString name();
-
+    virtual QString description() = 0;
 signals:
 
 public slots:

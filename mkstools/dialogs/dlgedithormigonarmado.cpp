@@ -1,8 +1,7 @@
 #include "dlgedithormigonarmado.h"
 #include "ui_dlgedithormigonarmado.h"
-#include "../model/materiales/acero.h"
-#include "../model/materiales/hormigon.h"
-
+#include "../factory.h"
+#include "../model/materiales/material.h"
 
 DlgEditHormigonArmado::DlgEditHormigonArmado(QWidget *parent) :
     QDialog(parent),
@@ -49,40 +48,40 @@ void DlgEditHormigonArmado::setHormigon(MaterialPtr mat)
 
 MaterialPtr DlgEditHormigonArmado::acero()
 {
+    if (_acero.isNull())
+    {
+        crearAcero();
+    }
     return _acero;
 }
 
 MaterialPtr DlgEditHormigonArmado::hormigon()
 {
+    if (_hormigon.isNull())
+    {
+        crearHormigon();
+    }
     return _hormigon;
 }
 
 void DlgEditHormigonArmado::llenarAceros()
 {
     ui->cboAcero->clear();
-    ui->cboAcero->addItem("acero");
+    ui->cboAcero->addItems(Factory::materiales(TipoMaterial::acero));
 }
 
 void DlgEditHormigonArmado::llenarHormigones()
 {
     ui->cboHormigon->clear();
-    ui->cboHormigon->addItem("hormigon");
+    ui->cboHormigon->addItems(Factory::materiales(TipoMaterial::hormigon));
 }
 
 void DlgEditHormigonArmado::crearAcero()
 {
-    QString a = ui->cboAcero->currentText();
-    if (a == "acero")
-    {
-        _acero = AceroPtr::create();
-    }
+    _acero = Factory::crearMaterial(ui->cboAcero->currentText());
 }
 
 void DlgEditHormigonArmado::crearHormigon()
 {
-    QString h = ui->cboHormigon->currentText();
-    if (h == "hormigon")
-    {
-        _hormigon = HormigonPtr::create();
-    }
+    _hormigon = Factory::crearMaterial(ui->cboHormigon->currentText());
 }

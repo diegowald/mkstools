@@ -3,6 +3,8 @@
 #include "commands.h"
 #include "dialogs/dlgnewproject.h"
 #include "dialogs/dlgnewelement.h"
+#include "model/elemento.h"
+#include "dlgresults.h"
 
 MainCommand::MainCommand(QObject *parent) : BaseCommand(tr("main"), parent)
 {
@@ -26,6 +28,10 @@ MainCommand::MainCommand(QObject *parent) : BaseCommand(tr("main"), parent)
 
     action = new QAction(tr("Nuevo elemento"), this);
     connect(action, &QAction::triggered, this, &MainCommand::on_NewElementtriggered);
+    addAction(action);
+
+    action = new QAction(tr("Calcular"), this);
+    connect(action, &QAction::triggered, this, &MainCommand::on_Calcular);
     addAction(action);
 
     _proyecto.clear();
@@ -72,4 +78,13 @@ void MainCommand::on_NewElementtriggered()
 void MainCommand::on_editElemento(const QString &name)
 {
     _proyecto->editElemento(name);
+}
+
+void MainCommand::on_Calcular()
+{
+    _proyecto->calcular();
+    QString html = _proyecto->reporteCalculo();
+    DlgResults dlg;
+    dlg.setReporte(html);
+    dlg.exec();
 }

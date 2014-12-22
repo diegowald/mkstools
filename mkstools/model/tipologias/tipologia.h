@@ -3,8 +3,9 @@
 
 #include "../forward.h"
 #include "../base.h"
+#include "../IClonable.h"
 
-class Tipologia : public Base
+class Tipologia : public Base, public IClonable<Tipologia>, public QEnableSharedFromThis<Tipologia>
 {
     Q_OBJECT
 public:
@@ -13,6 +14,8 @@ public:
     virtual void edit();
     virtual QStringList getValidSeccionTypes() = 0;
     virtual QStringList getValidEsquemaEstructuralTypes() = 0;
+    virtual void calcular() = 0;
+    virtual QString reporteCalculo();
 signals:
 
 public slots:
@@ -23,6 +26,12 @@ protected:
     QString _tipoEsquema;
     EsquemaEstructuralPtr _esquemaEstructural;
     QList<SolicitacionPtr> _solicitaciones;
+    MaterialPtr _material;
+    MetodoCalculoPtr _metodoCalculo;
+
+    // Base interface
+public:
+    virtual QString description();
 };
 
 

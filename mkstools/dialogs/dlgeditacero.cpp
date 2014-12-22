@@ -13,14 +13,24 @@ DlgEditMaterial::~DlgEditMaterial()
     delete ui;
 }
 
-void DlgEditMaterial::setTensionTraccion(double value)
+void DlgEditMaterial::setTensionAdmisibleCompresion(double value)
 {
-    ui->txtTensionTraccion->setText(QString::number(value));
+    ui->txtTensionAdmisibleCompresion->setText(QString::number(value));
 }
 
-void DlgEditMaterial::setTensionCompresion(double value)
+void DlgEditMaterial::setTensionAdmisibleTraccion(double value)
 {
-    ui->txtTensionCompresion->setText(QString::number(value));
+    ui->txtTensionAdmisibleTraccion->setText(QString::number(value));
+}
+
+void DlgEditMaterial::setTensionRoturaCompresion(double value)
+{
+    ui->txtTensionRoturaCompresion->setText(QString::number(value));
+}
+
+void DlgEditMaterial::setTensionRoturaTraccion(double value)
+{
+    ui->txtTensionRoturaTraccion->setText(QString::number(value));
 }
 
 void DlgEditMaterial::setModuloElasticidad(double value)
@@ -28,17 +38,28 @@ void DlgEditMaterial::setModuloElasticidad(double value)
     ui->txtModuloElasticidad->setText(QString::number(value));
 }
 
-double DlgEditMaterial::tensionTraccion() const
-{
-    return ui->txtTensionTraccion->text().toDouble();
-}
-
-double DlgEditMaterial::tensionCompresion() const
-{
-    return ui->txtTensionCompresion->text().toDouble();
-}
 
 double DlgEditMaterial::moduloElasticidad() const
 {
     return ui->txtModuloElasticidad->text().toDouble();
+}
+
+double DlgEditMaterial::tensionAdmisibleCompresion() const
+{
+    return ui->txtTensionAdmisibleCompresion->text().toDouble();
+}
+
+double DlgEditMaterial::tensionAdmisibleTraccion() const
+{
+    return ui->txtTensionAdmisibleTraccion->text().toDouble();
+}
+
+double DlgEditMaterial::tensionRoturaCompresion() const
+{
+    return ui->txtTensionRoturaCompresion->text().toDouble();
+}
+
+double DlgEditMaterial::tensionRoturaTraccion() const
+{
+    return ui->txtTensionRoturaTraccion->text().toDouble();
 }

@@ -38,6 +38,8 @@ public:
     virtual double posMaxCorte() const;
 
     virtual QVarLengthArray<EsfuerzoInternoPtr, 1024> esfuerzosInternos();
+    virtual QString reporteCalculo();
+
 private:
     double _reaccionVerticalA;
     double _reaccionHorizontalA;
@@ -48,6 +50,10 @@ private:
     int _idMaxMomento;
     int _idMinCorte;
     int _idMaxCorte;
+
+    // Base interface
+public:
+    virtual QString description();
 };
 
 

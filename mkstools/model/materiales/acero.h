@@ -22,10 +22,15 @@ public:
 
     // Material interface
 public:
-    virtual double tensionTraccion() const;
-    virtual double tensionCompression() const;
     virtual double E() const;
 
+
+    // Material interface
+public:
+    virtual double tensionAdmisibleTraccion() const;
+    virtual double tensionAdmisibleCompresion() const;
+    virtual double tensionRoturaTraccion() const;
+    virtual double tensionRoturaCompresion() const;
 };
 
 

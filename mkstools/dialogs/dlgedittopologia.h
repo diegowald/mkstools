@@ -16,16 +16,19 @@ class dlgEditTopologia : public QDialog
 public:
     explicit dlgEditTopologia(QWidget *parent = 0);
     ~dlgEditTopologia();
-    void setSecciones(const QStringList &secciones);
-    void setEsquemasEstructurales(const QStringList &esquemas);
     void setCurrentSeccion(SeccionPtr seccion);
     void setcurrentEsquema(EsquemaEstructuralPtr esquema);
+    void setMaterial(MaterialPtr material);
+    void setMetodoCalculo(MetodoCalculoPtr metodoCalculo);
 
     void setSolicitaciones(QList<SolicitacionPtr> &listaSolicitaciones);
     QList<SolicitacionPtr> solicitaciones();
 
+
     SeccionPtr seccion();
     EsquemaEstructuralPtr esquemaEstructural();
+    MaterialPtr material();
+    MetodoCalculoPtr metodoCalculo();
 
 private slots:
     void on_btnDetailsEsquemas_released();
@@ -36,8 +39,14 @@ private slots:
     void on_listSolicitaciones_itemDoubleClicked(QListWidgetItem *item);
 
 private:
+    void llenarSecciones();
+    void llenarEsquemasEstructurales();
     void crearEsquema();
     void crearSeccion();
+    void llenarMateriales();
+    void llenarMetodosCalculo();
+    void crearMaterial();
+    void crearMetodoCalculo();
 
 private:
     Ui::dlgEditTopologia *ui;
@@ -45,6 +54,8 @@ private:
     SeccionPtr _seccion;
     EsquemaEstructuralPtr _esquemaPrevio;
     EsquemaEstructuralPtr _esquema;
+    MaterialPtr _material;
+    MetodoCalculoPtr _metodoCalculo;
 };
 
 #endif // DLGEDITTOPOLOGIA_H

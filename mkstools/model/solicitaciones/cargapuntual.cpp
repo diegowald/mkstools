@@ -34,7 +34,7 @@ double CargaPuntual::corteIzquierda(double pos)
     {
         return 0;
     }
-    return _fuerzaY;
+    return -_fuerzaY;
 }
 
 double CargaPuntual::resultanteX()
@@ -65,4 +65,13 @@ void CargaPuntual::edit()
 
 void CargaPuntual::calcularSolicitacion(SeccionPtr seccion, EsquemaEstructuralPtr esquemaEstructural)
 {
+}
+
+
+QString CargaPuntual::description()
+{
+    return QString("<h5>Carga Puntual</h5><br>Fuerza horizontal: %1 t<br>Fuerza vertical %2 t<br>Posición: %3 cm<br>")
+            .arg(_fuerzaX)
+            .arg(_fuerzaY)
+            .arg(_posAplicacion);
 }

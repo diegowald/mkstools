@@ -1,5 +1,6 @@
 #include "dlgnewelement.h"
 #include "ui_dlgnewelement.h"
+#include "../factory.h"
 
 DlgNewElement::DlgNewElement(QWidget *parent) :
     QDialog(parent),
@@ -28,8 +29,5 @@ QString DlgNewElement::tipo()
 void DlgNewElement::crearTiposEstructurales()
 {
     ui->cboType->clear();
-    ui->cboType->addItem("losa");
-    ui->cboType->addItem("viga");
-    ui->cboType->addItem("columna");
-    ui->cboType->addItem("fundacion");
+    ui->cboType->addItems(Factory::tipologias());
 }

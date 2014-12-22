@@ -16,6 +16,7 @@ private slots:
     void on_CloseProjecttriggered();
     void on_NewElementtriggered();
     void on_editElemento(const QString &name);
+    void on_Calcular();
 private:
     ProyectoPtr _proyecto;
 };

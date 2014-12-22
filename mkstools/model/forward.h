@@ -25,6 +25,7 @@ CONSTRUCT(Base)
 CONSTRUCT(Elemento)
 CONSTRUCT(Proyecto)
 CONSTRUCT(EsfuerzoInterno)
-
+CONSTRUCT(MetodoCalculo)
+CONSTRUCT(HAMetodoClasico)
 
 #endif // FORWARD_H

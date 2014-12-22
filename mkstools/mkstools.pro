@@ -49,7 +49,10 @@ SOURCES += main.cpp\
     dialogs/dlgedithormigonarmado.cpp \
     model/metodosCalculo/metodocalculo.cpp \
     model/metodosCalculo/hametodoclasico.cpp \
-    model/esfuerzos_internos/esfuerzointerno.cpp
+    model/esfuerzos_internos/esfuerzointerno.cpp \
+    factory.cpp \
+    commands/calcularcommand.cpp \
+    dlgresults.cpp
 
 HEADERS  += mainwindow.h \
     commands/basecommand.h \
@@ -88,7 +91,10 @@ HEADERS  += mainwindow.h \
     model/metodosCalculo/metodocalculo.h \
     model/metodosCalculo/hametodoclasico.h \
     model/forward.h \
-    model/esfuerzos_internos/esfuerzointerno.h
+    model/esfuerzos_internos/esfuerzointerno.h \
+    factory.h \
+    commands/calcularcommand.h \
+    dlgresults.h
 
 FORMS    += mainwindow.ui \
     widgets/maincommandwidget.ui \
@@ -101,4 +107,5 @@ FORMS    += mainwindow.ui \
     dialogs/dlgcargapuntual.ui \
     dialogs/dlgeditcargauniformedistribuida.ui \
     dialogs/dlgeditacero.ui \
-    dialogs/dlgedithormigonarmado.ui
+    dialogs/dlgedithormigonarmado.ui \
+    dlgresults.ui

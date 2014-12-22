@@ -2,6 +2,7 @@
 #include "maincommand.h"
 #include "hacommand.h"
 #include "vigacommand.h"
+#include "calcularcommand.h"
 
 Commands *Commands::_commands = NULL;
 
@@ -44,6 +45,7 @@ void Commands::registerCommands()
     registerCommand(new MainCommand());
     registerCommand(new HACommand());
     registerCommand(new VigaCommand());
+    registerCommand(new CalcularCommand());
 }
 
 void Commands::registerCommand(BaseCommand *command)

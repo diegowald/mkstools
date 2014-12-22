@@ -2,6 +2,7 @@
 #include "ui_dlgeditorsolicitaciones.h"
 #include "../model/solicitaciones/cargapuntual.h"
 #include "../model/solicitaciones/cargauniformeconstante.h"
+#include "../factory.h"
 
 DlgEditorSolicitaciones::DlgEditorSolicitaciones(QWidget *parent) :
     QDialog(parent),
@@ -39,19 +40,10 @@ void DlgEditorSolicitaciones::setSolicitacion(SolicitacionPtr solicitacin)
 void DlgEditorSolicitaciones::llenarSolicitaciones()
 {
     ui->cboTipoSolicitaciones->clear();
-    ui->cboTipoSolicitaciones->addItem("carga puntual");
-    ui->cboTipoSolicitaciones->addItem("carga uniformemente distribuida");
+    ui->cboTipoSolicitaciones->addItems(Factory::solicitaciones());
 }
 
 void DlgEditorSolicitaciones::crearSolicitacion()
 {
-    QString name = ui->cboTipoSolicitaciones->currentText();
-    if (name == "carga puntual")
-    {
-        _solicitacion = CargaPuntualPtr::create();
-    }
-    else if (name == "carga uniformemente distribuida")
-    {
-        _solicitacion = CargaUniformeConstantePtr::create();
-    }
+    _solicitacion = Factory::crearSolicitacion(ui->cboTipoSolicitaciones->currentText());
 }

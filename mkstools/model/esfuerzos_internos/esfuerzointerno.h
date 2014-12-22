@@ -21,11 +21,16 @@ public:
     double corte() const;
     double pos() const;
 
+    QString reporteCalculo();
 private:
     double _momento;
     double _normal;
     double _corte;
     double _pos;
+
+    // Base interface
+public:
+    virtual QString description();
 };
 
 #endif // ESFUERZOINTERNO_H

@@ -9,9 +9,15 @@ class Material : public Base, public IClonable<Material>
 public:
     explicit Material(const QString &name, QObject *parent = 0);
     virtual ~Material();
-    virtual double tensionTraccion() const = 0;
-    virtual double tensionCompression() const = 0;
+
+    virtual double tensionAdmisibleTraccion() const = 0;
+    virtual double tensionAdmisibleCompresion() const = 0;
+
+    virtual double tensionRoturaTraccion() const = 0;
+    virtual double tensionRoturaCompresion() const = 0;
+
     virtual double E() const = 0;
+
 
     virtual void edit();
 
@@ -20,10 +26,17 @@ signals:
 public slots:
 
 protected:
-    double _tensionTraccion;
-    double _tensionCompresion;
+    double _tensionAdmisibleTraccion;
+    double _tensionAdmisibleCompresion;
+    double _tensionRoturaTraccion;
+    double _tensionRoturaCompresion;
+
     double _E;
 
+
+    // Base interface
+public:
+    virtual QString description();
 };
 
 

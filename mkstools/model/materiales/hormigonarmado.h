@@ -15,6 +15,8 @@ public:
     HormigonPtr hormigon();
     AceroPtr acero();
 
+    void setHormigon(HormigonPtr hormigon);
+    void setAcero(AceroPtr acero);
 signals:
 
 public slots:
@@ -29,11 +31,20 @@ public:
 
     // Material interface
 public:
-    virtual double tensionTraccion() const;
-    virtual double tensionCompression() const;
     virtual double E() const;
     
     virtual void edit();
+
+    // Base interface
+public:
+    virtual QString description();
+
+    // Material interface
+public:
+    virtual double tensionAdmisibleTraccion() const;
+    virtual double tensionAdmisibleCompresion() const;
+    virtual double tensionRoturaTraccion() const;
+    virtual double tensionRoturaCompresion() const;
 };
 
 

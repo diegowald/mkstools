@@ -46,6 +46,10 @@ private:
     double _altura;
     double _recubrimientoInferior;
     double _recubrimientoSuperior;
+
+    // Base interface
+public:
+    virtual QString description();
 };
 
 

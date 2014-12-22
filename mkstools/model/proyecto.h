@@ -1,8 +1,8 @@
 #ifndef PROYECTO_H
 #define PROYECTO_H
 
+#include "forward.h"
 #include "base.h"
-#include "elemento.h"
 #include <QMap>
 
 class Proyecto : public Base
@@ -14,12 +14,18 @@ public:
 
     void addElemento(ElementoPtr elemento);
     void editElemento(const QString &name);
+    void calcular();
 signals:
 
 public slots:
 
 private:
     QMap<QString, ElementoPtr> _elementos;
+
+    // Base interface
+public:
+    virtual QString description();
+    QString reporteCalculo();
 };
 
 

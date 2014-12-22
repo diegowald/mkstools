@@ -1,31 +1,26 @@
 #include "dlgedittopologia.h"
 #include "ui_dlgedittopologia.h"
-#include "../model/esquemas_estructurales/vigasimplementeapoyada.h"
-#include "../model/secciones/seccionrectangular.h"
 #include "dlgeditorsolicitaciones.h"
-#include "../model/solicitaciones/solicitacion.h"
 #include <QVariant>
+#include <QListWidgetItem>
+#include "../factory.h"
+#include "../model/esquemas_estructurales/esquemaestructural.h"
+#include "../model/secciones/seccion.h"
 
 dlgEditTopologia::dlgEditTopologia(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::dlgEditTopologia)
 {
     ui->setupUi(this);
+    llenarSecciones();
+    llenarEsquemasEstructurales();
+    llenarMateriales();
+    llenarMetodosCalculo();
 }
 
 dlgEditTopologia::~dlgEditTopologia()
 {
     delete ui;
-}
-
-void dlgEditTopologia::setSecciones(const QStringList &secciones)
-{
-    ui->cboSecciones->addItems(secciones);
-}
-
-void dlgEditTopologia::setEsquemasEstructurales(const QStringList &esquemas)
-{
-    ui->cboEsquemasEstructurales->addItems(esquemas);
 }
 
 void dlgEditTopologia::setcurrentEsquema(EsquemaEstructuralPtr esquema)
@@ -66,20 +61,12 @@ void dlgEditTopologia::on_btnDetailsSection_released()
 
 void dlgEditTopologia::crearEsquema()
 {
-    QString esquemaSeleccionado = ui->cboEsquemasEstructurales->currentText();
-    if (esquemaSeleccionado == "simplemente apoyada")
-    {
-        _esquema = VigaSimplementeApoyadaPtr::create();
-    }
+    _esquema = Factory::crearEsquemaEstructural(ui->cboEsquemasEstructurales->currentText());
 }
 
 void dlgEditTopologia::crearSeccion()
 {
-    QString seccionSeleccionada = ui->cboSecciones->currentText();
-    if (seccionSeleccionada == "rectangular")
-    {
-        _seccion = SeccionRectangularPtr::create();
-    }
+    _seccion = Factory::crearSeccion(ui->cboSecciones->currentText());
 }
 
 void dlgEditTopologia::on_btnAddSolicitacion_released()
@@ -104,11 +91,19 @@ void dlgEditTopologia::on_listSolicitaciones_itemDoubleClicked(QListWidgetItem *
 
 SeccionPtr dlgEditTopologia::seccion()
 {
+    if (_seccion.isNull())
+    {
+        crearSeccion();
+    }
     return _seccion;
 }
 
 EsquemaEstructuralPtr dlgEditTopologia::esquemaEstructural()
 {
+    if (_esquema.isNull())
+    {
+        crearEsquema();
+    }
     return _esquema;
 }
 
@@ -117,10 +112,83 @@ void dlgEditTopologia::setSolicitaciones(QList<SolicitacionPtr> &listaSolicitaci
     ui->listSolicitaciones->clear();
     foreach (SolicitacionPtr solicitacion, listaSolicitaciones)
     {
-        ui->listSolicitaciones->addItem(solicitacion->name());
+        QListWidgetItem *item = new QListWidgetItem(ui->listSolicitaciones);
+        item->setText(solicitacion->name());
+        QVariant v;
+        v.setValue(solicitacion);
+        item->setData(Qt::UserRole, v);
     }
 }
 
 QList<SolicitacionPtr> dlgEditTopologia::solicitaciones()
 {
+    QList<SolicitacionPtr> lista;
+    for (int i = 0; i < ui->listSolicitaciones->count(); ++i)
+    {
+        QListWidgetItem* item = ui->listSolicitaciones->item(i);
+        lista.append(item->data(Qt::UserRole).value<SolicitacionPtr>());
+    }
+    return lista;
+}
+
+void dlgEditTopologia::llenarSecciones()
+{
+    ui->cboSecciones->clear();
+    ui->cboSecciones->addItems(Factory::secciones());
+}
+
+void dlgEditTopologia::llenarEsquemasEstructurales()
+{
+    ui->cboEsquemasEstructurales->clear();
+    ui->cboEsquemasEstructurales->addItems(Factory::esquemasEstructurales());
+}
+
+void dlgEditTopologia::llenarMateriales()
+{
+    ui->cboMaterial->clear();
+    ui->cboMaterial->addItems(Factory::materiales(TipoMaterial::todos));
+}
+
+void dlgEditTopologia::llenarMetodosCalculo()
+{
+    ui->cboMetodoCalculo->clear();
+    ui->cboMetodoCalculo->addItems(Factory::metodosCalculo());
+}
+
+void dlgEditTopologia::crearMaterial()
+{
+    _material = Factory::crearMaterial(ui->cboMaterial->currentText());
+}
+
+void dlgEditTopologia::crearMetodoCalculo()
+{
+    _metodoCalculo = Factory::crearMetodoCalculo(ui->cboMetodoCalculo->currentText());
+}
+
+void dlgEditTopologia::setMaterial(MaterialPtr material)
+{
+    _material = material;
+}
+
+void dlgEditTopologia::setMetodoCalculo(MetodoCalculoPtr metodoCalculo)
+{
+    _metodoCalculo = metodoCalculo;
+}
+
+MaterialPtr dlgEditTopologia::material()
+{
+    if (_material.isNull())
+    {
+        crearMaterial();
+    }
+    return _material;
+}
+
+MetodoCalculoPtr dlgEditTopologia::metodoCalculo()
+{
+    if (_metodoCalculo.isNull())
+    {
+        crearMetodoCalculo();
+    }
+    return _metodoCalculo;
 }

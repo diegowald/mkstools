@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DlgCargaPuntual</class>
- <widget class="QDialog" name="DlgCargaPuntual">
+ <class>DlgResults</class>
+ <widget class="QDialog" name="DlgResults">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,42 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Resultados</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Posicion [cm]</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="txtPosicion"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Fuerza X [t]</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="txtFuerzaX"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Fuerza Y [t]</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="txtFuerzaY"/>
-     </item>
-    </layout>
+    <widget class="QTextEdit" name="textEdit"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -65,7 +34,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DlgCargaPuntual</receiver>
+   <receiver>DlgResults</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -81,7 +50,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DlgCargaPuntual</receiver>
+   <receiver>DlgResults</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

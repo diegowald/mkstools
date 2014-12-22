@@ -5,21 +5,17 @@
 #include "../materiales/hormigonarmado.h"
 #include <QVarLengthArray>
 #include "../esfuerzos_internos/esfuerzointerno.h"
+#include "../solicitaciones/solicitacion.h"
+#include "../esquemas_estructurales/esquemaestructural.h"
 
-HAMetodoClasico::HAMetodoClasico(TipologiaPtr tipologia,
-                                 EsquemaEstructuralPtr esquemaEstructural,
-                                 const QList<SolicitacionPtr> &solicitacion,
-                                 MaterialPtr material,
-                                 SeccionPtr seccion,
-                                 QObject *parent) :
-    MetodoCalculo("metodo clasico", tipologia, esquemaEstructural, solicitacion, material, seccion, parent)
+HAMetodoClasico::HAMetodoClasico(QObject *parent) :
+    MetodoCalculo("metodo clasico", parent)
 {
 }
 
-
 void HAMetodoClasico::run()
 {
-    if (!qobject_cast<VigaPtr>(_tipologia).isNull())
+    if (qobject_cast<Viga*>(_tipologia))
     {
         calcularViga();
     }
@@ -27,6 +23,7 @@ void HAMetodoClasico::run()
 
 void HAMetodoClasico::calcularViga()
 {
+    _seccionesCalculadas.clear();
     predimensionarViga();
     calcularSolicitaciones();
     calcularReacciones();
@@ -37,7 +34,6 @@ void HAMetodoClasico::calcularViga()
 
 void HAMetodoClasico::predimensionarViga()
 {
-
 }
 
 void HAMetodoClasico::calcularSolicitaciones()
@@ -65,19 +61,23 @@ void HAMetodoClasico::calcularMaximosEsfuerzos()
 
 void HAMetodoClasico::verificacionSecciones()
 {
+    _seccionMayorArmaduraInferior.clear();
+    _seccionMenorArmaduraSuperior.clear();
+    _seccionMayorArmaduraInferior.clear();
+    _seccionMenorArmaduraSuperior.clear();
     QVarLengthArray<EsfuerzoInternoPtr, 1024> esfuerzos = _esquemaEstructural->esfuerzosInternos();
     for (int i = 0; i < esfuerzos.size(); ++i)
     {
-        // Usando tabla 42
+/*        // Usando tabla 42
         SeccionRectangularPtr seccion = qobject_cast<SeccionRectangularPtr>(_seccion);
         double k4 = seccion->base() * seccion->altura() / seccion->areaAceroInferior();
         double m = inversa(9.0, 300.0, k4, HAMetodoClasico::k4Tabla42);
         double kx = kxTabla42(m);
         double tensionAcero = esfuerzos[i]->momento() / (kx * seccion->altura() * seccion->areaAceroInferior());
         double tensionHormigon = tensionAcero / m;
-
+*/
         // Usando tabla 56
-        verificarUsandoTabla56(esfuerzos[i]->momento());
+        _seccionesCalculadas.append(verificarUsandoTabla56(esfuerzos[i]->momento()));
     }
 }
 
@@ -114,16 +114,17 @@ double HAMetodoClasico::inversa(double xMin, double xMax, double value, std::fun
 {
     double y_xMin = func(xMin);
     double y_xMax = func(xMax);
-    if (y_xMin == value)
+    if (aproximadamenteIgual(y_xMin, value))
     {
         return xMin;
     }
 
-    if (y_xMax == value)
+    if (aproximadamenteIgual(y_xMax, value))
     {
         return xMax;
     }
 
+    bool funcionCreciente = (y_xMin < y_xMax);
     if (between(value, y_xMin, y_xMax))
     {
         double xmid = (xMin + xMax) / 2.0;
@@ -139,7 +140,14 @@ double HAMetodoClasico::inversa(double xMin, double xMax, double value, std::fun
     }
     else
     {
-        return 1e-308;
+        if (funcionCreciente)
+        {
+            return (value < y_xMin) ? xMin : xMax;
+        }
+        else
+        {
+            return (value > y_xMin) ? xMin : xMax;
+        }
     }
 }
 
@@ -202,38 +210,135 @@ double HAMetodoClasico::k6Tabla56(double sb)
 
 SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
 {
+    QString reporte = "";
     // Verificacion de la tension de compresion del hormigon sin armadura de compresion
     SeccionRectangularPtr seccion = qobject_cast<SeccionRectangularPtr>(_seccion);
     SeccionRectangularPtr seccionCalculada = qobject_cast<SeccionRectangularPtr>(seccion->clone());
-    HormigonArmadoPtr material = qobject_cast<HormigonArmadoPtr>(_material);
-    double h = seccion->altura() - seccion->recubrimientoInferior();
-    double k6 = (seccion->base() - pow(h, 2.0)) /  momento;
-    double tensionHormigon = inversa(0.03, 0160, k6, k6Tabla56);
-    if (tensionHormigon < material->hormigon()->tensionCompression())
+    if (momento == 0.)
     {
-        // El hormigon soporta la compresion.
-        double armaduraTraccion = seccion->base() * h / k4Tabla56(tensionHormigon);
-        seccionCalculada->setAreaAceroInferior(armaduraTraccion);
-        seccionCalculada->setAreaAceroSuperior(0.0);
+        reporte += "Momento == 0 -> No es necesario realizar verificaciones.";
+        seccionCalculada->setReporte(reporte);
+        seccionCalculada->setAreaAceroInferior(0.);
+        seccionCalculada->setAreaAceroSuperior(0.);
     }
     else
     {
-        // El hormigon no soporta la compresion por si solo y necesita armadura de compresion adicional
-        tensionHormigon = material->hormigon()->tensionCompression();
-        k6 = k6Tabla56(tensionHormigon);
-        double MomentoComplementario = momento - seccion->base() * pow(h, 2.0) / k6;
+        reporte += QString("Momento %1 tcm.<br>").arg(momento);
 
-        double c = h - seccion->recubrimientoSuperior();
+        HormigonArmadoPtr material = qobject_cast<HormigonArmadoPtr>(_material);
+        double h = seccion->altura() - seccion->recubrimientoInferior();
+        reporte += QString("Altura de cálculo: %1 cm.<br>").arg(h);
+        double k6 = (seccion->base() * pow(h, 2.0)) /  momento;
+        reporte += QString("k6 = %1").arg(k6);
+        double tensionHormigon = inversa(0.03, 0160, k6, k6Tabla56);
+        reporte += QString("De tabla 56, para k6 = %1, obtengo tension de trabajo del hormigon = %2.<br>").arg(k6).arg(tensionHormigon);
+        if (tensionHormigon < material->hormigon()->tensionAdmisibleCompresion())
+        {
+            reporte += QString("Tension de trabajo menor que tension admisible, no es necesario armadura de compresión.<br>");
+            // El hormigon soporta la compresion.
+            double armaduraTraccion = seccion->base() * h / k4Tabla56(tensionHormigon);
+            seccionCalculada->setAreaAceroInferior(armaduraTraccion);
+            seccionCalculada->setAreaAceroSuperior(0.0);
+        }
+        else
+        {
+            reporte += QString("La tension de compresion es mayor a la admisible. Se requiere armadura adicional de compresión.");
+            // El hormigon no soporta la compresion por si solo y necesita armadura de compresion adicional
+            tensionHormigon = material->hormigon()->tensionAdmisibleCompresion();
+            reporte += QString("Se adopta la tensión admisible del hormigón como tensión de trabajo.<br>");
+            k6 = k6Tabla56(tensionHormigon);
+            reporte += QString("Se obtiene k6 de tabla. k6 = %1.<br>").arg(k6);
 
-        double armaduraTraccion = seccion->base() * h / k6 + MomentoComplementario / (c * material->acero()->tensionTraccion());
+            double MomentoComplementario = momento - seccion->base() * pow(h, 2.0) / k6;
+            reporte += QString("Momento complementario a absorver por la armadura de compresión: %1 tcm.<br>").arg(MomentoComplementario);
 
-        // Obtengo la tension de compresion del acero
-        double x = kxTabla56(tensionHormigon) * h;
-        double tensionCompresionAcero = 15 * tensionHormigon * (x - seccion->recubrimientoSuperior()) / x;
+            double c = h - seccion->recubrimientoSuperior();
+            reporte += QString("Brazo de palanca c = %1 cm.<br>").arg(c);
 
-        double armaduraCompresion = MomentoComplementario / c / material->acero()->tensionCompression();
-        seccionCalculada->setAreaAceroInferior(armaduraTraccion);
-        seccionCalculada->setAreaAceroSuperior(armaduraCompresion);
+            double armaduraTraccion = seccion->base() * h / k6 + MomentoComplementario / (c * material->acero()->tensionAdmisibleTraccion());
+            reporte += QString("Armaruda de tracción = %1 cm2.<br>").arg(armaduraTraccion);
+
+            // Obtengo la tension de compresion del acero
+            double x = kxTabla56(tensionHormigon) * h;
+            double tensionCompresionAcero = 15 * tensionHormigon * (x - seccion->recubrimientoSuperior()) / x;
+            reporte += QString("De tabla, tensión de compresión de acero = %1 t/cm2.<br>").arg(tensionCompresionAcero);
+
+            double armaduraCompresion = MomentoComplementario / c / tensionCompresionAcero;
+            reporte += QString("Armadura de compresión = %1 cm2.<br>").arg(armaduraCompresion);
+
+            seccionCalculada->setAreaAceroInferior(armaduraTraccion);
+            seccionCalculada->setAreaAceroSuperior(armaduraCompresion);
+            seccionCalculada->setReporte(reporte);
+        }
     }
+    if (_seccionMayorArmaduraInferior.isNull())
+    {
+        _seccionMayorArmaduraInferior = seccionCalculada;
+        _seccionMenorArmaduraInferior = seccionCalculada;
+        _seccionMayorArmaduraSuperior = seccionCalculada;
+        _seccionMenorArmaduraSuperior = seccionCalculada;
+    }
+    else
+    {
+        SeccionRectangularPtr s = qobject_cast<SeccionRectangularPtr>(_seccionMayorArmaduraInferior);
+        if (s->areaAceroInferior() < seccionCalculada->areaAceroInferior())
+        {
+            _seccionMayorArmaduraInferior = seccionCalculada;
+        }
+        s = qobject_cast<SeccionRectangularPtr>(_seccionMenorArmaduraInferior);
+        if (s->areaAceroInferior() > seccionCalculada->areaAceroInferior());
+        {
+            _seccionMenorArmaduraInferior = seccionCalculada;
+        }
+        s = qobject_cast<SeccionRectangularPtr>(_seccionMayorArmaduraSuperior);
+        if (s->areaAceroSuperior() < seccionCalculada->areaAceroSuperior())
+        {
+            _seccionMayorArmaduraSuperior = seccionCalculada;
+        }
+        s = qobject_cast<SeccionRectangularPtr>(_seccionMenorArmaduraSuperior);
+        if (s->areaAceroSuperior() > seccionCalculada->areaAceroSuperior())
+        {
+            _seccionMenorArmaduraSuperior = seccionCalculada;
+        }
+    }
+
     return seccionCalculada;
+}
+
+
+QSharedPointer<MetodoCalculo> HAMetodoClasico::clone()
+{
+    return HAMetodoClasicoPtr::create();
+}
+
+bool HAMetodoClasico::aproximadamenteIgual(double valor1, double valor2)
+{
+    return fabs(valor1 - valor2) < 1e-5;
+}
+
+QString HAMetodoClasico::reporteCalculo()
+{
+    QString reporte = "";
+    reporte += QString("<h3>Metodo de Calculo %1</h3><br>").arg(name());
+
+    reporte += _esquemaEstructural->reporteCalculo();
+
+    reporte += QString("<h4>Secciones solicitadas</h4><br>");
+    reporte += QString("<h5>Mayor armadura inferior</h5><br>");
+    reporte += _seccionMayorArmaduraInferior->reporte();
+    reporte += _seccionMayorArmaduraInferior->description();
+
+    reporte += QString("<h5>Menor armadura inferior</h5><br>");
+    reporte += _seccionMenorArmaduraInferior->reporte();
+    reporte += _seccionMenorArmaduraInferior->description();
+
+    reporte += QString("<h5>Mayor armadura superior</h5><br>");
+    reporte += _seccionMayorArmaduraSuperior->reporte();
+    reporte += _seccionMayorArmaduraSuperior->description();
+
+    reporte += QString("<h5>Menor armadura superior</h5><br>");
+    reporte += _seccionMenorArmaduraSuperior->reporte();
+    reporte += _seccionMenorArmaduraSuperior->description();
+
+    return reporte;
 }

@@ -27,6 +27,7 @@ public:
     virtual double posMaxCorte() const = 0;
 
     virtual QVarLengthArray<EsfuerzoInternoPtr, 1024> esfuerzosInternos() = 0;
+    virtual QString reporteCalculo() = 0;
 signals:
 
 public slots:

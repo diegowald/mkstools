@@ -15,6 +15,18 @@ signals:
 
 public slots:
 
+
+    // IClonable interface
+public:
+    virtual QSharedPointer<Tipologia> clone();
+
+    // Base interface
+public:
+    virtual QString description();
+
+    // Tipologia interface
+public:
+    virtual void calcular();
 };
 
 

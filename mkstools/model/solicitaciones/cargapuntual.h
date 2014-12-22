@@ -37,6 +37,10 @@ public:
     // Solicitacion interface
 public:
     virtual void calcularSolicitacion(SeccionPtr seccion, EsquemaEstructuralPtr esquemaEstructural);
+
+    // Base interface
+public:
+    virtual QString description();
 };
 
 

@@ -11,6 +11,9 @@ public:
     explicit Elemento(const QString &name, const QString &tipo, QObject *parent = 0);
     virtual ~Elemento();
     virtual void edit();
+    virtual void calcular();
+    QString reporteCalculo();
+
 private:
     void createInnerElement();
 
@@ -20,6 +23,10 @@ public slots:
 private:
     TipologiaPtr _elemento;
     QString _tipo;
+
+    // Base interface
+public:
+    virtual QString description();
 };
 
 

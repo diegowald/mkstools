@@ -8,13 +8,7 @@ class HAMetodoClasico : public MetodoCalculo
 {
     Q_OBJECT
 public:
-    explicit HAMetodoClasico(TipologiaPtr tipologia,
-                             EsquemaEstructuralPtr esquemaEstructural,
-                             const QList<SolicitacionPtr> &solicitacion,
-                             MaterialPtr material,
-                             SeccionPtr seccion,
-                             QObject *parent = 0);
-
+    HAMetodoClasico(QObject *parent = 0);
 
 signals:
 
@@ -24,9 +18,11 @@ public slots:
     // MetodoCalculo interface
 public:
     virtual void run();
+    virtual QString reporteCalculo();
 
 protected:
     double inversa(double xMin, double xMax, double value, std::function<double(double)> func);
+    bool aproximadamenteIgual(double valor1, double valor2);
     bool between(double value, double value1, double value2);
 private:
     void calcularViga();
@@ -49,6 +45,18 @@ private:
     static double k3Tabla56(double sb);
     static double k4Tabla56(double sb);
     static double k6Tabla56(double sb);
+
+    // IClonable interface
+public:
+    virtual QSharedPointer<MetodoCalculo> clone();
+
+private:
+    QList<SeccionPtr> _seccionesCalculadas;
+    SeccionPtr _seccionMayorArmaduraInferior;
+    SeccionPtr _seccionMenorArmaduraInferior;
+    SeccionPtr _seccionMayorArmaduraSuperior;
+    SeccionPtr _seccionMenorArmaduraSuperior;
+
 };
 
 #endif // HAMETODOCLASICO_H

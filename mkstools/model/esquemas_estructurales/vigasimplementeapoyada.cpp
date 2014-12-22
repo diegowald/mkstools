@@ -47,7 +47,7 @@ void VigaSimplementeApoyada::calcularReacciones(const QList<SolicitacionPtr> &so
         cargas += solicitacion->corteIzquierda(_longitud);
     }
     _reaccionHorizontalA = 0.;
-    _reaccionVerticalA = momentos / _longitud;
+    _reaccionVerticalA = - momentos / _longitud;
     _reaccionHorizontalB = 0.;
     _reaccionVerticalB = cargas - _reaccionVerticalA;
 }
@@ -66,6 +66,7 @@ void VigaSimplementeApoyada::calcularEsfuerzosInternos(const QList<SolicitacionP
             momentoPto += s->momentoIzquierda(x);
             cortePto += s->corteIzquierda(x);
         }
+
         EsfuerzoInternoPtr esfuerzo = EsfuerzoInternoPtr::create();
         esfuerzo->setMomento(momentoPto);
         esfuerzo->setCorte(cortePto);
@@ -78,8 +79,8 @@ void VigaSimplementeApoyada::calcularEsfuerzosInternos(const QList<SolicitacionP
 void VigaSimplementeApoyada::calcularMaximosEsfuerzos()
 {
     double _minMomento = std::numeric_limits<double>::max();
-    double _maxMomento = std::numeric_limits<double>::min();
-    double _maxCorte = std::numeric_limits<double>::min();
+    double _maxMomento = -std::numeric_limits<double>::max();
+    double _maxCorte = -std::numeric_limits<double>::max();
     double _minCorte = std::numeric_limits<double>::max();
 
     for (int i = 0; i < _esfuerzosInternos.size(); ++i)
@@ -151,4 +152,40 @@ double VigaSimplementeApoyada::posMaxCorte() const
 QVarLengthArray<EsfuerzoInternoPtr, 1024> VigaSimplementeApoyada::esfuerzosInternos()
 {
     return _esfuerzosInternos;
+}
+
+
+QString VigaSimplementeApoyada::description()
+{
+    return QString("<h5>Viga simplemente apoyada.</h5><br>Luz: %1 cm.<br>").arg(_longitud);
+}
+
+QString VigaSimplementeApoyada::reporteCalculo()
+{
+    QString reporte = QString("<h4>Cálculo de reacciones</h4><br>");
+
+    reporte += QString("<h5>Reacción A</h5><br>");
+    reporte += QString("Reacción horizontal: %1 t.<br>").arg(_reaccionHorizontalA);
+    reporte += QString("Reacción vertical: %1 t.<br>").arg(_reaccionVerticalA);
+    reporte += QString("<br>");
+    reporte += QString("<h5>Reacción B</h5><br>");
+    reporte += QString("Reacción horizontal: %1 t.<br>").arg(_reaccionHorizontalB);
+    reporte += QString("Reacción vertical: %1 t.<br>").arg(_reaccionVerticalB);
+    reporte += QString("<br>");
+
+    reporte += QString("<h4>Maximos esfuerzos internos</h4><br>");
+    reporte += QString("<h5>Momento Mínimo</h5><br>");
+    reporte += _esfuerzosInternos[_idMinMomento]->reporteCalculo();
+
+    reporte += QString("<h5>Momento Máximo</h5><br>");
+    reporte += _esfuerzosInternos[_idMaxMomento]->reporteCalculo();
+
+    reporte += QString("<h5>Corte Mínimo</h5><br>");
+    reporte += _esfuerzosInternos[_idMinCorte]->reporteCalculo();
+
+    reporte += QString("<h5>Corte Máximo</h5><br>");
+    reporte += _esfuerzosInternos[_idMaxCorte]->reporteCalculo();
+    reporte += "<br>";
+
+    return reporte;
 }
