@@ -23,10 +23,11 @@ void Proyecto::addElemento(ElementoPtr elemento)
     }
 }
 
-void Proyecto::editElemento(const QString &name)
+ElementoPtr Proyecto::editElemento(const QString &name)
 {
     ElementoPtr elemento = _elementos[name];
     elemento->edit();
+    return elemento;
 }
 
 

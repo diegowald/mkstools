@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>410</height>
+    <width>321</width>
+    <height>453</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,13 +16,13 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QFormLayout" name="formLayout">
-     <property name="fieldGrowthPolicy">
-      <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-     </property>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Esquema Estrcuctural</string>
+       </property>
+       <property name="buddy">
+        <cstring>cboEsquemasEstructurales</cstring>
        </property>
       </widget>
      </item>
@@ -43,13 +43,6 @@
        </item>
       </layout>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Seccion</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <property name="spacing">
@@ -67,42 +60,79 @@
        </item>
       </layout>
      </item>
-     <item row="2" column="0">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Seccion</string>
+       </property>
+       <property name="buddy">
+        <cstring>cboSecciones</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Solicitaciones</string>
        </property>
+       <property name="buddy">
+        <cstring>btnAddSolicitacion</cstring>
+       </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QPushButton" name="btnAddSolicitacion">
        <property name="text">
         <string>Nueva...</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Material</string>
        </property>
+       <property name="buddy">
+        <cstring>cboMaterial</cstring>
+       </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="2">
+     <item row="4" column="0" colspan="2">
       <widget class="QListWidget" name="listSolicitaciones"/>
      </item>
-     <item row="5" column="0">
+     <item row="5" column="1">
+      <widget class="QComboBox" name="cboMaterial"/>
+     </item>
+     <item row="6" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Método de Cálculo</string>
        </property>
+       <property name="buddy">
+        <cstring>cboMetodoCalculo</cstring>
+       </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QComboBox" name="cboMaterial"/>
-     </item>
-     <item row="5" column="1">
+     <item row="6" column="1">
       <widget class="QComboBox" name="cboMetodoCalculo"/>
+     </item>
+     <item row="7" column="0" colspan="2">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QPushButton" name="btnDiagramas">
+         <property name="text">
+          <string>Diagramas</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnArmadura">
+         <property name="text">
+          <string>Armaduras...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -118,6 +148,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>cboEsquemasEstructurales</tabstop>
+  <tabstop>btnDetailsEsquemas</tabstop>
+  <tabstop>cboSecciones</tabstop>
+  <tabstop>btnDetailsSection</tabstop>
+  <tabstop>btnAddSolicitacion</tabstop>
+  <tabstop>listSolicitaciones</tabstop>
+  <tabstop>cboMaterial</tabstop>
+  <tabstop>cboMetodoCalculo</tabstop>
+  <tabstop>btnDiagramas</tabstop>
+  <tabstop>btnArmadura</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -127,8 +169,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>443</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -143,8 +185,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>311</x>
+     <y>443</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

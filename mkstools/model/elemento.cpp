@@ -37,3 +37,33 @@ QString Elemento::reporteCalculo()
 {
     return _elemento->reporteCalculo();
 }
+
+QString Elemento::tipo()
+{
+    return _elemento->tipo();
+}
+
+QString Elemento::material()
+{
+    return _elemento->material();
+}
+
+QString Elemento::metodoCalculo()
+{
+    return _elemento->metodoCalculo();
+}
+
+bool Elemento::calculado()
+{
+    return _elemento->calculoOK();
+}
+
+QString Elemento::esquemaEstructural()
+{
+    return _elemento->esquemaEstructural();
+}
+
+QString Elemento::seccion()
+{
+    return _elemento->seccion();
+}

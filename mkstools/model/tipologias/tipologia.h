@@ -16,6 +16,13 @@ public:
     virtual QStringList getValidEsquemaEstructuralTypes() = 0;
     virtual void calcular() = 0;
     virtual QString reporteCalculo();
+
+    virtual QString tipo();
+    virtual QString material();
+    virtual QString metodoCalculo();
+    virtual bool calculoOK();
+    virtual QString esquemaEstructural();
+    virtual QString seccion();
 signals:
 
 public slots:

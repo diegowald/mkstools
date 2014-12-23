@@ -6,6 +6,7 @@
 #include "../factory.h"
 #include "../model/esquemas_estructurales/esquemaestructural.h"
 #include "../model/secciones/seccion.h"
+#include "dlgdiagramas.h"
 
 dlgEditTopologia::dlgEditTopologia(QWidget *parent) :
     QDialog(parent),
@@ -191,4 +192,15 @@ MetodoCalculoPtr dlgEditTopologia::metodoCalculo()
         crearMetodoCalculo();
     }
     return _metodoCalculo;
+}
+
+void dlgEditTopologia::on_btnDiagramas_released()
+{
+    DlgDiagramas dlg;
+    dlg.setData(_seccion, _esquema, _material, _metodoCalculo);
+    dlg.exec();
+}
+
+void dlgEditTopologia::on_btnArmadura_released()
+{
 }

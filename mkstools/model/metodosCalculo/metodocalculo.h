@@ -4,6 +4,8 @@
 #include "../IClonable.h"
 #include "../forward.h"
 #include "../base.h"
+#include "../esquemas_estructurales/esquemaestructural.h"
+#include <QGraphicsScene>
 
 class MetodoCalculo : public Base, public IClonable<MetodoCalculo>
 {
@@ -18,7 +20,8 @@ public:
                       SeccionPtr seccion);
     virtual void run() = 0;
     virtual QString reporteCalculo() = 0;
-
+    virtual bool calculado() = 0;
+    virtual QGraphicsScene *generarDiagrama(Diagrama diagrama);
 signals:
 
 public slots:

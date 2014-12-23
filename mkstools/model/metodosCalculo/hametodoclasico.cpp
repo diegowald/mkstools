@@ -11,17 +11,19 @@
 HAMetodoClasico::HAMetodoClasico(QObject *parent) :
     MetodoCalculo("metodo clasico", parent)
 {
+    _calculado = false;
 }
 
 void HAMetodoClasico::run()
 {
+    _calculado = false;
     if (qobject_cast<Viga*>(_tipologia))
     {
-        calcularViga();
+        _calculado = calcularViga();
     }
 }
 
-void HAMetodoClasico::calcularViga()
+bool HAMetodoClasico::calcularViga()
 {
     _seccionesCalculadas.clear();
     predimensionarViga();
@@ -30,6 +32,7 @@ void HAMetodoClasico::calcularViga()
     calcularEsfuerzosInternos();
     calcularMaximosEsfuerzos();
     verificacionSecciones();
+    return true;
 }
 
 void HAMetodoClasico::predimensionarViga()
@@ -216,7 +219,7 @@ SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
     SeccionRectangularPtr seccionCalculada = qobject_cast<SeccionRectangularPtr>(seccion->clone());
     if (momento == 0.)
     {
-        reporte += "Momento == 0 -> No es necesario realizar verificaciones.";
+        reporte += "Momento == 0 -> No es necesario realizar verificaciones.<br>";
         seccionCalculada->setReporte(reporte);
         seccionCalculada->setAreaAceroInferior(0.);
         seccionCalculada->setAreaAceroSuperior(0.);
@@ -229,7 +232,7 @@ SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
         double h = seccion->altura() - seccion->recubrimientoInferior();
         reporte += QString("Altura de cálculo: %1 cm.<br>").arg(h);
         double k6 = (seccion->base() * pow(h, 2.0)) /  momento;
-        reporte += QString("k6 = %1").arg(k6);
+        reporte += QString("k6 = %1<br>").arg(k6);
         double tensionHormigon = inversa(0.03, 0160, k6, k6Tabla56);
         reporte += QString("De tabla 56, para k6 = %1, obtengo tension de trabajo del hormigon = %2.<br>").arg(k6).arg(tensionHormigon);
         if (tensionHormigon < material->hormigon()->tensionAdmisibleCompresion())
@@ -242,7 +245,7 @@ SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
         }
         else
         {
-            reporte += QString("La tension de compresion es mayor a la admisible. Se requiere armadura adicional de compresión.");
+            reporte += QString("La tension de compresion es mayor a la admisible. Se requiere armadura adicional de compresión.<br>");
             // El hormigon no soporta la compresion por si solo y necesita armadura de compresion adicional
             tensionHormigon = material->hormigon()->tensionAdmisibleCompresion();
             reporte += QString("Se adopta la tensión admisible del hormigón como tensión de trabajo.<br>");
@@ -286,7 +289,7 @@ SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
             _seccionMayorArmaduraInferior = seccionCalculada;
         }
         s = qobject_cast<SeccionRectangularPtr>(_seccionMenorArmaduraInferior);
-        if (s->areaAceroInferior() > seccionCalculada->areaAceroInferior());
+        if (s->areaAceroInferior() > seccionCalculada->areaAceroInferior())
         {
             _seccionMenorArmaduraInferior = seccionCalculada;
         }
@@ -341,4 +344,9 @@ QString HAMetodoClasico::reporteCalculo()
     reporte += _seccionMenorArmaduraSuperior->description();
 
     return reporte;
+}
+
+bool HAMetodoClasico::calculado()
+{
+    return _calculado;
 }

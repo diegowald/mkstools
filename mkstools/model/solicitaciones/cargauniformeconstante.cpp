@@ -31,7 +31,7 @@ double CargaUniformeConstante::momentoIzquierda(double pos)
     double l0 = _posInicio;
     double l1 = _posFinal > pos ? pos : _posFinal;
 
-    double momento = -_cargaY * (l1 - l0) * (pos - (l0 + l1) / 2.0);
+    double momento = _cargaY * (l1 - l0) * (pos - (l0 + l1) / 2.0);
     return momento;
 }
 
@@ -44,7 +44,7 @@ double CargaUniformeConstante::corteIzquierda(double pos)
     double l0 = _posInicio;
     double l1 = _posFinal > pos ? pos : _posFinal;
 
-    double corte = -_cargaY * (l1 - l0);
+    double corte = _cargaY * (l1 - l0);
 
     return corte;
 }

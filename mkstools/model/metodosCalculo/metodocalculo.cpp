@@ -25,3 +25,8 @@ QString MetodoCalculo::description()
 {
     return QString("<h5>Método de cálculo: %1</h5><br>").arg(name());
 }
+
+QGraphicsScene *MetodoCalculo::generarDiagrama(Diagrama diagrama)
+{
+    return _esquemaEstructural->generarDiagrama(diagrama);
+}

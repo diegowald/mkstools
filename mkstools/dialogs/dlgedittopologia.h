@@ -38,6 +38,10 @@ private slots:
 
     void on_listSolicitaciones_itemDoubleClicked(QListWidgetItem *item);
 
+    void on_btnDiagramas_released();
+
+    void on_btnArmadura_released();
+
 private:
     void llenarSecciones();
     void llenarEsquemasEstructurales();

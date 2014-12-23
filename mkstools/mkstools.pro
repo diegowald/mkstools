@@ -52,7 +52,8 @@ SOURCES += main.cpp\
     model/esfuerzos_internos/esfuerzointerno.cpp \
     factory.cpp \
     commands/calcularcommand.cpp \
-    dlgresults.cpp
+    dlgresults.cpp \
+    dialogs/dlgdiagramas.cpp
 
 HEADERS  += mainwindow.h \
     commands/basecommand.h \
@@ -94,7 +95,8 @@ HEADERS  += mainwindow.h \
     model/esfuerzos_internos/esfuerzointerno.h \
     factory.h \
     commands/calcularcommand.h \
-    dlgresults.h
+    dlgresults.h \
+    dialogs/dlgdiagramas.h
 
 FORMS    += mainwindow.ui \
     widgets/maincommandwidget.ui \
@@ -108,4 +110,5 @@ FORMS    += mainwindow.ui \
     dialogs/dlgeditcargauniformedistribuida.ui \
     dialogs/dlgeditacero.ui \
     dialogs/dlgedithormigonarmado.ui \
-    dlgresults.ui
+    dlgresults.ui \
+    dialogs/dlgdiagramas.ui

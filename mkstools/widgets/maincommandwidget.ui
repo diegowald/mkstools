@@ -42,7 +42,43 @@
       <number>2</number>
      </property>
      <item>
-      <widget class="QListWidget" name="listElements"/>
+      <widget class="QTreeWidget" name="listElements">
+       <column>
+        <property name="text">
+         <string>Nombre</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Esquema estructural</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Tipo</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Seccion</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Material</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Metodo Calculo</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Calculada</string>
+        </property>
+       </column>
+      </widget>
      </item>
     </layout>
    </item>

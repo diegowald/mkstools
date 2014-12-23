@@ -19,13 +19,14 @@ public slots:
 public:
     virtual void run();
     virtual QString reporteCalculo();
+    virtual bool calculado();
 
 protected:
     double inversa(double xMin, double xMax, double value, std::function<double(double)> func);
     bool aproximadamenteIgual(double valor1, double valor2);
     bool between(double value, double value1, double value2);
 private:
-    void calcularViga();
+    bool calcularViga();
 
     void predimensionarViga();
     void calcularSolicitaciones();
@@ -56,7 +57,7 @@ private:
     SeccionPtr _seccionMenorArmaduraInferior;
     SeccionPtr _seccionMayorArmaduraSuperior;
     SeccionPtr _seccionMenorArmaduraSuperior;
-
+    bool _calculado;
 };
 
 #endif // HAMETODOCLASICO_H

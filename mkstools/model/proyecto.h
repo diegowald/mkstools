@@ -13,7 +13,7 @@ public:
     virtual ~Proyecto();
 
     void addElemento(ElementoPtr elemento);
-    void editElemento(const QString &name);
+    ElementoPtr editElemento(const QString &name);
     void calcular();
 signals:
 

@@ -41,6 +41,11 @@ public:
     virtual QString reporteCalculo();
 
 private:
+    double obtenerMinimo(Diagrama diagrama);
+    double obtenerMaximo(Diagrama diagrama);
+    double obtenerValor(Diagrama diagrama, int i);
+
+private:
     double _reaccionVerticalA;
     double _reaccionHorizontalA;
     double _reaccionVerticalB;
@@ -54,6 +59,10 @@ private:
     // Base interface
 public:
     virtual QString description();
+
+    // EsquemaEstructural interface
+public:
+    virtual QGraphicsScene *generarDiagrama(Diagrama diagrama);
 };
 
 

@@ -34,7 +34,7 @@ double CargaPuntual::corteIzquierda(double pos)
     {
         return 0;
     }
-    return -_fuerzaY;
+    return _fuerzaY;
 }
 
 double CargaPuntual::resultanteX()

@@ -77,7 +77,9 @@ void MainCommand::on_NewElementtriggered()
 
 void MainCommand::on_editElemento(const QString &name)
 {
-    _proyecto->editElemento(name);
+    ElementoPtr elemento = _proyecto->editElemento(name);
+    MainCommandWidget* widget = qobject_cast<MainCommandWidget*>(getWidget());
+    widget->updateElemento(elemento);
 }
 
 void MainCommand::on_Calcular()

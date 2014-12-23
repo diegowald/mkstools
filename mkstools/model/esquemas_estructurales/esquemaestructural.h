@@ -4,6 +4,16 @@
 #include "../base.h"
 #include "../IClonable.h"
 #include "../forward.h"
+#include <QGraphicsScene>
+
+enum class Diagrama
+{
+    solicitaciones,
+    normal,
+    corte,
+    momentoFlector,
+    momentoTorsor
+};
 
 class EsquemaEstructural : public Base, public IClonable<EsquemaEstructural>
 {
@@ -28,6 +38,7 @@ public:
 
     virtual QVarLengthArray<EsfuerzoInternoPtr, 1024> esfuerzosInternos() = 0;
     virtual QString reporteCalculo() = 0;
+    virtual QGraphicsScene *generarDiagrama(Diagrama diagrama) = 0;
 signals:
 
 public slots:

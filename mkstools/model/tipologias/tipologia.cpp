@@ -65,3 +65,33 @@ QString Tipologia::reporteCalculo()
     reporte += "<br>" + _metodoCalculo->reporteCalculo();
     return reporte;
 }
+
+QString Tipologia::tipo()
+{
+    return _esquemaEstructural->name();
+}
+
+QString Tipologia::material()
+{
+    return _material->name();
+}
+
+QString Tipologia::metodoCalculo()
+{
+    return _metodoCalculo->name();
+}
+
+bool Tipologia::calculoOK()
+{
+    return _metodoCalculo->calculado();
+}
+
+QString Tipologia::esquemaEstructural()
+{
+    return _esquemaEstructural->name();
+}
+
+QString Tipologia::seccion()
+{
+    return _seccion->name();
+}

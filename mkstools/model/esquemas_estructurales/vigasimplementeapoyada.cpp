@@ -49,7 +49,7 @@ void VigaSimplementeApoyada::calcularReacciones(const QList<SolicitacionPtr> &so
     _reaccionHorizontalA = 0.;
     _reaccionVerticalA = - momentos / _longitud;
     _reaccionHorizontalB = 0.;
-    _reaccionVerticalB = cargas - _reaccionVerticalA;
+    _reaccionVerticalB = - cargas - _reaccionVerticalA;
 }
 
 void VigaSimplementeApoyada::calcularEsfuerzosInternos(const QList<SolicitacionPtr> &solicitaciones)
@@ -188,4 +188,73 @@ QString VigaSimplementeApoyada::reporteCalculo()
     reporte += "<br>";
 
     return reporte;
+}
+
+
+QGraphicsScene *VigaSimplementeApoyada::generarDiagrama(Diagrama diagrama)
+{
+    QGraphicsScene *scene = new QGraphicsScene();
+
+    scene->addEllipse(10, 10, 3, 5);
+
+    // Dibujo la estructura
+    scene->addLine(0, 0, _longitud, 0);
+
+    double minimoValor = obtenerMinimo(diagrama);
+    double maximoValor = obtenerMaximo(diagrama);
+    double delta = fabs(maximoValor - minimoValor);
+    double escala = (delta == 0.) ? 1 : 0.5 * _longitud / delta;
+
+    double xAnt = 0.;
+    double yAnt = 0.;
+    for (int i = 0; i < _esfuerzosInternos.size(); i++)
+    {
+        double x = 1.0 * i;
+        double y = obtenerValor(diagrama, i) * escala;
+        scene->addLine(xAnt, yAnt, x, y);
+        xAnt = x;
+        yAnt = y;
+    }
+    scene->addLine(xAnt, yAnt, _longitud, 0);
+    return scene;
+}
+
+double VigaSimplementeApoyada::obtenerMinimo(Diagrama diagrama)
+{
+    switch (diagrama)
+    {
+    case Diagrama::corte:
+        return obtenerValor(diagrama, _idMinCorte);
+    case Diagrama::momentoFlector:
+        return obtenerValor(diagrama, _idMinMomento);
+    default:
+        return 0.;
+    }
+}
+
+double VigaSimplementeApoyada::obtenerMaximo(Diagrama diagrama)
+{
+    switch (diagrama)
+    {
+    case Diagrama::corte:
+        return obtenerValor(diagrama, _idMaxCorte);
+    case Diagrama::momentoFlector:
+        return obtenerValor(diagrama, _idMaxMomento);
+    default:
+        return 0.;
+    }
+}
+
+double VigaSimplementeApoyada::obtenerValor(Diagrama diagrama, int i)
+{
+    EsfuerzoInternoPtr esfuerzo = _esfuerzosInternos.at(i);
+    switch (diagrama)
+    {
+    case Diagrama::corte:
+        return -esfuerzo->corte();
+    case Diagrama::momentoFlector:
+        return esfuerzo->momento();
+    default:
+        return 0.;
+    }
 }

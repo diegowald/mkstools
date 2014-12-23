@@ -1,5 +1,6 @@
 #include "maincommandwidget.h"
 #include "ui_maincommandwidget.h"
+#include "model/elemento.h"
 
 MainCommandWidget::MainCommandWidget(QWidget *parent) :
     QWidget(parent),
@@ -25,10 +26,26 @@ void MainCommandWidget::clearData()
 
 void MainCommandWidget::addElemento(const QString &name)
 {
-    ui->listElements->addItem(name);
+    QTreeWidgetItem *item = new QTreeWidgetItem(ui->listElements, QStringList() << name);
+    ui->listElements->addTopLevelItem(item);
 }
 
-void MainCommandWidget::on_listElements_itemDoubleClicked(QListWidgetItem *item)
+void MainCommandWidget::on_listElements_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    emit elementoDobleClick(item->text());
+    (void) column;
+    emit elementoDobleClick(item->text(0));
+}
+
+void MainCommandWidget::updateElemento(ElementoPtr elemento)
+{
+    QList<QTreeWidgetItem*> items = ui->listElements->findItems(elemento->name(), Qt::MatchExactly, 0);
+    foreach (QTreeWidgetItem* item, items)
+    {
+        item->setText(1, elemento->esquemaEstructural());
+        item->setText(2, elemento->tipo());
+        item->setText(3, elemento->seccion());
+        item->setText(4, elemento->material());
+        item->setText(5, elemento->metodoCalculo());
+        item->setText(6, elemento->calculado() ? "OK" : "Error");
+    }
 }

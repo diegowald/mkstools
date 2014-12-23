@@ -14,6 +14,12 @@ public:
     virtual void calcular();
     QString reporteCalculo();
 
+    QString tipo();
+    QString material();
+    QString metodoCalculo();
+    bool calculado();
+    QString esquemaEstructural();
+    QString seccion();
 private:
     void createInnerElement();
 
