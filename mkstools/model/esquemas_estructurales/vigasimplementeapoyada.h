@@ -44,6 +44,8 @@ private:
     double obtenerMinimo(Diagrama diagrama);
     double obtenerMaximo(Diagrama diagrama);
     double obtenerValor(Diagrama diagrama, int i);
+    double obtenerMinimo(QList<double> &valores);
+    double obtenerMaximo(QList<double> &valores);
 
 private:
     double _reaccionVerticalA;
@@ -63,6 +65,12 @@ public:
     // EsquemaEstructural interface
 public:
     virtual QGraphicsScene *generarDiagrama(Diagrama diagrama);
+    virtual QGraphicsScene *generarDiagrama(Diagrama diagrama,
+                                            QList<double> &valoresInferiores,
+                                            QList<double> &valoresSupoeriores,
+                                            QList<double> &seccionesArmaduraInferiores,
+                                            QList<double> &seccionesArmarudaSuperiores);
+
 };
 
 

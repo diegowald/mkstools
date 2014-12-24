@@ -190,32 +190,96 @@ QString VigaSimplementeApoyada::reporteCalculo()
     return reporte;
 }
 
-
 QGraphicsScene *VigaSimplementeApoyada::generarDiagrama(Diagrama diagrama)
+{
+    QList<double> valoresInferiores;
+    QList<double> valoresSuperiores;
+    QList<double> armadurasInferiores;
+    QList<double> armadurasSuperiores;
+    for (int i = 0; i < _esfuerzosInternos.size(); i++)
+    {
+        valoresInferiores.append(obtenerValor(diagrama, i));
+    }
+    return generarDiagrama(diagrama, valoresInferiores, valoresSuperiores, armadurasInferiores, armadurasSuperiores);
+}
+
+QGraphicsScene *VigaSimplementeApoyada::generarDiagrama(Diagrama diagrama, QList<double> &valoresInferiores, QList<double> &valoresSupoeriores, QList<double> &seccionesArmaduraInferiores, QList<double> &seccionesArmarudaSuperiores)
 {
     QGraphicsScene *scene = new QGraphicsScene();
 
     scene->addEllipse(10, 10, 3, 5);
 
     // Dibujo la estructura
-    scene->addLine(0, 0, _longitud, 0);
+    scene->addLine(0, 0, _longitud, 0, QPen(Qt::black));
 
-    double minimoValor = obtenerMinimo(diagrama);
-    double maximoValor = obtenerMaximo(diagrama);
-    double delta = fabs(maximoValor - minimoValor);
-    double escala = (delta == 0.) ? 1 : 0.5 * _longitud / delta;
-
-    double xAnt = 0.;
-    double yAnt = 0.;
-    for (int i = 0; i < _esfuerzosInternos.size(); i++)
+    // Dibujo el diagrama inferior
+    double escala = 1.0;
+    double delta = 0;
+    if (valoresInferiores.size() > 0)
     {
-        double x = 1.0 * i;
-        double y = obtenerValor(diagrama, i) * escala;
-        scene->addLine(xAnt, yAnt, x, y);
-        xAnt = x;
-        yAnt = y;
+        double minimoValor = obtenerMinimo(valoresInferiores);
+        double maximoValor = obtenerMaximo(valoresInferiores);
+        delta = fabs(maximoValor - minimoValor);
     }
-    scene->addLine(xAnt, yAnt, _longitud, 0);
+
+    if (valoresSupoeriores.size() > 0)
+    {
+        double minimoValor = obtenerMinimo(valoresSupoeriores);
+        double maximoValor = obtenerMaximo(valoresSupoeriores);
+        double deltaSup = fabs(maximoValor - minimoValor);
+        delta = (delta > deltaSup) ? delta : deltaSup;
+    }
+
+    escala = (delta == 0.) ? 1 : 0.5 * _longitud / delta;
+
+    if (valoresInferiores.size() > 0)
+    {
+        double xAnt = 0.;
+        double yAnt = 0.;
+        for (int i = 0; i < _esfuerzosInternos.size(); i++)
+        {
+            double x = 1.0 * i;
+            double y = valoresInferiores.at(i) * escala;
+            scene->addLine(xAnt, yAnt, x, y, QPen(Qt::darkBlue));
+            xAnt = x;
+            yAnt = y;
+        }
+        scene->addLine(xAnt, yAnt, _longitud, 0, QPen(Qt::darkBlue));
+    }
+
+    // Dibujo el diagrama inferior
+    if (valoresSupoeriores.size() > 0)
+    {
+        double xAnt = 0.;
+        double yAnt = 0.;
+        for (int i = 0; i < _esfuerzosInternos.size(); i++)
+        {
+            double x = 1.0 * i;
+            double y = -valoresSupoeriores.at(i) * escala;
+            scene->addLine(xAnt, yAnt, x, y, QPen(Qt::darkGreen));
+            xAnt = x;
+            yAnt = y;
+        }
+        scene->addLine(xAnt, yAnt, _longitud, 0, QPen(Qt::darkGreen));
+    }
+
+    // Dibujo las armaduras inferiores
+    double acumulado = 0.;
+    foreach (double valor, seccionesArmaduraInferiores)
+    {
+        acumulado += valor * escala
+                ;
+        scene->addLine(0, acumulado, _longitud, acumulado);
+    }
+
+    // Dibujo las armaduras superiores
+    acumulado = 0.;
+    foreach (double valor, seccionesArmarudaSuperiores)
+    {
+        acumulado -= valor * escala;
+        scene->addLine(0, acumulado, _longitud, acumulado);
+    }
+
     return scene;
 }
 
@@ -230,6 +294,26 @@ double VigaSimplementeApoyada::obtenerMinimo(Diagrama diagrama)
     default:
         return 0.;
     }
+}
+
+double VigaSimplementeApoyada::obtenerMinimo(QList<double> &valores)
+{
+    double minimo = 1e308;
+    foreach (double valor, valores)
+    {
+        minimo = (valor < minimo) ? valor : minimo;
+    }
+    return minimo;
+}
+
+double VigaSimplementeApoyada::obtenerMaximo(QList<double> &valores)
+{
+    double maximo = -1e308;
+    foreach (double valor, valores)
+    {
+        maximo = (valor > maximo) ? valor : maximo;
+    }
+    return maximo;
 }
 
 double VigaSimplementeApoyada::obtenerMaximo(Diagrama diagrama)

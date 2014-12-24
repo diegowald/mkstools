@@ -52,8 +52,9 @@ SOURCES += main.cpp\
     model/esfuerzos_internos/esfuerzointerno.cpp \
     factory.cpp \
     commands/calcularcommand.cpp \
-    dlgresults.cpp \
-    dialogs/dlgdiagramas.cpp
+    dialogs/dlgresults.cpp \
+    dialogs/dlgdiagramas.cpp \
+    dialogs/dlgsetarmadurasfelxion.cpp
 
 HEADERS  += mainwindow.h \
     commands/basecommand.h \
@@ -95,8 +96,9 @@ HEADERS  += mainwindow.h \
     model/esfuerzos_internos/esfuerzointerno.h \
     factory.h \
     commands/calcularcommand.h \
-    dlgresults.h \
-    dialogs/dlgdiagramas.h
+    dialogs/dlgresults.h \
+    dialogs/dlgdiagramas.h \
+    dialogs/dlgsetarmadurasfelxion.h
 
 FORMS    += mainwindow.ui \
     widgets/maincommandwidget.ui \
@@ -110,5 +112,6 @@ FORMS    += mainwindow.ui \
     dialogs/dlgeditcargauniformedistribuida.ui \
     dialogs/dlgeditacero.ui \
     dialogs/dlgedithormigonarmado.ui \
-    dlgresults.ui \
-    dialogs/dlgdiagramas.ui
+    dialogs/dlgresults.ui \
+    dialogs/dlgdiagramas.ui \
+    dialogs/dlgsetarmadurasfelxion.ui

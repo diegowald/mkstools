@@ -12,7 +12,8 @@ enum class Diagrama
     normal,
     corte,
     momentoFlector,
-    momentoTorsor
+    momentoTorsor,
+    armaduraFlexion
 };
 
 class EsquemaEstructural : public Base, public IClonable<EsquemaEstructural>
@@ -39,6 +40,8 @@ public:
     virtual QVarLengthArray<EsfuerzoInternoPtr, 1024> esfuerzosInternos() = 0;
     virtual QString reporteCalculo() = 0;
     virtual QGraphicsScene *generarDiagrama(Diagrama diagrama) = 0;
+    virtual QGraphicsScene *generarDiagrama(Diagrama diagrama, QList<double> &valoresInferiores, QList<double> &valoresSupoeriores,
+                                            QList<double> &seccionesArmaduraInferiores, QList<double> &seccionesArmarudaSuperiores) = 0;
 signals:
 
 public slots:

@@ -7,6 +7,7 @@
 #include "../model/esquemas_estructurales/esquemaestructural.h"
 #include "../model/secciones/seccion.h"
 #include "dlgdiagramas.h"
+#include "dlgsetarmadurasfelxion.h"
 
 dlgEditTopologia::dlgEditTopologia(QWidget *parent) :
     QDialog(parent),
@@ -203,4 +204,7 @@ void dlgEditTopologia::on_btnDiagramas_released()
 
 void dlgEditTopologia::on_btnArmadura_released()
 {
+    DlgSetArmadurasFelxion dlg;
+    dlg.setData(_metodoCalculo);
+    dlg.exec();
 }

@@ -350,3 +350,28 @@ bool HAMetodoClasico::calculado()
 {
     return _calculado;
 }
+
+QGraphicsScene *HAMetodoClasico::generarDiagrama(Diagrama diagrama,
+                                                 QList<double> &armadurasInferiores,
+                                                 QList<double> &armadurasSuperiores)
+{
+    if (diagrama == Diagrama::armaduraFlexion)
+    {
+        QList<double> valoresInferiores;
+        QList<double> valoresSuperiores;
+        foreach (SeccionPtr seccion, _seccionesCalculadas)
+        {
+            SeccionRectangularPtr rect = qobject_cast<SeccionRectangularPtr>(seccion);
+            valoresInferiores.append(rect->areaAceroInferior());
+            valoresSuperiores.append(rect->areaAceroSuperior());
+        }
+        return
+                _esquemaEstructural->generarDiagrama(diagrama,
+                                                     valoresInferiores, valoresSuperiores,
+                                                     armadurasInferiores, armadurasSuperiores);
+    }
+    else
+    {
+        return MetodoCalculo::generarDiagrama(diagrama);
+    }
+}

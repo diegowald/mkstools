@@ -20,6 +20,9 @@ public:
     virtual void run();
     virtual QString reporteCalculo();
     virtual bool calculado();
+    virtual QGraphicsScene *generarDiagrama(Diagrama diagrama,
+                                            QList<double> &armadurasInferiores,
+                                            QList<double> &armadurasSuperiores);
 
 protected:
     double inversa(double xMin, double xMax, double value, std::function<double(double)> func);

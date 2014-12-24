@@ -22,6 +22,9 @@ public:
     virtual QString reporteCalculo() = 0;
     virtual bool calculado() = 0;
     virtual QGraphicsScene *generarDiagrama(Diagrama diagrama);
+    virtual QGraphicsScene *generarDiagrama(Diagrama diagrama,
+                                            QList<double> &armadurasInferiores,
+                                            QList<double> &armadurasSuperiores) = 0;
 signals:
 
 public slots:

@@ -4,7 +4,7 @@
 #include "dialogs/dlgnewproject.h"
 #include "dialogs/dlgnewelement.h"
 #include "model/elemento.h"
-#include "dlgresults.h"
+#include "dialogs/dlgresults.h"
 
 MainCommand::MainCommand(QObject *parent) : BaseCommand(tr("main"), parent)
 {
