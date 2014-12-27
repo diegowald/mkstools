@@ -80,12 +80,12 @@ double DlgSetArmadurasFelxion::area(double diametro)
 
 void DlgSetArmadurasFelxion::on_lstHierroSuperior_itemDoubleClicked(QListWidgetItem *item)
 {
-    ui->lstHierroSuperior->removeItemWidget(item);
+    delete item;
     redraw();
 }
 
 void DlgSetArmadurasFelxion::on_lstHierroInferior_itemDoubleClicked(QListWidgetItem *item)
 {
-    ui->lstHierroInferior->removeItemWidget(item);
+    delete item;
     redraw();
 }

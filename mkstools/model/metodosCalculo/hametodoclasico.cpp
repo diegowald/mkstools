@@ -217,6 +217,12 @@ SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
     // Verificacion de la tension de compresion del hormigon sin armadura de compresion
     SeccionRectangularPtr seccion = qobject_cast<SeccionRectangularPtr>(_seccion);
     SeccionRectangularPtr seccionCalculada = qobject_cast<SeccionRectangularPtr>(seccion->clone());
+
+    bool momentoNegativo =  momento < 0.;
+    double momentoActuante = fabs(momento);
+    double armaduraTraccion = 0.;
+    double armaduraCompresion = 0.;
+
     if (momento == 0.)
     {
         reporte += "Momento == 0 -> No es necesario realizar verificaciones.<br>";
@@ -231,7 +237,7 @@ SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
         HormigonArmadoPtr material = qobject_cast<HormigonArmadoPtr>(_material);
         double h = seccion->altura() - seccion->recubrimientoInferior();
         reporte += QString("Altura de cálculo: %1 cm.<br>").arg(h);
-        double k6 = (seccion->base() * pow(h, 2.0)) /  momento;
+        double k6 = (seccion->base() * pow(h, 2.0)) / momentoActuante;
         reporte += QString("k6 = %1<br>").arg(k6);
         double tensionHormigon = inversa(0.03, 0160, k6, k6Tabla56);
         reporte += QString("De tabla 56, para k6 = %1, obtengo tension de trabajo del hormigon = %2.<br>").arg(k6).arg(tensionHormigon);
@@ -239,9 +245,7 @@ SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
         {
             reporte += QString("Tension de trabajo menor que tension admisible, no es necesario armadura de compresión.<br>");
             // El hormigon soporta la compresion.
-            double armaduraTraccion = seccion->base() * h / k4Tabla56(tensionHormigon);
-            seccionCalculada->setAreaAceroInferior(armaduraTraccion);
-            seccionCalculada->setAreaAceroSuperior(0.0);
+            armaduraTraccion = seccion->base() * h / k4Tabla56(tensionHormigon);
         }
         else
         {
@@ -252,13 +256,15 @@ SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
             k6 = k6Tabla56(tensionHormigon);
             reporte += QString("Se obtiene k6 de tabla. k6 = %1.<br>").arg(k6);
 
-            double MomentoComplementario = momento - seccion->base() * pow(h, 2.0) / k6;
+            double MomentoComplementario = momentoActuante - seccion->base() * pow(h, 2.0) / k6;
             reporte += QString("Momento complementario a absorver por la armadura de compresión: %1 tcm.<br>").arg(MomentoComplementario);
 
             double c = h - seccion->recubrimientoSuperior();
             reporte += QString("Brazo de palanca c = %1 cm.<br>").arg(c);
 
-            double armaduraTraccion = seccion->base() * h / k6 + MomentoComplementario / (c * material->acero()->tensionAdmisibleTraccion());
+            double k4 = k4Tabla56(tensionHormigon);
+
+            armaduraTraccion = seccion->base() * h / k4 + MomentoComplementario / (c * material->acero()->tensionAdmisibleTraccion());
             reporte += QString("Armaruda de tracción = %1 cm2.<br>").arg(armaduraTraccion);
 
             // Obtengo la tension de compresion del acero
@@ -266,14 +272,24 @@ SeccionPtr HAMetodoClasico::verificarUsandoTabla56(double momento)
             double tensionCompresionAcero = 15 * tensionHormigon * (x - seccion->recubrimientoSuperior()) / x;
             reporte += QString("De tabla, tensión de compresión de acero = %1 t/cm2.<br>").arg(tensionCompresionAcero);
 
-            double armaduraCompresion = MomentoComplementario / c / tensionCompresionAcero;
+            armaduraCompresion = MomentoComplementario / c / tensionCompresionAcero;
             reporte += QString("Armadura de compresión = %1 cm2.<br>").arg(armaduraCompresion);
 
-            seccionCalculada->setAreaAceroInferior(armaduraTraccion);
-            seccionCalculada->setAreaAceroSuperior(armaduraCompresion);
             seccionCalculada->setReporte(reporte);
         }
     }
+
+    if (!momentoNegativo)
+    {
+        seccionCalculada->setAreaAceroInferior(armaduraTraccion);
+        seccionCalculada->setAreaAceroSuperior(armaduraCompresion);
+    }
+    else
+    {
+        seccionCalculada->setAreaAceroInferior(armaduraCompresion);
+        seccionCalculada->setAreaAceroSuperior(armaduraTraccion);
+    }
+
     if (_seccionMayorArmaduraInferior.isNull())
     {
         _seccionMayorArmaduraInferior = seccionCalculada;
