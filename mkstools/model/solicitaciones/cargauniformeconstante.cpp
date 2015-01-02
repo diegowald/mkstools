@@ -35,6 +35,28 @@ double CargaUniformeConstante::momentoIzquierda(double pos)
     return momento;
 }
 
+double CargaUniformeConstante::momentoDerecha(double pos)
+{
+    if (pos > _posFinal)
+    {
+        return 0.;
+    }
+
+    double l0 = _posInicio < pos ? pos : _posInicio;
+    double l1 = _posFinal;
+
+    double momento = - _cargaY * (l1 - l0) * (l1 / 2);
+    return momento;
+}
+
+double CargaUniformeConstante::momento(double pos)
+{
+    double centroCarga = (_posFinal + _posInicio) / 2;
+    double longitud = _posFinal - _posInicio;
+    double momento = _cargaY * longitud * (pos - centroCarga);
+    return momento;
+}
+
 double CargaUniformeConstante::corteIzquierda(double pos)
 {
     if (pos < _posInicio)
@@ -78,6 +100,8 @@ void CargaUniformeConstante::edit()
 
 void CargaUniformeConstante::calcularSolicitacion(SeccionPtr seccion, EsquemaEstructuralPtr esquemaEstructural)
 {
+    (void) seccion;
+    (void) esquemaEstructural;
 }
 
 
@@ -88,4 +112,13 @@ QString CargaUniformeConstante::description()
             .arg(_cargaY)
             .arg(_posInicio)
             .arg(_posFinal);
+}
+
+void CargaUniformeConstante::trasladarOrigen(double nuevoOrigen, double maxLongitud)
+{
+    _posInicio -= nuevoOrigen;
+    _posInicio = (_posInicio < 0.) ? 0. : _posInicio;
+    _posFinal -= nuevoOrigen;
+    _posFinal = (_posFinal < maxLongitud) ? _posFinal : maxLongitud;
+    _posFinal = (_posFinal < 0.) ? 0. : _posFinal;
 }

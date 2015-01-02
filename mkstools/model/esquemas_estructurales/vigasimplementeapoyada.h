@@ -40,6 +40,15 @@ public:
     virtual QVarLengthArray<EsfuerzoInternoPtr, 1024> esfuerzosInternos();
     virtual QString reporteCalculo();
 
+    void setPosicionApoyoIzquierdo(double posicion);
+    void setPosicionApoyoDerecho(double posicion);
+    void setLongitud(double value);
+
+    double longitud();
+
+    double reaccionVerticalDerecha();
+    double reaccionVerticalIzquierda();
+
 private:
     double obtenerMinimo(Diagrama diagrama);
     double obtenerMaximo(Diagrama diagrama);
@@ -57,6 +66,8 @@ private:
     int _idMaxMomento;
     int _idMinCorte;
     int _idMaxCorte;
+    double _posicionApoyoIzquierdo;
+    double _posicionApoyoDerecho;
 
     // Base interface
 public:

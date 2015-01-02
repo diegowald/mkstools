@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DlgEditVigaSimplementeApoyada</class>
- <widget class="QDialog" name="DlgEditVigaSimplementeApoyada">
+ <class>DlgEditVigaContinua</class>
+ <widget class="QDialog" name="DlgEditVigaContinua">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>276</width>
+    <height>310</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Viga Simplemente apoyrada</string>
+   <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -19,41 +19,35 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Longitud [cm]</string>
+        <string>Longitud Total [cm]</string>
        </property>
        <property name="buddy">
-        <cstring>lineEdit</cstring>
+        <cstring>txtLongitud</cstring>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="txtLongitud"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Posición apoyo izquierdo [cm]</string>
+        <string>Apoyos</string>
        </property>
        <property name="buddy">
-        <cstring>txtPosicionApoyoIzquierdo</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Posición apoyo derecho [cm]</string>
-       </property>
-       <property name="buddy">
-        <cstring>txtPosicionApoyoDerecho</cstring>
+        <cstring>btnAgregarApoyo</cstring>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="txtPosicionApoyoIzquierdo"/>
+      <widget class="QPushButton" name="btnAgregarApoyo">
+       <property name="text">
+        <string>Agregar apoyo</string>
+       </property>
+      </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="txtPosicionApoyoDerecho"/>
+     <item row="2" column="0" colspan="2">
+      <widget class="QListWidget" name="lstApoyos"/>
      </item>
     </layout>
    </item>
@@ -69,17 +63,22 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtLongitud</tabstop>
+  <tabstop>btnAgregarApoyo</tabstop>
+  <tabstop>lstApoyos</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DlgEditVigaSimplementeApoyada</receiver>
+   <receiver>DlgEditVigaContinua</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>290</y>
+     <x>227</x>
+     <y>288</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -90,15 +89,15 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DlgEditVigaSimplementeApoyada</receiver>
+   <receiver>DlgEditVigaContinua</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>290</y>
+     <x>266</x>
+     <y>294</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
+     <x>275</x>
      <y>274</y>
     </hint>
    </hints>

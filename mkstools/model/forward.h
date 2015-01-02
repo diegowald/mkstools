@@ -10,6 +10,8 @@
 
 CONSTRUCT(EsquemaEstructural)
 CONSTRUCT(VigaSimplementeApoyada)
+CONSTRUCT(Voladizo)
+CONSTRUCT(VigaContinua)
 CONSTRUCT(Acero)
 CONSTRUCT(Hormigon)
 CONSTRUCT(HormigonArmado)

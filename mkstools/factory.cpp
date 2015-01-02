@@ -1,5 +1,7 @@
 #include "factory.h"
 #include "model/esquemas_estructurales/vigasimplementeapoyada.h"
+#include "model/esquemas_estructurales/voladizo.h"
+#include "model/esquemas_estructurales/vigacontinua.h"
 #include "model/materiales/acero.h"
 #include "model/materiales/hormigon.h"
 #include "model/materiales/hormigonarmado.h"
@@ -38,6 +40,10 @@ void Factory::init()
 void Factory::registrarEsquemaEstructurales()
 {
     EsquemaEstructuralPtr esquema = VigaSimplementeApoyadaPtr::create();
+    _instance._esquemaEstructurales[esquema->name()] = esquema;
+    esquema = VoladizoPtr::create();
+    _instance._esquemaEstructurales[esquema->name()] = esquema;
+    esquema = VigaContinuaPtr::create();
     _instance._esquemaEstructurales[esquema->name()] = esquema;
 }
 

@@ -28,6 +28,20 @@ double CargaPuntual::momentoIzquierda(double pos)
     return _fuerzaY * (pos - _posAplicacion);
 }
 
+double CargaPuntual::momentoDerecha(double pos)
+{
+    if (pos > _posAplicacion)
+    {
+        return 0.;
+    }
+    return -_fuerzaY * (_posAplicacion - pos);
+}
+
+double CargaPuntual::momento(double pos)
+{
+    return _fuerzaY * (pos - _posAplicacion);
+}
+
 double CargaPuntual::corteIzquierda(double pos)
 {
     if (pos < _posAplicacion)
@@ -65,6 +79,8 @@ void CargaPuntual::edit()
 
 void CargaPuntual::calcularSolicitacion(SeccionPtr seccion, EsquemaEstructuralPtr esquemaEstructural)
 {
+    (void) seccion;
+    (void) esquemaEstructural;
 }
 
 
@@ -74,4 +90,14 @@ QString CargaPuntual::description()
             .arg(_fuerzaX)
             .arg(_fuerzaY)
             .arg(_posAplicacion);
+}
+
+void CargaPuntual::trasladarOrigen(double nuevoOrigen, double maxLongitud)
+{
+    _posAplicacion -= nuevoOrigen;
+    if ((_posAplicacion < 0) || (_posAplicacion > maxLongitud))
+    {
+        _fuerzaX = 0.;
+        _fuerzaY = 0.;
+    }
 }

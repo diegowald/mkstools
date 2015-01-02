@@ -1,79 +1,84 @@
-#include "vigasimplementeapoyada.h"
-#include "../../dialogs/dlgeditvigasimplementeapoyada.h"
+#include "voladizo.h"
+#include "../../dialogs/dlgeditvoladizo.h"
 #include "../solicitaciones/solicitacion.h"
-#include <limits>
 #include "../esfuerzos_internos/esfuerzointerno.h"
+#include <QDebug>
 
-VigaSimplementeApoyada::VigaSimplementeApoyada(QObject *parent) :
-    EsquemaEstructural("simplemente apoyada", parent)
+Voladizo::Voladizo(QObject *parent) :
+    EsquemaEstructural("voladizo", parent)
 {
-    _longitud = 1.;
-    _reaccionVerticalA = 0.;
-    _reaccionHorizontalA = 0.;
-    _reaccionVerticalB = 0.;
-    _reaccionHorizontalB = 0.;
+    _longitud = 0.;
+    _reaccionVertical = 0.;
+    _reaccionHorizontal = 0.;
+    _momentoEmpotramiento = 0.;
+    _empotramientoUbicadoALaIzquierda = true;
     _esfuerzosInternos.clear();
-    _posicionApoyoDerecho = 0.;
-    _posicionApoyoIzquierdo = 0.;
+    _idMinMomento = 0;
+    _idMaxMomento = 0;
+    _idMinCorte = 0;
+    _idMaxCorte = 0;
 }
 
-VigaSimplementeApoyada::~VigaSimplementeApoyada()
+Voladizo::~Voladizo()
 {
+
 }
 
-void VigaSimplementeApoyada::edit()
-{
-    DlgEditVigaSimplementeApoyada dlg;
-    dlg.setLongitud(_longitud);
-    dlg.setPosicionApoyoIzquierdo(_posicionApoyoIzquierdo);
-    dlg.setPosicionApoyoDerecho(_posicionApoyoDerecho);
-    if (dlg.exec() == QDialog::Accepted)
-    {
-        _longitud = dlg.longitud();
-        _posicionApoyoIzquierdo = dlg.posicionApoyoIzquierdo();
-        _posicionApoyoDerecho = dlg.posicinoApoyoDerecho();
-    }
-}
 
-EsquemaEstructuralPtr VigaSimplementeApoyada::clone()
+
+EsquemaEstructuralPtr Voladizo::clone()
 {
-    VigaSimplementeApoyadaPtr viga = VigaSimplementeApoyadaPtr::create();
+    VoladizoPtr viga = VoladizoPtr::create();
     viga->_longitud = _longitud;
+    viga->_empotramientoUbicadoALaIzquierda = _empotramientoUbicadoALaIzquierda;
     return viga;
 }
 
+QString Voladizo::description()
+{
+    return QString("<h5>Viga en voladizo.</h5><br>Luz: %1 cm.<br>Empotramiento ubicado a la %2.<br>")
+            .arg(_longitud)
+            .arg(_empotramientoUbicadoALaIzquierda ? "izquierda" : "derecha");
+}
 
-void VigaSimplementeApoyada::calcularReacciones(const QList<SolicitacionPtr> &solicitaciones)
+void Voladizo::edit()
+{
+    DlgEditVoladizo dlg;
+    dlg.setLongitud(_longitud);
+    dlg.setEmpotramiento(_empotramientoUbicadoALaIzquierda);
+    if (dlg.exec() == QDialog::Accepted)
+    {
+        _longitud = dlg.longitud();
+
+        _empotramientoUbicadoALaIzquierda = dlg.empotramientoEstaALaIzquierda();
+    }
+}
+
+void Voladizo::calcularReacciones(const QList<SolicitacionPtr> &solicitaciones)
 {
     double momentos = 0.;
     double cargas = 0.;
     foreach (SolicitacionPtr solicitacion, solicitaciones)
     {
-        momentos += solicitacion->momento(_posicionApoyoDerecho);
-        cargas += solicitacion->corteIzquierda(_longitud);
+        momentos += solicitacion->momento(_empotramientoUbicadoALaIzquierda ? 0 : _longitud);
+        cargas += solicitacion->resultanteY();
     }
-    _reaccionHorizontalA = 0.;
-    _reaccionVerticalA = - momentos / (_posicionApoyoDerecho - _posicionApoyoIzquierdo);
-    _reaccionHorizontalB = 0.;
-    _reaccionVerticalB = - cargas - _reaccionVerticalA;
+    _reaccionHorizontal = 0.;
+    _reaccionVertical = -cargas;
+    _momentoEmpotramiento = -momentos;
 }
 
-void VigaSimplementeApoyada::calcularEsfuerzosInternos(const QList<SolicitacionPtr> &solicitaciones)
+void Voladizo::calcularEsfuerzosInternos(const QList<SolicitacionPtr> &solicitaciones)
 {
+    double momentoPto = 0.;
+    double cortePto = 0.;
     _esfuerzosInternos.clear();
     for (double x = 0.0; x <= _longitud; x += 1.)
     {
-        double momentoPto = 0.;
-        double cortePto = 0.;
-        if (x >= _posicionApoyoIzquierdo)
+        if (_empotramientoUbicadoALaIzquierda)
         {
-            momentoPto = _reaccionVerticalA * (x - _posicionApoyoIzquierdo);
-            cortePto = _reaccionVerticalA;
-        }
-        if (x >= _posicionApoyoDerecho)
-        {
-            momentoPto += _reaccionVerticalB * (x - _posicionApoyoDerecho);
-            cortePto += _reaccionVerticalB;
+            momentoPto = _reaccionVertical * x + _momentoEmpotramiento;
+            cortePto = _reaccionVertical;
         }
         foreach (SolicitacionPtr s, solicitaciones)
         {
@@ -81,6 +86,7 @@ void VigaSimplementeApoyada::calcularEsfuerzosInternos(const QList<SolicitacionP
             cortePto += s->corteIzquierda(x);
         }
 
+        qDebug() << momentoPto << ", " << cortePto;
         EsfuerzoInternoPtr esfuerzo = EsfuerzoInternoPtr::create();
         esfuerzo->setMomento(momentoPto);
         esfuerzo->setCorte(cortePto);
@@ -90,7 +96,7 @@ void VigaSimplementeApoyada::calcularEsfuerzosInternos(const QList<SolicitacionP
     }
 }
 
-void VigaSimplementeApoyada::calcularMaximosEsfuerzos()
+void Voladizo::calcularMaximosEsfuerzos()
 {
     double _minMomento = std::numeric_limits<double>::max();
     double _maxMomento = -std::numeric_limits<double>::max();
@@ -123,68 +129,59 @@ void VigaSimplementeApoyada::calcularMaximosEsfuerzos()
     }
 }
 
-double VigaSimplementeApoyada::minMomento() const
+double Voladizo::minMomento() const
 {
     return _esfuerzosInternos[_idMinMomento]->momento();
 }
 
-double VigaSimplementeApoyada::posMinMomento() const
+double Voladizo::posMinMomento() const
 {
     return _esfuerzosInternos[_idMinMomento]->pos();
 }
 
-double VigaSimplementeApoyada::maxMomento() const
+double Voladizo::maxMomento() const
 {
     return _esfuerzosInternos[_idMaxMomento]->momento();
 }
 
-double VigaSimplementeApoyada::posMaxMomento() const
+double Voladizo::posMaxMomento() const
 {
     return _esfuerzosInternos[_idMaxMomento]->pos();
 }
 
-double VigaSimplementeApoyada::maxCorte() const
+double Voladizo::maxCorte() const
 {
     return _esfuerzosInternos[_idMaxCorte]->corte();
 }
 
-double VigaSimplementeApoyada::posMinCorte() const
+double Voladizo::posMinCorte() const
 {
     return _esfuerzosInternos[_idMaxCorte]->pos();
 }
 
-double VigaSimplementeApoyada::minCorte() const
+double Voladizo::minCorte() const
 {
     return _esfuerzosInternos[_idMinCorte]->corte();
 }
 
-double VigaSimplementeApoyada::posMaxCorte() const
+double Voladizo::posMaxCorte() const
 {
     return _esfuerzosInternos[_idMinCorte]->pos();
 }
 
-QVarLengthArray<EsfuerzoInternoPtr, 1024> VigaSimplementeApoyada::esfuerzosInternos()
+
+QVarLengthArray<EsfuerzoInternoPtr, 1024> Voladizo::esfuerzosInternos()
 {
     return _esfuerzosInternos;
 }
 
-
-QString VigaSimplementeApoyada::description()
-{
-    return QString("<h5>Viga simplemente apoyada.</h5><br>Luz: %1 cm.<br>").arg(_longitud);
-}
-
-QString VigaSimplementeApoyada::reporteCalculo()
+QString Voladizo::reporteCalculo()
 {
     QString reporte = QString("<h4>Cálculo de reacciones</h4><br>");
 
-    reporte += QString("<h5>Reacción A</h5><br>");
-    reporte += QString("Reacción horizontal: %1 t.<br>").arg(_reaccionHorizontalA);
-    reporte += QString("Reacción vertical: %1 t.<br>").arg(_reaccionVerticalA);
-    reporte += QString("<br>");
-    reporte += QString("<h5>Reacción B</h5><br>");
-    reporte += QString("Reacción horizontal: %1 t.<br>").arg(_reaccionHorizontalB);
-    reporte += QString("Reacción vertical: %1 t.<br>").arg(_reaccionVerticalB);
+    reporte += QString("Reacción horizontal: %1 t.<br>").arg(_reaccionHorizontal);
+    reporte += QString("Reacción vertical: %1 t.<br>").arg(_reaccionVertical);
+    reporte += QString("Momento de empotramiento: %1 tcm.<br>").arg(_momentoEmpotramiento);
     reporte += QString("<br>");
 
     reporte += QString("<h4>Maximos esfuerzos internos</h4><br>");
@@ -204,7 +201,7 @@ QString VigaSimplementeApoyada::reporteCalculo()
     return reporte;
 }
 
-QGraphicsScene *VigaSimplementeApoyada::generarDiagrama(Diagrama diagrama)
+QGraphicsScene *Voladizo::generarDiagrama(Diagrama diagrama)
 {
     QList<double> valoresInferiores;
     QList<double> valoresSuperiores;
@@ -217,9 +214,10 @@ QGraphicsScene *VigaSimplementeApoyada::generarDiagrama(Diagrama diagrama)
     return generarDiagrama(diagrama, valoresInferiores, valoresSuperiores, armadurasInferiores, armadurasSuperiores);
 }
 
-QGraphicsScene *VigaSimplementeApoyada::generarDiagrama(Diagrama diagrama, QList<double> &valoresInferiores, QList<double> &valoresSupoeriores, QList<double> &seccionesArmaduraInferiores, QList<double> &seccionesArmarudaSuperiores)
+QGraphicsScene *Voladizo::generarDiagrama(Diagrama diagrama, QList<double> &valoresInferiores, QList<double> &valoresSupoeriores, QList<double> &seccionesArmaduraInferiores, QList<double> &seccionesArmarudaSuperiores)
 {
     (void) diagrama;
+
     QGraphicsScene *scene = new QGraphicsScene();
 
     scene->addEllipse(10, 10, 3, 5);
@@ -297,20 +295,7 @@ QGraphicsScene *VigaSimplementeApoyada::generarDiagrama(Diagrama diagrama, QList
     return scene;
 }
 
-double VigaSimplementeApoyada::obtenerMinimo(Diagrama diagrama)
-{
-    switch (diagrama)
-    {
-    case Diagrama::corte:
-        return obtenerValor(diagrama, _idMinCorte);
-    case Diagrama::momentoFlector:
-        return obtenerValor(diagrama, _idMinMomento);
-    default:
-        return 0.;
-    }
-}
-
-double VigaSimplementeApoyada::obtenerMinimo(QList<double> &valores)
+double Voladizo::obtenerMinimo(QList<double> &valores)
 {
     double minimo = 1e308;
     foreach (double valor, valores)
@@ -320,7 +305,7 @@ double VigaSimplementeApoyada::obtenerMinimo(QList<double> &valores)
     return minimo;
 }
 
-double VigaSimplementeApoyada::obtenerMaximo(QList<double> &valores)
+double Voladizo::obtenerMaximo(QList<double> &valores)
 {
     double maximo = -1e308;
     foreach (double valor, valores)
@@ -330,20 +315,7 @@ double VigaSimplementeApoyada::obtenerMaximo(QList<double> &valores)
     return maximo;
 }
 
-double VigaSimplementeApoyada::obtenerMaximo(Diagrama diagrama)
-{
-    switch (diagrama)
-    {
-    case Diagrama::corte:
-        return obtenerValor(diagrama, _idMaxCorte);
-    case Diagrama::momentoFlector:
-        return obtenerValor(diagrama, _idMaxMomento);
-    default:
-        return 0.;
-    }
-}
-
-double VigaSimplementeApoyada::obtenerValor(Diagrama diagrama, int i)
+double Voladizo::obtenerValor(Diagrama diagrama, int i)
 {
     EsfuerzoInternoPtr esfuerzo = _esfuerzosInternos.at(i);
     switch (diagrama)
@@ -355,34 +327,4 @@ double VigaSimplementeApoyada::obtenerValor(Diagrama diagrama, int i)
     default:
         return 0.;
     }
-}
-
-void VigaSimplementeApoyada::setPosicionApoyoIzquierdo(double posicion)
-{
-    _posicionApoyoIzquierdo = posicion;
-}
-
-void VigaSimplementeApoyada::setPosicionApoyoDerecho(double posicion)
-{
-    _posicionApoyoDerecho = posicion;
-}
-
-void VigaSimplementeApoyada::setLongitud(double value)
-{
-    _longitud = value;
-}
-
-double VigaSimplementeApoyada::longitud()
-{
-    return _longitud;
-}
-
-double VigaSimplementeApoyada::reaccionVerticalDerecha()
-{
-    return _reaccionVerticalB;
-}
-
-double VigaSimplementeApoyada::reaccionVerticalIzquierda()
-{
-    return _reaccionVerticalA;
 }

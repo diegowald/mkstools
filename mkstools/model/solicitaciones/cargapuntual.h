@@ -21,9 +21,12 @@ public:
     // Solicitacion interface
 public:
     virtual double momentoIzquierda(double pos);
+    virtual double momentoDerecha(double pos);
     virtual double corteIzquierda(double pos);
     virtual double resultanteX();
     virtual double resultanteY();
+    virtual double momento(double pos);
+    virtual void trasladarOrigen(double nuevoOrigen, double maxLongitud);
 
 private:
     double _fuerzaX;

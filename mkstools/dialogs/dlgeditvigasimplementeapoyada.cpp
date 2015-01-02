@@ -22,3 +22,23 @@ double DlgEditVigaSimplementeApoyada::longitud() const
 {
     return ui->lineEdit->text().toDouble();
 }
+
+void DlgEditVigaSimplementeApoyada::setPosicionApoyoIzquierdo(double value)
+{
+    ui->txtPosicionApoyoIzquierdo->setText(QString::number(value));
+}
+
+void DlgEditVigaSimplementeApoyada::setPosicionApoyoDerecho(double value)
+{
+    ui->txtPosicionApoyoDerecho->setText(QString::number(value));
+}
+
+double DlgEditVigaSimplementeApoyada::posicionApoyoIzquierdo()
+{
+    return ui->txtPosicionApoyoIzquierdo->text().toDouble();
+}
+
+double DlgEditVigaSimplementeApoyada::posicinoApoyoDerecho()
+{
+    return ui->txtPosicionApoyoDerecho->text().toDouble();
+}

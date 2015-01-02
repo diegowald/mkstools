@@ -54,7 +54,12 @@ SOURCES += main.cpp\
     commands/calcularcommand.cpp \
     dialogs/dlgresults.cpp \
     dialogs/dlgdiagramas.cpp \
-    dialogs/dlgsetarmadurasfelxion.cpp
+    dialogs/dlgsetarmadurasfelxion.cpp \
+    model/esquemas_estructurales/voladizo.cpp \
+    dialogs/dlgeditvoladizo.cpp \
+    model/esquemas_estructurales/vigacontinua.cpp \
+    dialogs/dlgeditvigacontinua.cpp \
+    dialogs/dlgnuevoapoyo.cpp
 
 HEADERS  += mainwindow.h \
     commands/basecommand.h \
@@ -98,7 +103,12 @@ HEADERS  += mainwindow.h \
     commands/calcularcommand.h \
     dialogs/dlgresults.h \
     dialogs/dlgdiagramas.h \
-    dialogs/dlgsetarmadurasfelxion.h
+    dialogs/dlgsetarmadurasfelxion.h \
+    model/esquemas_estructurales/voladizo.h \
+    dialogs/dlgeditvoladizo.h \
+    model/esquemas_estructurales/vigacontinua.h \
+    dialogs/dlgeditvigacontinua.h \
+    dialogs/dlgnuevoapoyo.h
 
 FORMS    += mainwindow.ui \
     widgets/maincommandwidget.ui \
@@ -114,4 +124,7 @@ FORMS    += mainwindow.ui \
     dialogs/dlgedithormigonarmado.ui \
     dialogs/dlgresults.ui \
     dialogs/dlgdiagramas.ui \
-    dialogs/dlgsetarmadurasfelxion.ui
+    dialogs/dlgsetarmadurasfelxion.ui \
+    dialogs/dlgeditvoladizo.ui \
+    dialogs/dlgeditvigacontinua.ui \
+    dialogs/dlgnuevoapoyo.ui

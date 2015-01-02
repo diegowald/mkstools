@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DlgEditVigaSimplementeApoyada</class>
- <widget class="QDialog" name="DlgEditVigaSimplementeApoyada">
+ <class>DlgEditVoladizo</class>
+ <widget class="QDialog" name="DlgEditVoladizo">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>339</width>
+    <height>152</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Viga Simplemente apoyrada</string>
+   <string>Editar Voladizo</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -22,38 +22,40 @@
         <string>Longitud [cm]</string>
        </property>
        <property name="buddy">
-        <cstring>lineEdit</cstring>
+        <cstring>txtLongitud</cstring>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="txtLongitud"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Posición apoyo izquierdo [cm]</string>
+        <string>Empotramiento </string>
        </property>
        <property name="buddy">
-        <cstring>txtPosicionApoyoIzquierdo</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Posición apoyo derecho [cm]</string>
-       </property>
-       <property name="buddy">
-        <cstring>txtPosicionApoyoDerecho</cstring>
+        <cstring>radioIzquierda</cstring>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="txtPosicionApoyoIzquierdo"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="txtPosicionApoyoDerecho"/>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QRadioButton" name="radioIzquierda">
+         <property name="text">
+          <string>a la izquierda</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radioDerecha">
+         <property name="text">
+          <string>a la derecha</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -69,17 +71,22 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtLongitud</tabstop>
+  <tabstop>radioIzquierda</tabstop>
+  <tabstop>radioDerecha</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DlgEditVigaSimplementeApoyada</receiver>
+   <receiver>DlgEditVoladizo</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>290</y>
+     <x>248</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -90,12 +97,12 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DlgEditVigaSimplementeApoyada</receiver>
+   <receiver>DlgEditVoladizo</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>290</y>
+     <x>316</x>
+     <y>260</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

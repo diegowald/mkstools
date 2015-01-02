@@ -18,6 +18,13 @@ public:
     void setLongitud(double value);
     double longitud() const;
 
+
+    void setPosicionApoyoIzquierdo(double value);
+    void setPosicionApoyoDerecho(double value);
+
+    double posicionApoyoIzquierdo();
+    double posicinoApoyoDerecho();
+
 private:
     Ui::DlgEditVigaSimplementeApoyada *ui;
 };
