@@ -59,7 +59,12 @@ SOURCES += main.cpp\
     dialogs/dlgeditvoladizo.cpp \
     model/esquemas_estructurales/vigacontinua.cpp \
     dialogs/dlgeditvigacontinua.cpp \
-    dialogs/dlgnuevoapoyo.cpp
+    dialogs/dlgnuevoapoyo.cpp \
+    widgets/widgettipologia.cpp \
+    widgets/widgetvigasimplementeapoyada.cpp \
+    widgets/widgeteditvoladizo.cpp \
+    widgets/widgeteditvigacontinua.cpp \
+    widgets/widgeteditseccionrectangular.cpp
 
 HEADERS  += mainwindow.h \
     commands/basecommand.h \
@@ -108,7 +113,12 @@ HEADERS  += mainwindow.h \
     dialogs/dlgeditvoladizo.h \
     model/esquemas_estructurales/vigacontinua.h \
     dialogs/dlgeditvigacontinua.h \
-    dialogs/dlgnuevoapoyo.h
+    dialogs/dlgnuevoapoyo.h \
+    widgets/widgettipologia.h \
+    widgets/widgetvigasimplementeapoyada.h \
+    widgets/widgeteditvoladizo.h \
+    widgets/widgeteditvigacontinua.h \
+    widgets/widgeteditseccionrectangular.h
 
 FORMS    += mainwindow.ui \
     widgets/maincommandwidget.ui \
@@ -127,4 +137,9 @@ FORMS    += mainwindow.ui \
     dialogs/dlgsetarmadurasfelxion.ui \
     dialogs/dlgeditvoladizo.ui \
     dialogs/dlgeditvigacontinua.ui \
-    dialogs/dlgnuevoapoyo.ui
+    dialogs/dlgnuevoapoyo.ui \
+    widgets/widgettipologia.ui \
+    widgets/widgetvigasimplementeapoyada.ui \
+    widgets/widgeteditvoladizo.ui \
+    widgets/widgeteditvigacontinua.ui \
+    widgets/widgeteditseccionrectangular.ui

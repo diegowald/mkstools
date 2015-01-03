@@ -1,6 +1,7 @@
 #include "vigacontinua.h"
 #include "esquemaestructural.h"
 #include "dialogs/dlgeditvigacontinua.h"
+#include "widgets/widgeteditvigacontinua.h"
 #include <QDebug>
 #include "vigasimplementeapoyada.h"
 #include "../esfuerzos_internos/esfuerzointerno.h"
@@ -60,13 +61,21 @@ void VigaContinua::edit()
     }
 }
 
+QWidget* VigaContinua::getEditWidget()
+{
+    WidgetEditVigaContinua *widget = new WidgetEditVigaContinua();
+    widget->setLongitud(_longitud);
+    widget->setApoyos(_apoyos);
+    return widget;
+}
+
 void VigaContinua::calcularReacciones(const QList<SolicitacionPtr> &solicitaciones)
 {
     // Se emplea el metodo de clapeyron
     armarVigasAisladas();
     armarMatriz(solicitaciones);
     calcularMomentosApoyoPorClapeyron(solicitaciones);
-    calcularReaccionesPorClapeyron(solicitaciones);
+    calcularReaccionesPorClapeyron();
 }
 
 void VigaContinua::calcularEsfuerzosInternos(const QList<SolicitacionPtr> &solicitaciones)
@@ -419,7 +428,7 @@ void VigaContinua::calcularMomentosApoyoPorClapeyron(const QList<SolicitacionPtr
     _momentosApoyos.append(calcularMomentoEmpotramientoDerecho(solicitaciones));
 }
 
-void VigaContinua::calcularReaccionesPorClapeyron(const QList<SolicitacionPtr> &solicitaciones)
+void VigaContinua::calcularReaccionesPorClapeyron()
 {
     _reaccionesVerticales.clear();
     for (int i = 0; i < _momentosApoyos.size(); ++i)

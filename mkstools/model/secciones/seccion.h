@@ -13,6 +13,7 @@ public:
     virtual double area() = 0;
 
     virtual void edit() = 0;
+    virtual QWidget *getEditWidget() = 0;
 
     virtual void setReporte(const QString &reporte);
     virtual QString reporte();

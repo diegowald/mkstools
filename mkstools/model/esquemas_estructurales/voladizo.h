@@ -27,6 +27,7 @@ public:
     // EsquemaEstructural interface
 public:
     virtual void edit();
+    virtual QWidget *getEditWidget();
     virtual void calcularReacciones(const QList<SolicitacionPtr> &solicitaciones);
     virtual void calcularEsfuerzosInternos(const QList<SolicitacionPtr> &solicitaciones);
     virtual void calcularMaximosEsfuerzos();

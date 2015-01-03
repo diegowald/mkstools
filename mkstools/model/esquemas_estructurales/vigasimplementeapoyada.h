@@ -13,6 +13,7 @@ public:
     virtual ~VigaSimplementeApoyada();
 
     virtual void edit();
+    virtual QWidget *getEditWidget();
     virtual EsquemaEstructuralPtr clone();
 
 signals:

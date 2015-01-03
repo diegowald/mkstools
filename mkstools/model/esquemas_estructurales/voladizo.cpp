@@ -1,5 +1,6 @@
 #include "voladizo.h"
 #include "../../dialogs/dlgeditvoladizo.h"
+#include "../../widgets/widgeteditvoladizo.h"
 #include "../solicitaciones/solicitacion.h"
 #include "../esfuerzos_internos/esfuerzointerno.h"
 #include <QDebug>
@@ -52,6 +53,14 @@ void Voladizo::edit()
 
         _empotramientoUbicadoALaIzquierda = dlg.empotramientoEstaALaIzquierda();
     }
+}
+
+QWidget *Voladizo::getEditWidget()
+{
+    WidgetEditVoladizo *widget = new WidgetEditVoladizo();
+    widget->setLongitud(_longitud);
+    widget->setEmpotramiento(_empotramientoUbicadoALaIzquierda);
+    return widget;
 }
 
 void Voladizo::calcularReacciones(const QList<SolicitacionPtr> &solicitaciones)

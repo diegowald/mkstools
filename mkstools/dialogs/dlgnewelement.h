@@ -17,10 +17,14 @@ public:
     QString name();
     QString tipo();
 
+private slots:
+    void on_cboType_currentTextChanged(const QString &arg1);
+
 private:
     void crearTiposEstructurales();
 private:
     Ui::DlgNewElement *ui;
+    QWidget *_editWidget;
 };
 
 #endif // DLGNEWELEMENT_H

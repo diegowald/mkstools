@@ -1,5 +1,7 @@
 #include "vigasimplementeapoyada.h"
 #include "../../dialogs/dlgeditvigasimplementeapoyada.h"
+#include "../../widgets/widgetvigasimplementeapoyada.h"
+
 #include "../solicitaciones/solicitacion.h"
 #include <limits>
 #include "../esfuerzos_internos/esfuerzointerno.h"
@@ -33,6 +35,15 @@ void VigaSimplementeApoyada::edit()
         _posicionApoyoIzquierdo = dlg.posicionApoyoIzquierdo();
         _posicionApoyoDerecho = dlg.posicinoApoyoDerecho();
     }
+}
+
+QWidget *VigaSimplementeApoyada::getEditWidget()
+{
+    WidgetVigaSimplementeApoyada *widget = new WidgetVigaSimplementeApoyada();
+    widget->setLongitud(_longitud);
+    widget->setPosicionApoyoIzquierdo(_posicionApoyoIzquierdo);
+    widget->setPosicionApoyoDerecho(_posicionApoyoDerecho);
+    return widget;
 }
 
 EsquemaEstructuralPtr VigaSimplementeApoyada::clone()

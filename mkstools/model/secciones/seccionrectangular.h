@@ -38,6 +38,7 @@ public:
 public:
     virtual double area();
     virtual void edit();
+    virtual QWidget *getEditWidget();
 
 private:
     double _areaAceroInferior;

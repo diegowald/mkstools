@@ -23,6 +23,7 @@ public:
     explicit EsquemaEstructural(const QString &name, QObject *parent = 0);
     virtual ~EsquemaEstructural();
     virtual void edit() = 0;
+    virtual QWidget *getEditWidget() = 0;
 
     virtual void calcularReacciones(const QList<SolicitacionPtr> &solicitaciones) = 0;
     virtual void calcularEsfuerzosInternos(const QList<SolicitacionPtr> &solicitaciones) = 0;

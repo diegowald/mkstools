@@ -1,5 +1,6 @@
 #include "seccionrectangular.h"
 #include "../../dialogs/dlgeditseccionrectangular.h"
+#include "../../widgets/widgeteditseccionrectangular.h"
 
 SeccionRectangular::SeccionRectangular(QObject *parent) :
     Seccion("seccion rectangular", parent)
@@ -52,6 +53,18 @@ void SeccionRectangular::edit()
         _recubrimientoInferior = dlg.recubrimientoInferior();
         _recubrimientoSuperior = dlg.recubrimientoSuperior();
     }
+}
+
+QWidget *SeccionRectangular::getEditWidget()
+{
+    WidgetEditSeccionRectangular *widget = new WidgetEditSeccionRectangular();
+    widget->setBase(_base);
+    widget->setAltura(_altura);
+    widget->setArmaduraInferior(_areaAceroInferior);
+    widget->setArmaduraSuperior(_areaAceroSuperior);
+    widget->setRecubrimientoInferior(_recubrimientoInferior);
+    widget->setRecubrimientoSuperior(_recubrimientoSuperior);
+    return widget;
 }
 
 double SeccionRectangular::areaAceroInferior() const

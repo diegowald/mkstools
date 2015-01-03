@@ -1,0 +1,74 @@
+#include "widgeteditseccionrectangular.h"
+#include "ui_widgeteditseccionrectangular.h"
+
+WidgetEditSeccionRectangular::WidgetEditSeccionRectangular(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::WidgetEditSeccionRectangular)
+{
+    ui->setupUi(this);
+}
+
+WidgetEditSeccionRectangular::~WidgetEditSeccionRectangular()
+{
+    delete ui;
+}
+
+void WidgetEditSeccionRectangular::setBase(double value)
+{
+    ui->txtBase->setText(QString::number(value));
+}
+
+void WidgetEditSeccionRectangular::setAltura(double value)
+{
+    ui->txtAltura->setText(QString::number(value));
+}
+
+void WidgetEditSeccionRectangular::setArmaduraInferior(double value)
+{
+    ui->txtArmaduraInferior->setText(QString::number(value));
+}
+
+void WidgetEditSeccionRectangular::setArmaduraSuperior(double value)
+{
+    ui->txtArmaduraSuperior->setText(QString::number(value));
+}
+
+double WidgetEditSeccionRectangular::base() const
+{
+    return ui->txtBase->text().toDouble();
+}
+
+double WidgetEditSeccionRectangular::altura() const
+{
+    return ui->txtAltura->text().toDouble();
+}
+
+double WidgetEditSeccionRectangular::armaduraInferior() const
+{
+    return ui->txtArmaduraInferior->text().toDouble();
+}
+
+double WidgetEditSeccionRectangular::armaduraSuperior() const
+{
+    return ui->txtArmaduraSuperior->text().toDouble();
+}
+
+void WidgetEditSeccionRectangular::setRecubrimientoInferior(double value)
+{
+    ui->txtRecubrimientoInferior->setText(QString::number(value));
+}
+
+void WidgetEditSeccionRectangular::setRecubrimientoSuperior(double value)
+{
+    ui->txtRecubrimientoSuperior->setText(QString::number(value));
+}
+
+double WidgetEditSeccionRectangular::recubrimientoInferior() const
+{
+    return ui->txtRecubrimientoInferior->text().toDouble();
+}
+
+double WidgetEditSeccionRectangular::recubrimientoSuperior() const
+{
+    return ui->txtRecubrimientoSuperior->text().toDouble();
+}

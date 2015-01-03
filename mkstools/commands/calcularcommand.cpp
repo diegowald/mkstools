@@ -11,8 +11,6 @@ CalcularCommand::~CalcularCommand()
 
 }
 
-
-
 QWidget *CalcularCommand::getWidget()
 {
 }

@@ -31,6 +31,7 @@ public:
     // EsquemaEstructural interface
 public:
     virtual void edit();
+    virtual QWidget *getEditWidget();
     virtual void calcularReacciones(const QList<SolicitacionPtr> &solicitaciones);
     virtual void calcularEsfuerzosInternos(const QList<SolicitacionPtr> &solicitaciones);
     virtual void calcularMaximosEsfuerzos();
@@ -54,7 +55,7 @@ private:
     void armarVigasAisladas();
     void crearViga(int apoyoIzquierdo, int apoyoDerecho);
     void calcularMomentosApoyoPorClapeyron(const QList<SolicitacionPtr> &solicitaciones);
-    void calcularReaccionesPorClapeyron(const QList<SolicitacionPtr> &solicitaciones);
+    void calcularReaccionesPorClapeyron();
     QList<SolicitacionPtr> trasladarSolicitaciones(int i, const QList<SolicitacionPtr> &solicitaciones);
 
     double omega(VigaSimplementeApoyadaPtr viga, const QList<SolicitacionPtr> &solicitaciones);
