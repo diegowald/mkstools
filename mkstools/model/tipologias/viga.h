@@ -3,7 +3,7 @@
 
 #include "tipologia.h"
 
-class Viga : public Tipologia
+class Viga : public Tipologia,public QEnableSharedFromThis<Viga>
 {
     Q_OBJECT
 public:
@@ -27,6 +27,7 @@ public:
     // Tipologia interface
 public:
     virtual void calcular();
+    virtual QWidget *getEditWidget();
 };
 
 

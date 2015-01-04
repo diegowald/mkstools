@@ -58,12 +58,13 @@ void SeccionRectangular::edit()
 QWidget *SeccionRectangular::getEditWidget()
 {
     WidgetEditSeccionRectangular *widget = new WidgetEditSeccionRectangular();
-    widget->setBase(_base);
+    widget->setSeccion(this);
+/*    widget->setBase(_base);
     widget->setAltura(_altura);
     widget->setArmaduraInferior(_areaAceroInferior);
     widget->setArmaduraSuperior(_areaAceroSuperior);
     widget->setRecubrimientoInferior(_recubrimientoInferior);
-    widget->setRecubrimientoSuperior(_recubrimientoSuperior);
+    widget->setRecubrimientoSuperior(_recubrimientoSuperior);*/
     return widget;
 }
 

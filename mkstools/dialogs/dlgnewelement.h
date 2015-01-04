@@ -2,6 +2,7 @@
 #define DLGNEWELEMENT_H
 
 #include <QDialog>
+#include "../model/forward.h"
 
 namespace Ui {
 class DlgNewElement;
@@ -14,8 +15,9 @@ class DlgNewElement : public QDialog
 public:
     explicit DlgNewElement(QWidget *parent = 0);
     ~DlgNewElement();
-    QString name();
-    QString tipo();
+
+    void setElemento(ElementoPtr elemento);
+    ElementoPtr elemento();
 
 private slots:
     void on_cboType_currentTextChanged(const QString &arg1);
@@ -25,6 +27,8 @@ private:
 private:
     Ui::DlgNewElement *ui;
     QWidget *_editWidget;
+    ElementoPtr _elemento;
+    TipologiaPtr _tipologia;
 };
 
 #endif // DLGNEWELEMENT_H

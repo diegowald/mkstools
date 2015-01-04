@@ -64,8 +64,9 @@ void VigaContinua::edit()
 QWidget* VigaContinua::getEditWidget()
 {
     WidgetEditVigaContinua *widget = new WidgetEditVigaContinua();
-    widget->setLongitud(_longitud);
-    widget->setApoyos(_apoyos);
+    widget->setViga(this);
+/*    widget->setLongitud(_longitud);
+    widget->setApoyos(_apoyos);*/
     return widget;
 }
 
@@ -608,4 +609,25 @@ double VigaContinua::obtenerValor(Diagrama diagrama, int i)
     default:
         return 0.;
     }
+}
+
+void VigaContinua::setLongitud(double value)
+{
+    _longitud = value;
+}
+
+void VigaContinua::setApoyos(QList<double> &value)
+{
+    _apoyos.clear();
+    _apoyos += value;
+}
+
+double VigaContinua::longitud()
+{
+    return _longitud;
+}
+
+QList<double> VigaContinua::apoyos()
+{
+    return _apoyos;
 }

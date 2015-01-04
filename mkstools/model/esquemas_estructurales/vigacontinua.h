@@ -16,6 +16,12 @@ public:
     explicit VigaContinua(QObject *parent = 0);
     ~VigaContinua();
 
+    void setLongitud(double value);
+    void setApoyos(QList<double> &value);
+
+    double longitud();
+    QList<double> apoyos();
+
 signals:
 
 public slots:

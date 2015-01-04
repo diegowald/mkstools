@@ -58,8 +58,9 @@ void Voladizo::edit()
 QWidget *Voladizo::getEditWidget()
 {
     WidgetEditVoladizo *widget = new WidgetEditVoladizo();
-    widget->setLongitud(_longitud);
-    widget->setEmpotramiento(_empotramientoUbicadoALaIzquierda);
+    widget->setViga(this);
+/*    widget->setLongitud(_longitud);
+    widget->setEmpotramiento(_empotramientoUbicadoALaIzquierda);*/
     return widget;
 }
 
@@ -336,4 +337,24 @@ double Voladizo::obtenerValor(Diagrama diagrama, int i)
     default:
         return 0.;
     }
+}
+
+double Voladizo::longitud()
+{
+    return _longitud;
+}
+
+bool Voladizo::empotramientoUbicadoALaIzquierda()
+{
+    return _empotramientoUbicadoALaIzquierda;
+}
+
+void Voladizo::setLongitud(double value)
+{
+    _longitud = value;
+}
+
+void Voladizo::setEmpotramientoUbicadoALaIzquierda(bool value)
+{
+    _empotramientoUbicadoALaIzquierda = value;
 }

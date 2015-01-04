@@ -9,11 +9,16 @@ class Elemento : public Base
     Q_OBJECT
 public:
     explicit Elemento(const QString &name, const QString &tipo, QObject *parent = 0);
+    explicit Elemento(const QString &name, QObject *parent = 0);
     virtual ~Elemento();
     virtual void edit();
     virtual void calcular();
     QString reporteCalculo();
 
+    void setName(const QString &value);
+    void setTipologia(TipologiaPtr value);
+
+    TipologiaPtr tipologia();
     QString tipo();
     QString material();
     QString metodoCalculo();
@@ -21,14 +26,13 @@ public:
     QString esquemaEstructural();
     QString seccion();
 private:
-    void createInnerElement();
+    void createInnerElement(const QString &tipo);
 
 signals:
 
 public slots:
 private:
     TipologiaPtr _elemento;
-    QString _tipo;
 
     // Base interface
 public:

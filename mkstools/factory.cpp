@@ -150,9 +150,19 @@ EsquemaEstructuralPtr Factory::crearEsquemaEstructural(const QString &name)
     return _instance._esquemaEstructurales[name]->clone();
 }
 
+EsquemaEstructuralPtr Factory::crearEsquemaEstructuralPorDefecto()
+{
+    return crearEsquemaEstructural("simplemente apoyada");
+}
+
 MaterialPtr Factory::crearMaterial(const QString &name)
 {
     return _instance._materiales[name]->clone();
+}
+
+MaterialPtr Factory::crearMaterialPorDefecto()
+{
+    return crearMaterial("hormigon armado");
 }
 
 MetodoCalculoPtr Factory::crearMetodoCalculo(const QString &name)
@@ -160,9 +170,19 @@ MetodoCalculoPtr Factory::crearMetodoCalculo(const QString &name)
     return _instance._metodoCalculos[name]->clone();
 }
 
+MetodoCalculoPtr Factory::crearMetodoCalculoPorDefecto()
+{
+    return crearMetodoCalculo("metodo clasico");
+}
+
 SeccionPtr Factory::crearSeccion(const QString &name)
 {
     return _instance._secciones[name]->clone();
+}
+
+SeccionPtr Factory::crearSeccionPorDefecto()
+{
+    return crearSeccion("seccion rectangular");
 }
 
 SolicitacionPtr Factory::crearSolicitacion(const QString &name)
@@ -170,7 +190,17 @@ SolicitacionPtr Factory::crearSolicitacion(const QString &name)
     return _instance._solicitaciones[name]->clone();
 }
 
+SolicitacionPtr Factory::crearSolicitacionPorDefecto()
+{
+    return crearSolicitacion("carga puntual");
+}
+
 TipologiaPtr Factory::crearTipologia(const QString &name)
 {
     return _instance._tipologias[name]->clone();
+}
+
+TipologiaPtr Factory::crearTipologiaPorDefecto()
+{
+    return crearTipologia("viga");
 }

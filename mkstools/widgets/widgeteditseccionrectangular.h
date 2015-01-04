@@ -2,6 +2,7 @@
 #define WIDGETEDITSECCIONRECTANGULAR_H
 
 #include <QWidget>
+#include "../model/forward.h"
 
 namespace Ui {
 class WidgetEditSeccionRectangular;
@@ -15,6 +16,22 @@ public:
     explicit WidgetEditSeccionRectangular(QWidget *parent = 0);
     ~WidgetEditSeccionRectangular();
 
+    void setSeccion(SeccionRectangular* seccion);
+
+private slots:
+    void on_txtBase_textEdited(const QString &arg1);
+
+    void on_txtAltura_textEdited(const QString &arg1);
+
+    void on_txtArmaduraInferior_textEdited(const QString &arg1);
+
+    void on_txtArmaduraSuperior_textEdited(const QString &arg1);
+
+    void on_txtRecubrimientoInferior_textEdited(const QString &arg1);
+
+    void on_txtRecubrimientoSuperior_textEdited(const QString &arg1);
+
+private:
     void setBase(double value);
     void setAltura(double value);
     void setArmaduraInferior(double value);
@@ -30,6 +47,7 @@ public:
 
 private:
     Ui::WidgetEditSeccionRectangular *ui;
+    SeccionRectangular* _seccion;
 };
 
 #endif // WIDGETEDITSECCIONRECTANGULAR_H

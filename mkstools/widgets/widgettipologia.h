@@ -16,10 +16,18 @@ public:
     explicit WidgetTipologia(QWidget *parent = 0);
     ~WidgetTipologia();
 
+    void setTipologia(TipologiaPtr tipologia);
+
 private slots:
     void on_cboEsquemasEstructurales_currentTextChanged(const QString &arg1);
 
     void on_cboSecciones_currentTextChanged(const QString &arg1);
+
+    void on_btnAddSolicitacion_released();
+
+    void on_cboMaterial_currentTextChanged(const QString &arg1);
+
+    void on_cboMetodoCalculo_currentTextChanged(const QString &arg1);
 
 private:
     void llenarSecciones();
@@ -28,6 +36,8 @@ private:
     void llenarMetodosCalculo();
     void crearEsquema();
     void crearSeccion();
+    void crearMaterial();
+    void crearMetodoCalculo();
 
 private:
     Ui::WidgetTipologia *ui;
@@ -39,7 +49,7 @@ private:
     EsquemaEstructuralPtr _esquema;
     MaterialPtr _material;
     MetodoCalculoPtr _metodoCalculo;
-
+    TipologiaPtr _tipologia;
 };
 
 #endif // WIDGETTIPOLOGIA_H

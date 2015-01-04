@@ -1,6 +1,7 @@
 #include "proyecto.h"
 #include <QDebug>
 #include "elemento.h"
+#include "dialogs/dlgnewelement.h"
 
 Proyecto::Proyecto(const QString &name, QObject *parent) :
     Base(name, parent)
@@ -26,7 +27,12 @@ void Proyecto::addElemento(ElementoPtr elemento)
 ElementoPtr Proyecto::editElemento(const QString &name)
 {
     ElementoPtr elemento = _elementos[name];
-    elemento->edit();
+    DlgNewElement dlg;
+    dlg.setElemento(elemento);
+    if (dlg.exec() == QDialog::Accepted)
+    {
+        elemento = dlg.elemento();
+    }
     return elemento;
 }
 

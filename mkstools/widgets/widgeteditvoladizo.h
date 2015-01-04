@@ -2,6 +2,7 @@
 #define WIDGETEDITVOLADIZO_H
 
 #include <QWidget>
+#include "../model/forward.h"
 
 namespace Ui {
 class WidgetEditVoladizo;
@@ -15,13 +16,22 @@ public:
     explicit WidgetEditVoladizo(QWidget *parent = 0);
     ~WidgetEditVoladizo();
 
+    void setViga(Voladizo* viga);
+
+private:
     void setLongitud(double value);
     void setEmpotramiento(bool estaALaIzquierda);
     double longitud();
     bool empotramientoEstaALaIzquierda();
 
+private slots:
+    void on_txtLongitud_textEdited(const QString &arg1);
+
+    void on_radioIzquierda_toggled(bool checked);
+
 private:
     Ui::WidgetEditVoladizo *ui;
+    Voladizo *_viga;
 };
 
 #endif // WIDGETEDITVOLADIZO_H

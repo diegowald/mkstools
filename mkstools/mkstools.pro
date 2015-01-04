@@ -118,7 +118,8 @@ HEADERS  += mainwindow.h \
     widgets/widgetvigasimplementeapoyada.h \
     widgets/widgeteditvoladizo.h \
     widgets/widgeteditvigacontinua.h \
-    widgets/widgeteditseccionrectangular.h
+    widgets/widgeteditseccionrectangular.h \
+    widgets/iapplyable.h
 
 FORMS    += mainwindow.ui \
     widgets/maincommandwidget.ui \

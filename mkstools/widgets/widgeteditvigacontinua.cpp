@@ -1,6 +1,7 @@
 #include "widgeteditvigacontinua.h"
 #include "ui_widgeteditvigacontinua.h"
 #include "../dialogs/dlgnuevoapoyo.h"
+#include "../model/esquemas_estructurales/vigacontinua.h"
 
 WidgetEditVigaContinua::WidgetEditVigaContinua(QWidget *parent) :
     QWidget(parent),
@@ -22,6 +23,8 @@ void WidgetEditVigaContinua::on_btnAgregarApoyo_released()
     {
         ui->lstApoyos->addItem(QString::number(dlg.posicion()));
     }
+    QList<double> aps = apoyos();
+    _viga->setApoyos(aps);
 }
 
 void WidgetEditVigaContinua::setLongitud(double longitud)
@@ -57,4 +60,19 @@ QList<double> WidgetEditVigaContinua::apoyos()
 void WidgetEditVigaContinua::on_lstApoyos_itemDoubleClicked(QListWidgetItem *item)
 {
     delete item;
+    QList<double> aps = apoyos();
+    _viga->setApoyos(aps);
+}
+
+void WidgetEditVigaContinua::on_txtLongitud_textEdited(const QString &arg1)
+{
+    _viga->setLongitud(arg1.toDouble());
+}
+
+void WidgetEditVigaContinua::setViga(VigaContinua *viga)
+{
+    _viga = viga;
+    setLongitud(_viga->longitud());
+    QList<double> apoyos = _viga->apoyos();
+    setApoyos(apoyos);
 }

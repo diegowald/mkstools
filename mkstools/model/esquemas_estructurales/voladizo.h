@@ -12,6 +12,10 @@ public:
     explicit Voladizo(QObject *parent = 0);
     ~Voladizo();
 
+    double longitud();
+    bool empotramientoUbicadoALaIzquierda();
+    void setLongitud(double value);
+    void setEmpotramientoUbicadoALaIzquierda(bool value);
 signals:
 
 public slots:

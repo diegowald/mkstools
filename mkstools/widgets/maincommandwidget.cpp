@@ -49,3 +49,4 @@ void MainCommandWidget::updateElemento(ElementoPtr elemento)
         item->setText(6, elemento->calculado() ? "OK" : "Error");
     }
 }
+

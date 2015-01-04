@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QListWidgetItem>
+#include "../model/forward.h"
 
 namespace Ui {
 class WidgetEditVigaContinua;
@@ -16,6 +17,9 @@ public:
     explicit WidgetEditVigaContinua(QWidget *parent = 0);
     ~WidgetEditVigaContinua();
 
+    void setViga(VigaContinua *viga);
+
+private:
     void setLongitud(double longitud);
     void setApoyos(QList<double> &posiciones);
     double longitud();
@@ -26,8 +30,11 @@ private slots:
 
     void on_lstApoyos_itemDoubleClicked(QListWidgetItem *item);
 
+    void on_txtLongitud_textEdited(const QString &arg1);
+
 private:
     Ui::WidgetEditVigaContinua *ui;
+    VigaContinua *_viga;
 };
 
 #endif // WIDGETEDITVIGACONTINUA_H

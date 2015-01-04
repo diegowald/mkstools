@@ -66,9 +66,11 @@ void MainCommand::on_CloseProjecttriggered()
 void MainCommand::on_NewElementtriggered()
 {
     DlgNewElement dlg;
+    ElementoPtr elemento = ElementoPtr::create("");
+    dlg.setElemento(elemento);
     if (dlg.exec() == QDialog::Accepted)
     {
-        ElementoPtr elemento = ElementoPtr::create(dlg.name(), dlg.tipo());
+        elemento = dlg.elemento();
         _proyecto->addElemento(elemento);
         MainCommandWidget* widget = qobject_cast<MainCommandWidget*>(getWidget());
         widget->addElemento(elemento->name());

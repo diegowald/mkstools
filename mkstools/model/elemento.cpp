@@ -1,20 +1,30 @@
 #include "elemento.h"
 #include "../factory.h"
+#include "dialogs/dlgnewelement.h"
+#include "../model/materiales/material.h"
+#include "../model/metodosCalculo/metodocalculo.h"
+#include "../model/esquemas_estructurales/esquemaestructural.h"
+#include "../model/secciones/seccion.h"
 
 Elemento::Elemento(const QString &name, const QString &tipo, QObject *parent) :
     Base(name, parent)
 {
-    _tipo = tipo;
-    createInnerElement();
+    createInnerElement(tipo);
+}
+
+Elemento::Elemento(const QString &name, QObject *parent) :
+    Base(name, parent)
+{
+    _elemento = Factory::crearTipologiaPorDefecto();
 }
 
 Elemento::~Elemento()
 {
 }
 
-void Elemento::createInnerElement()
+void Elemento::createInnerElement(const QString &tipo)
 {
-    _elemento = Factory::crearTipologia(_tipo);
+    _elemento = Factory::crearTipologia(tipo);
 }
 
 void Elemento::edit()
@@ -45,12 +55,12 @@ QString Elemento::tipo()
 
 QString Elemento::material()
 {
-    return _elemento->material();
+    return _elemento->material()->name();
 }
 
 QString Elemento::metodoCalculo()
 {
-    return _elemento->metodoCalculo();
+    return _elemento->metodoCalculo()->name();
 }
 
 bool Elemento::calculado()
@@ -60,10 +70,25 @@ bool Elemento::calculado()
 
 QString Elemento::esquemaEstructural()
 {
-    return _elemento->esquemaEstructural();
+    return _elemento->esquemaEstructural()->name();
 }
 
 QString Elemento::seccion()
 {
-    return _elemento->seccion();
+    return _elemento->seccion()->name();
+}
+
+void Elemento::setName(const QString &value)
+{
+    _name = value;
+}
+
+TipologiaPtr Elemento::tipologia()
+{
+    return _elemento;
+}
+
+void Elemento::setTipologia(TipologiaPtr value)
+{
+    _elemento = value->clone();
 }

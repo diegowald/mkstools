@@ -37,11 +37,17 @@ public:
     static QStringList tipologias();
 
     static EsquemaEstructuralPtr crearEsquemaEstructural(const QString &name);
+    static EsquemaEstructuralPtr crearEsquemaEstructuralPorDefecto();
     static MaterialPtr crearMaterial(const QString &name);
+    static MaterialPtr crearMaterialPorDefecto();
     static MetodoCalculoPtr crearMetodoCalculo(const QString &name);
+    static MetodoCalculoPtr crearMetodoCalculoPorDefecto();
     static SeccionPtr crearSeccion(const QString &name);
+    static SeccionPtr crearSeccionPorDefecto();
     static SolicitacionPtr crearSolicitacion(const QString &name);
+    static SolicitacionPtr crearSolicitacionPorDefecto();
     static TipologiaPtr crearTipologia(const QString &name);
+    static TipologiaPtr crearTipologiaPorDefecto();
 
 signals:
 

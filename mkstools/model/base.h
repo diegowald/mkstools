@@ -17,7 +17,7 @@ signals:
 
 public slots:
 
-private:
+protected:
     QString _name;
 };
 

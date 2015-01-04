@@ -5,13 +5,16 @@
 #include "model/solicitaciones/solicitacion.h"
 #include "model/materiales/material.h"
 #include "model/metodosCalculo/metodocalculo.h"
+#include "factory.h"
 
 Tipologia::Tipologia(const QString &name, QObject *parent) :
     Base(name, parent)
 {
-    _tipoSeccion = "";
-    _tipoEsquema = "";
     _solicitaciones.clear();
+    _esquemaEstructural = Factory::crearEsquemaEstructuralPorDefecto();
+    _material = Factory::crearMaterialPorDefecto();
+    _metodoCalculo = Factory::crearMetodoCalculoPorDefecto();
+    _seccion = Factory::crearSeccionPorDefecto();
 }
 
 Tipologia::~Tipologia()
@@ -71,7 +74,7 @@ QString Tipologia::tipo()
     return _esquemaEstructural->name();
 }
 
-QString Tipologia::material()
+/*QString Tipologia::material()
 {
     return _material->name();
 }
@@ -80,12 +83,12 @@ QString Tipologia::metodoCalculo()
 {
     return _metodoCalculo->name();
 }
-
+*/
 bool Tipologia::calculoOK()
 {
     return _metodoCalculo->calculado();
 }
-
+/*
 QString Tipologia::esquemaEstructural()
 {
     return _esquemaEstructural->name();
@@ -94,4 +97,44 @@ QString Tipologia::esquemaEstructural()
 QString Tipologia::seccion()
 {
     return _seccion->name();
+}*/
+
+MaterialPtr Tipologia::material()
+{
+    return _material;
+}
+
+MetodoCalculoPtr Tipologia::metodoCalculo()
+{
+    return _metodoCalculo;
+}
+
+EsquemaEstructuralPtr Tipologia::esquemaEstructural()
+{
+    return _esquemaEstructural;
+}
+
+SeccionPtr Tipologia::seccion()
+{
+    return _seccion;
+}
+
+void Tipologia::setMaterial(MaterialPtr value)
+{
+    _material = value;
+}
+
+void Tipologia::setMetodoCalculo(MetodoCalculoPtr value)
+{
+    _metodoCalculo = value;
+}
+
+void Tipologia::setEsquemaEstructural(EsquemaEstructuralPtr value)
+{
+    _esquemaEstructural = value;
+}
+
+void Tipologia::setSeccion(SeccionPtr value)
+{
+    _seccion = value;
 }
