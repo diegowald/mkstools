@@ -138,3 +138,14 @@ void Tipologia::setSeccion(SeccionPtr value)
 {
     _seccion = value;
 }
+
+void Tipologia::setSolicitaciones(QList<SolicitacionPtr> &solicitaciones)
+{
+    _solicitaciones.clear();
+    _solicitaciones.append(solicitaciones);
+}
+
+QList<SolicitacionPtr> Tipologia::solicitaciones()
+{
+    return _solicitaciones;
+}

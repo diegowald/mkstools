@@ -69,7 +69,7 @@ void WidgetEditVigaContinua::on_txtLongitud_textEdited(const QString &arg1)
     _viga->setLongitud(arg1.toDouble());
 }
 
-void WidgetEditVigaContinua::setViga(VigaContinua *viga)
+void WidgetEditVigaContinua::setViga(VigaContinuaPtr viga)
 {
     _viga = viga;
     setLongitud(_viga->longitud());

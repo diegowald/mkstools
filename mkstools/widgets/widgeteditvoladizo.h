@@ -16,7 +16,7 @@ public:
     explicit WidgetEditVoladizo(QWidget *parent = 0);
     ~WidgetEditVoladizo();
 
-    void setViga(Voladizo* viga);
+    void setViga(VoladizoPtr viga);
 
 private:
     void setLongitud(double value);
@@ -31,7 +31,7 @@ private slots:
 
 private:
     Ui::WidgetEditVoladizo *ui;
-    Voladizo *_viga;
+    VoladizoPtr _viga;
 };
 
 #endif // WIDGETEDITVOLADIZO_H

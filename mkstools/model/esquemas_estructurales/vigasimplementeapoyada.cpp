@@ -7,7 +7,7 @@
 #include "../esfuerzos_internos/esfuerzointerno.h"
 
 VigaSimplementeApoyada::VigaSimplementeApoyada(QObject *parent) :
-    EsquemaEstructural("simplemente apoyada", parent)
+    EsquemaEstructural("simplemente apoyada", parent), QEnableSharedFromThis()
 {
     _longitud = 1.;
     _reaccionVerticalA = 0.;
@@ -40,15 +40,13 @@ void VigaSimplementeApoyada::edit()
 QWidget *VigaSimplementeApoyada::getEditWidget()
 {
     WidgetVigaSimplementeApoyada *widget = new WidgetVigaSimplementeApoyada();
-    widget->setLongitud(_longitud);
-    widget->setPosicionApoyoIzquierdo(_posicionApoyoIzquierdo);
-    widget->setPosicionApoyoDerecho(_posicionApoyoDerecho);
+    widget->setViga(sharedFromThis());
     return widget;
 }
 
 EsquemaEstructuralPtr VigaSimplementeApoyada::clone()
 {
-    VigaSimplementeApoyadaPtr viga = VigaSimplementeApoyadaPtr::create();
+    VigaSimplementeApoyadaPtr viga = VigaSimplementeApoyadaPtr(new VigaSimplementeApoyada());
     viga->_longitud = _longitud;
     return viga;
 }
@@ -386,6 +384,16 @@ void VigaSimplementeApoyada::setLongitud(double value)
 double VigaSimplementeApoyada::longitud()
 {
     return _longitud;
+}
+
+double VigaSimplementeApoyada::posicionApoyoIzquierdo()
+{
+    return _posicionApoyoIzquierdo;
+}
+
+double VigaSimplementeApoyada::posicionApoyoDerecho()
+{
+    return _posicionApoyoDerecho;
 }
 
 double VigaSimplementeApoyada::reaccionVerticalDerecha()

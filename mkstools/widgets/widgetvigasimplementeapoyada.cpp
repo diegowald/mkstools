@@ -1,5 +1,6 @@
 #include "widgetvigasimplementeapoyada.h"
 #include "ui_widgetvigasimplementeapoyada.h"
+#include "../model/esquemas_estructurales/vigasimplementeapoyada.h"
 
 WidgetVigaSimplementeApoyada::WidgetVigaSimplementeApoyada(QWidget *parent) :
     QWidget(parent),
@@ -41,4 +42,29 @@ double WidgetVigaSimplementeApoyada::posicionApoyoIzquierdo()
 double WidgetVigaSimplementeApoyada::posicinoApoyoDerecho()
 {
     return ui->txtPosicionApoyoDerecho->text().toDouble();
+}
+
+void WidgetVigaSimplementeApoyada::setViga(VigaSimplementeApoyadaPtr viga)
+{
+    _viga = viga;
+    setLongitud(_viga->longitud());
+    setPosicionApoyoIzquierdo(_viga->posicionApoyoIzquierdo());
+    setPosicionApoyoDerecho(_viga->posicionApoyoDerecho());
+}
+
+
+void WidgetVigaSimplementeApoyada::on_txtPosicionApoyoIzquierdo_textEdited(const QString &arg1)
+{
+    _viga->setPosicionApoyoIzquierdo(posicionApoyoIzquierdo());
+}
+
+void WidgetVigaSimplementeApoyada::on_lineEdit_textEdited(const QString &arg1)
+{
+    _viga->setLongitud(longitud());
+}
+
+
+void WidgetVigaSimplementeApoyada::on_txtPosicionApoyoDerecho_textEdited(const QString &arg1)
+{
+    _viga->setPosicionApoyoDerecho(posicinoApoyoDerecho());
 }

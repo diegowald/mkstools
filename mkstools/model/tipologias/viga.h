@@ -3,7 +3,7 @@
 
 #include "tipologia.h"
 
-class Viga : public Tipologia,public QEnableSharedFromThis<Viga>
+class Viga : public Tipologia, public QEnableSharedFromThis<Viga>
 {
     Q_OBJECT
 public:

@@ -9,7 +9,7 @@
 typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> Matriz;
 typedef Eigen::Matrix<double, Eigen::Dynamic, 1> Vector;
 
-class VigaContinua : public EsquemaEstructural
+class VigaContinua : public EsquemaEstructural, public QEnableSharedFromThis<VigaContinua>
 {
     Q_OBJECT
 public:

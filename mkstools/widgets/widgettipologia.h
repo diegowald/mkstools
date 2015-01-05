@@ -29,6 +29,12 @@ private slots:
 
     void on_cboMetodoCalculo_currentTextChanged(const QString &arg1);
 
+    void on_btnDiagramas_released();
+
+    void on_btnArmadura_released();
+
+    void on_btnReporte_released();
+
 private:
     void llenarSecciones();
     void llenarEsquemasEstructurales();
@@ -38,17 +44,18 @@ private:
     void crearSeccion();
     void crearMaterial();
     void crearMetodoCalculo();
+    QList<SolicitacionPtr> solicitaciones();
 
 private:
     Ui::WidgetTipologia *ui;
     QWidget *_widgetSeccion;
     QWidget *_widgetEsquemaEstructural;
-    SeccionPtr _seccionPrevia;
-    SeccionPtr _seccion;
-    EsquemaEstructuralPtr _esquemaPrevio;
-    EsquemaEstructuralPtr _esquema;
-    MaterialPtr _material;
-    MetodoCalculoPtr _metodoCalculo;
+//    SeccionPtr _seccionPrevia;
+//    SeccionPtr _seccion;
+//    EsquemaEstructuralPtr _esquemaPrevio;
+//    EsquemaEstructuralPtr _esquema;
+//    MaterialPtr _material;
+//    MetodoCalculoPtr _metodoCalculo;
     TipologiaPtr _tipologia;
 };
 

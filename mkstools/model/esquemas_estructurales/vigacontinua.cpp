@@ -9,7 +9,8 @@
 #include <eigen3/Eigen/LU>
 
 
-VigaContinua::VigaContinua(QObject *parent) : EsquemaEstructural("viga continua", parent)
+VigaContinua::VigaContinua(QObject *parent) :
+    EsquemaEstructural("viga continua", parent), QEnableSharedFromThis()
 {
     _longitud = 0;
     _apoyos.clear();
@@ -30,7 +31,7 @@ VigaContinua::~VigaContinua()
 
 EsquemaEstructuralPtr VigaContinua::clone()
 {
-    VigaContinuaPtr viga = VigaContinuaPtr::create();
+    VigaContinuaPtr viga = VigaContinuaPtr(new VigaContinua());
     viga->_longitud = _longitud;
     viga->_apoyos.append(_apoyos);
     return viga;
@@ -64,9 +65,7 @@ void VigaContinua::edit()
 QWidget* VigaContinua::getEditWidget()
 {
     WidgetEditVigaContinua *widget = new WidgetEditVigaContinua();
-    widget->setViga(this);
-/*    widget->setLongitud(_longitud);
-    widget->setApoyos(_apoyos);*/
+    widget->setViga(sharedFromThis());
     return widget;
 }
 

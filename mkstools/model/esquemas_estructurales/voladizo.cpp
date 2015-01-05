@@ -6,7 +6,7 @@
 #include <QDebug>
 
 Voladizo::Voladizo(QObject *parent) :
-    EsquemaEstructural("voladizo", parent)
+    EsquemaEstructural("voladizo", parent), QEnableSharedFromThis()
 {
     _longitud = 0.;
     _reaccionVertical = 0.;
@@ -29,7 +29,7 @@ Voladizo::~Voladizo()
 
 EsquemaEstructuralPtr Voladizo::clone()
 {
-    VoladizoPtr viga = VoladizoPtr::create();
+    VoladizoPtr viga = VoladizoPtr(new Voladizo());
     viga->_longitud = _longitud;
     viga->_empotramientoUbicadoALaIzquierda = _empotramientoUbicadoALaIzquierda;
     return viga;
@@ -58,9 +58,7 @@ void Voladizo::edit()
 QWidget *Voladizo::getEditWidget()
 {
     WidgetEditVoladizo *widget = new WidgetEditVoladizo();
-    widget->setViga(this);
-/*    widget->setLongitud(_longitud);
-    widget->setEmpotramiento(_empotramientoUbicadoALaIzquierda);*/
+    widget->setViga(sharedFromThis());
     return widget;
 }
 

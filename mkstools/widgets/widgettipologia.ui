@@ -172,13 +172,6 @@
         <number>2</number>
        </property>
        <item>
-        <widget class="QPushButton" name="btnCalcular">
-         <property name="text">
-          <string>Calcular</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="btnDiagramas">
          <property name="text">
           <string>Diagramas</string>
@@ -192,12 +185,30 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="btnReporte">
+         <property name="text">
+          <string>Reporte...</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>cboEsquemasEstructurales</tabstop>
+  <tabstop>cboSecciones</tabstop>
+  <tabstop>btnAddSolicitacion</tabstop>
+  <tabstop>listSolicitaciones</tabstop>
+  <tabstop>cboMaterial</tabstop>
+  <tabstop>cboMetodoCalculo</tabstop>
+  <tabstop>btnDiagramas</tabstop>
+  <tabstop>btnArmadura</tabstop>
+  <tabstop>btnReporte</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

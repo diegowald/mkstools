@@ -17,7 +17,7 @@ public:
     explicit WidgetEditVigaContinua(QWidget *parent = 0);
     ~WidgetEditVigaContinua();
 
-    void setViga(VigaContinua *viga);
+    void setViga(VigaContinuaPtr viga);
 
 private:
     void setLongitud(double longitud);
@@ -34,7 +34,7 @@ private slots:
 
 private:
     Ui::WidgetEditVigaContinua *ui;
-    VigaContinua *_viga;
+    VigaContinuaPtr _viga;
 };
 
 #endif // WIDGETEDITVIGACONTINUA_H

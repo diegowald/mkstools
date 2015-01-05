@@ -5,7 +5,7 @@
 #include "esquemaestructural.h"
 #include <QVarLengthArray>
 
-class VigaSimplementeApoyada : public EsquemaEstructural
+class VigaSimplementeApoyada : public EsquemaEstructural, public QEnableSharedFromThis<VigaSimplementeApoyada>
 {
     Q_OBJECT
 public:
@@ -46,6 +46,8 @@ public:
     void setLongitud(double value);
 
     double longitud();
+    double posicionApoyoIzquierdo();
+    double posicionApoyoDerecho();
 
     double reaccionVerticalDerecha();
     double reaccionVerticalIzquierda();

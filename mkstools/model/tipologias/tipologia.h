@@ -34,6 +34,10 @@ public:
     virtual void setMetodoCalculo(MetodoCalculoPtr value);
     virtual void setEsquemaEstructural(EsquemaEstructuralPtr value);
     virtual void setSeccion(SeccionPtr value);
+
+    virtual void setSolicitaciones(QList<SolicitacionPtr> &solicitaciones);
+    virtual QList<SolicitacionPtr> solicitaciones();
+
 signals:
 
 public slots:

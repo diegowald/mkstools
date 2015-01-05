@@ -5,7 +5,7 @@
 #include "esquemaestructural.h"
 #include <QVarLengthArray>
 
-class Voladizo : public EsquemaEstructural
+class Voladizo : public EsquemaEstructural, public QEnableSharedFromThis<Voladizo>
 {
     Q_OBJECT
 public:

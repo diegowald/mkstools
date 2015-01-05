@@ -40,7 +40,7 @@ void WidgetEditVoladizo::on_txtLongitud_textEdited(const QString &arg1)
     _viga->setLongitud(arg1.toDouble());
 }
 
-void WidgetEditVoladizo::setViga(Voladizo *viga)
+void WidgetEditVoladizo::setViga(VoladizoPtr viga)
 {
     _viga = viga;
     setLongitud(_viga->longitud());
