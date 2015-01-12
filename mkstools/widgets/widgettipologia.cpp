@@ -209,8 +209,7 @@ void WidgetTipologia::on_btnArmadura_released()
 void WidgetTipologia::on_btnReporte_released()
 {
     _tipologia->calcular();
-    QString html = _tipologia->reporteCalculo();
     DlgResults dlg;
-    dlg.setReporte(html);
+    _tipologia->crearReporte(dlg.textEdit());
     dlg.exec();
 }

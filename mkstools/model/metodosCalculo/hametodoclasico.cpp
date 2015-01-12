@@ -7,6 +7,8 @@
 #include "../esfuerzos_internos/esfuerzointerno.h"
 #include "../solicitaciones/solicitacion.h"
 #include "../esquemas_estructurales/esquemaestructural.h"
+#include <QTextFrame>
+
 
 HAMetodoClasico::HAMetodoClasico(QObject *parent) :
     MetodoCalculo("metodo clasico", parent)
@@ -360,6 +362,31 @@ QString HAMetodoClasico::reporteCalculo()
     reporte += _seccionMenorArmaduraSuperior->description();
 
     return reporte;
+}
+
+void HAMetodoClasico::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+    c.insertHtml(QString("<h3>Metodo de Calculo %1</h3><br>").arg(name()));
+
+    //_esquemaEstructural->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h4>Secciones solicitadas</h4><br>"));
+    c.insertHtml(QString("<h5>Mayor armadura inferior</h5><br>"));
+    _seccionMayorArmaduraInferior->crearReporte(textEdit);
+    c.insertHtml(_seccionMayorArmaduraInferior->description());
+
+    c.insertHtml(QString("<h5>Menor armadura inferior</h5><br>"));
+    _seccionMenorArmaduraInferior->crearReporte(textEdit);
+    c.insertHtml(_seccionMenorArmaduraInferior->description());
+
+    c.insertHtml(QString("<h5>Mayor armadura superior</h5><br>"));
+    _seccionMayorArmaduraSuperior->crearReporte(textEdit);
+    c.insertHtml(_seccionMayorArmaduraSuperior->description());
+
+    c.insertHtml(QString("<h5>Menor armadura superior</h5><br>"));
+    _seccionMenorArmaduraSuperior->crearReporte(textEdit);
+    c.insertHtml(_seccionMenorArmaduraSuperior->description());
 }
 
 bool HAMetodoClasico::calculado()

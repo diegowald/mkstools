@@ -40,6 +40,7 @@ public:
 
     virtual QVarLengthArray<EsfuerzoInternoPtr, 1024> esfuerzosInternos();
     virtual QString reporteCalculo();
+    virtual void crearReporte(QTextEdit *textEdit);
 
     void setPosicionApoyoIzquierdo(double posicion);
     void setPosicionApoyoDerecho(double posicion);

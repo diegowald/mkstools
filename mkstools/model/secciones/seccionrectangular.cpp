@@ -1,6 +1,7 @@
 #include "seccionrectangular.h"
 #include "../../dialogs/dlgeditseccionrectangular.h"
 #include "../../widgets/widgeteditseccionrectangular.h"
+#include <QTextFrame>
 
 SeccionRectangular::SeccionRectangular(QObject *parent) :
     Seccion("seccion rectangular", parent)
@@ -139,4 +140,17 @@ QString SeccionRectangular::description()
             .arg(_areaAceroSuperior)
             .arg(_recubrimientoInferior)
             .arg(_recubrimientoSuperior);
+}
+
+void SeccionRectangular::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+    c.insertHtml(QString("<h5>%1</h5><br>Base: %2 cm<br>Altura: %3 cm<br>Armadura Inferior: %4 cm2<br>Armadura Superior: %5 cm2<br>Recubrimiento Inferior: %6 cm<br>Recubrimiento Superior: %7 cm<br>")
+                 .arg(name())
+                 .arg(_base)
+                 .arg(_altura)
+                 .arg(_areaAceroInferior)
+                 .arg(_areaAceroSuperior)
+                 .arg(_recubrimientoInferior)
+                 .arg(_recubrimientoSuperior));
 }

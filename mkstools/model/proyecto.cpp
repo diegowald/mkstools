@@ -2,6 +2,7 @@
 #include <QDebug>
 #include "elemento.h"
 #include "dialogs/dlgnewelement.h"
+#include <QTextFrame>
 
 Proyecto::Proyecto(const QString &name, QObject *parent) :
     Base(name, parent)
@@ -72,4 +73,31 @@ QString Proyecto::reporteCalculo()
 
     reporte +="</body></html>";
     return reporte;
+}
+
+
+void Proyecto::crearReporte(QTextEdit *textEdit)
+{
+    textEdit->clear();
+    QTextCursor c = textEdit->document()->rootFrame()->firstCursorPosition();
+
+    c.insertHtml(
+                "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />"
+                "<title>Reporte de Cálculo</title>"
+                "<style type=\"text/css\">"
+                "p, li { white-space: pre-wrap; }"
+                "</style></head>"
+                "<body style=\" font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;\">");
+
+    c.insertHtml("<h1>Reporte de Calculo</h1>");
+
+    c.insertHtml("<h2>" + description() + "</h2>");
+
+    foreach (QString key, _elementos.keys())
+    {
+        _elementos[key]->crearReporte(textEdit);
+        c.insertHtml("<br>");
+    }
+
+    c.insertHtml("</body></html>");
 }

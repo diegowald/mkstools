@@ -19,6 +19,7 @@ public slots:
 public:
     virtual void run();
     virtual QString reporteCalculo();
+    virtual void crearReporte(QTextEdit *textEdit);
     virtual bool calculado();
     virtual QGraphicsScene *generarDiagrama(Diagrama diagrama,
                                             QList<double> &armadurasInferiores,

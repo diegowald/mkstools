@@ -33,6 +33,13 @@
     <widget class="QTextEdit" name="textEdit"/>
    </item>
    <item>
+    <widget class="QPushButton" name="btnPdf">
+     <property name="text">
+      <string>PDF</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

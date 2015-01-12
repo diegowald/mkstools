@@ -1,5 +1,7 @@
 #include "material.h"
 #include "../../dialogs/dlgeditacero.h"
+#include <QTextFrame>
+
 
 Material::Material(const QString &name, QObject *parent) :
     Base(name, parent)
@@ -43,4 +45,10 @@ QString Material::description()
             .arg(_tensionRoturaTraccion)
             .arg(_tensionRoturaCompresion)
             .arg(_E);
+}
+
+void Material::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+    c.insertHtml(description());
 }

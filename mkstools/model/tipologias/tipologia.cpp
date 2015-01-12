@@ -6,6 +6,7 @@
 #include "model/materiales/material.h"
 #include "model/metodosCalculo/metodocalculo.h"
 #include "factory.h"
+#include <QTextFrame>
 
 Tipologia::Tipologia(const QString &name, QObject *parent) :
     Base(name, parent)
@@ -69,35 +70,34 @@ QString Tipologia::reporteCalculo()
     return reporte;
 }
 
+void Tipologia::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+    c.insertHtml("<h5>" + description() + "</h5>");
+    c.insertHtml("<br>");
+    _esquemaEstructural->crearReporte(textEdit);
+    c.insertHtml("<br>");
+    _seccion->crearReporte(textEdit);
+    c.insertHtml("<br>");
+    _material->crearReporte(textEdit);
+    c.insertHtml("<br>");
+    foreach (SolicitacionPtr solicitacion, _solicitaciones)
+    {
+        solicitacion->crearReporte(textEdit);
+        c.insertHtml("<br>");
+    }
+    _metodoCalculo->crearReporte(textEdit);
+}
+
 QString Tipologia::tipo()
 {
     return _esquemaEstructural->name();
 }
 
-/*QString Tipologia::material()
-{
-    return _material->name();
-}
-
-QString Tipologia::metodoCalculo()
-{
-    return _metodoCalculo->name();
-}
-*/
 bool Tipologia::calculoOK()
 {
     return _metodoCalculo->calculado();
 }
-/*
-QString Tipologia::esquemaEstructural()
-{
-    return _esquemaEstructural->name();
-}
-
-QString Tipologia::seccion()
-{
-    return _seccion->name();
-}*/
 
 MaterialPtr Tipologia::material()
 {

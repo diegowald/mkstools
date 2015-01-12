@@ -37,6 +37,7 @@ private:
     // Base interface
 public:
     virtual QString description();
+    virtual void crearReporte(QTextEdit *textEdit);
 };
 
 

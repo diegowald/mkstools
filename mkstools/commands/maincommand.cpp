@@ -87,8 +87,9 @@ void MainCommand::on_editElemento(const QString &name)
 void MainCommand::on_Calcular()
 {
     _proyecto->calcular();
-    QString html = _proyecto->reporteCalculo();
+//    QString html = _proyecto->reporteCalculo();
     DlgResults dlg;
-    dlg.setReporte(html);
+//    dlg.setReporte(html);
+    _proyecto->crearReporte(dlg.textEdit());
     dlg.exec();
 }

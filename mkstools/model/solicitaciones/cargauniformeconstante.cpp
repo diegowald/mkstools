@@ -1,5 +1,6 @@
 #include "cargauniformeconstante.h"
 #include "../../dialogs/dlgeditcargauniformedistribuida.h"
+#include <QTextFrame>
 
 CargaUniformeConstante::CargaUniformeConstante(QObject *parent) :
     Solicitacion("carga uniforme constante", parent)
@@ -30,8 +31,9 @@ double CargaUniformeConstante::momentoIzquierda(double pos)
 
     double l0 = _posInicio;
     double l1 = _posFinal > pos ? pos : _posFinal;
+    double delta = l1 - l0;
 
-    double momento = _cargaY * (l1 - l0) * (pos - (l0 + l1) / 2.0);
+    double momento = _cargaY * delta * delta / 2.0;
     return momento;
 }
 
@@ -45,7 +47,9 @@ double CargaUniformeConstante::momentoDerecha(double pos)
     double l0 = _posInicio < pos ? pos : _posInicio;
     double l1 = _posFinal;
 
-    double momento = - _cargaY * (l1 - l0) * (l1 / 2);
+    double delta = l1 - l0;
+
+    double momento = - _cargaY * delta * (delta / 2);
     return momento;
 }
 
@@ -67,6 +71,21 @@ double CargaUniformeConstante::corteIzquierda(double pos)
     double l1 = _posFinal > pos ? pos : _posFinal;
 
     double corte = _cargaY * (l1 - l0);
+
+    return corte;
+}
+
+double CargaUniformeConstante::corteDerecha(double pos)
+{
+    if (pos > _posFinal)
+    {
+        return 0;
+    }
+
+    double l0 = _posInicio > pos ? _posInicio : pos;
+    double l1 = _posFinal;
+
+    double corte = -_cargaY * (l1 - l0);
 
     return corte;
 }
@@ -114,11 +133,18 @@ QString CargaUniformeConstante::description()
             .arg(_posFinal);
 }
 
+void CargaUniformeConstante::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+    c.insertHtml(description());
+}
+
 void CargaUniformeConstante::trasladarOrigen(double nuevoOrigen, double maxLongitud)
 {
     _posInicio -= nuevoOrigen;
     _posInicio = (_posInicio < 0.) ? 0. : _posInicio;
     _posFinal -= nuevoOrigen;
-    _posFinal = (_posFinal < maxLongitud) ? _posFinal : maxLongitud;
+    double longitud = maxLongitud - nuevoOrigen;
+    _posFinal = (_posFinal < longitud) ? _posFinal : longitud;
     _posFinal = (_posFinal < 0.) ? 0. : _posFinal;
 }

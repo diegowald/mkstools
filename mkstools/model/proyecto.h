@@ -15,6 +15,7 @@ public:
     void addElemento(ElementoPtr elemento);
     ElementoPtr editElemento(const QString &name);
     void calcular();
+    virtual void crearReporte(QTextEdit *textEdit);
 signals:
 
 public slots:

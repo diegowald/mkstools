@@ -13,8 +13,10 @@ CalcularCommand::~CalcularCommand()
 
 QWidget *CalcularCommand::getWidget()
 {
+    return NULL;
 }
 
 QList<QAction *> CalcularCommand::getActions()
 {
+    return QList<QAction*>();
 }

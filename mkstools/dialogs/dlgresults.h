@@ -2,6 +2,7 @@
 #define DLGRESULTS_H
 
 #include <QDialog>
+#include <QTextEdit>
 
 namespace Ui {
 class DlgResults;
@@ -15,7 +16,11 @@ public:
     explicit DlgResults(QWidget *parent = 0);
     ~DlgResults();
 
-    void setReporte(const QString &html);
+    //void setReporte(const QString &html);
+    QTextEdit *textEdit();
+
+private slots:
+    void on_btnPdf_released();
 
 private:
     Ui::DlgResults *ui;

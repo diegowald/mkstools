@@ -14,6 +14,7 @@ public:
     virtual double momentoIzquierda(double pos) = 0; // Calcula el momento hacia la izquierda
     virtual double momentoDerecha(double pos) = 0;
     virtual double corteIzquierda(double pos) = 0;
+    virtual double corteDerecha(double pos) = 0;
     virtual double resultanteX() = 0;
     virtual double resultanteY() = 0;
     virtual void edit() = 0;

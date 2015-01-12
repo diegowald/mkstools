@@ -1,4 +1,5 @@
 #include "esfuerzointerno.h"
+#include <QTextFrame>
 
 EsfuerzoInterno::EsfuerzoInterno(QObject *parent)
     : Base("esfuerzo interno", parent), _momento(0.0), _normal(0.0), _corte(0.0), _pos(0.0)
@@ -65,4 +66,13 @@ QString EsfuerzoInterno::reporteCalculo()
     reporte += QString("Esfuerzo normal: %1 t<br>").arg(_normal);
     reporte += QString("Esfuerzo de corte: %1 t<br>").arg(_corte);
     return reporte;
+}
+
+void EsfuerzoInterno::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+    c.insertHtml(QString("Posición: %1 cm<br>").arg(_pos));
+    c.insertHtml(QString("Momento: %1 tcm<br>").arg(_momento));
+    c.insertHtml(QString("Esfuerzo normal: %1 t<br>").arg(_normal));
+    c.insertHtml(QString("Esfuerzo de corte: %1 t<br>").arg(_corte));
 }

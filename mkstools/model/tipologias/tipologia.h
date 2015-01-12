@@ -17,13 +17,10 @@ public:
     virtual QStringList getValidEsquemaEstructuralTypes() = 0;
     virtual void calcular() = 0;
     virtual QString reporteCalculo();
+    void crearReporte(QTextEdit *textEdit);
 
     virtual QString tipo();
-    //virtual QString material();
-    //virtual QString metodoCalculo();
     virtual bool calculoOK();
-    //virtual QString esquemaEstructural();
-    //virtual QString seccion();
 
     virtual MaterialPtr material();
     virtual MetodoCalculoPtr metodoCalculo();

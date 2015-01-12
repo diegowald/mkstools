@@ -7,7 +7,7 @@
 #include "../esfuerzos_internos/esfuerzointerno.h"
 #include "../solicitaciones/solicitacion.h"
 #include <eigen3/Eigen/LU>
-
+#include <QTextFrame>
 
 VigaContinua::VigaContinua(QObject *parent) :
     EsquemaEstructural("viga continua", parent), QEnableSharedFromThis()
@@ -75,7 +75,7 @@ void VigaContinua::calcularReacciones(const QList<SolicitacionPtr> &solicitacion
     armarVigasAisladas();
     armarMatriz(solicitaciones);
     calcularMomentosApoyoPorClapeyron(solicitaciones);
-    calcularReaccionesPorClapeyron();
+    calcularReaccionesPorClapeyron(solicitaciones);
 }
 
 void VigaContinua::calcularEsfuerzosInternos(const QList<SolicitacionPtr> &solicitaciones)
@@ -218,6 +218,51 @@ QString VigaContinua::reporteCalculo()
     return reporte;
 }
 
+void VigaContinua::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+    c.insertHtml(QString("<h4>Cálculo de reacciones</h4><br>"));
+    c.insertHtml("<br>");
+
+    insertImage(textEdit, generarDiagrama(Diagrama::solicitaciones));
+    c.insertHtml(QString("<br>"));
+
+    for (int i = 0; i < _apoyos.size(); ++i)
+    {
+        c.insertHtml(QString("<h5>Reacción en pto Nro %1</h5><br>").arg(i));
+        c.insertHtml(QString("Posición: %1 cm.").arg(_apoyos.at((i))));
+        c.insertHtml(QString("Reacción vertical: %1 t.<br>").arg(_reaccionesVerticales.at(i)));
+        c.insertHtml(QString("Momento en el apoyo: %1 tcm.<br>").arg(_momentosApoyos.at(i)));
+        c.insertHtml(QString("<br>"));
+    }
+
+    c.insertHtml(QString("<h4>Diagramas de esfuerzos internos</h4><br>"));
+    c.insertHtml(QString("<h5>Esfuerzo Normal</h5><br>"));
+    insertImage(textEdit, generarDiagrama(Diagrama::normal));
+    c.insertHtml(QString("<br>"));
+    c.insertHtml(QString("<h5>Esfuerzo de Corte</h5><br>"));
+    insertImage(textEdit, generarDiagrama(Diagrama::corte));
+    c.insertHtml(QString("<br>"));
+    c.insertHtml(QString("<h5>Momento Flector</h5><br>"));
+    insertImage(textEdit, generarDiagrama(Diagrama::momentoFlector));
+    c.insertHtml(QString("<br>"));
+
+
+    c.insertHtml(QString("<h4>Maximos esfuerzos internos</h4><br>"));
+    c.insertHtml(QString("<h5>Momento Mínimo</h5><br>"));
+    _esfuerzosInternos[_idMinMomento]->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h5>Momento Máximo</h5><br>"));
+    _esfuerzosInternos[_idMaxMomento]->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h5>Corte Mínimo</h5><br>"));
+    _esfuerzosInternos[_idMinCorte]->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h5>Corte Máximo</h5><br>"));
+    _esfuerzosInternos[_idMaxCorte]->crearReporte(textEdit);
+    c.insertHtml("<br>");
+}
+
 QGraphicsScene *VigaContinua::generarDiagrama(Diagrama diagrama)
 {
     QList<double> valoresInferiores;
@@ -332,7 +377,7 @@ void VigaContinua::armarMatriz(const QList<SolicitacionPtr> &solicitaciones)
             case 0:
                 valor = 2. *
                         ((_apoyos.at(j + 1) - _apoyos.at(j)) +
-                         (_apoyos.at(j +2) - _apoyos.at(j + 1)));
+                         (_apoyos.at(j +2 ) - _apoyos.at(j + 1)));
                 break;
             case 1:
                 valor = 1. * (_apoyos.at(j + 2) - _apoyos.at(j + 1));
@@ -373,31 +418,34 @@ void VigaContinua::crearViga(int apoyoIzquierdo, int apoyoDerecho)
 
 void VigaContinua::armarTerminoIndependiente(int i, const QList<SolicitacionPtr> &solicitaciones)
 {
-    QList<SolicitacionPtr> solicitacionesTrasladadas = trasladarSolicitaciones(i, solicitaciones);
+    QList<SolicitacionPtr> solicitacionesTrasladadasIzq = trasladarSolicitaciones(i, solicitaciones);
     /*double omegaIzq = omega(_vigaAislada.at(i), solicitaciones);
     double Dizq = D(_vigaAislada.at(i), solicitaciones);*/
-    double omegaDIzq = omegaD(_vigaAislada.at(i), solicitacionesTrasladadas);
+    double omegaDIzq = omegaD(_vigaAislada.at(i), solicitacionesTrasladadasIzq);
     double Lizq = _vigaAislada.at(i)->longitud();
 
     /*double omegaDer = omega(_vigaAislada.at(i + 1), solicitaciones);
     double Dder = d(_vigaAislada.at(i + 1), solicitaciones);*/
-    double omegadDer = omegad(_vigaAislada.at(i + 1), solicitacionesTrasladadas);
+    QList<SolicitacionPtr> solicitacionesTrasladadasDer = trasladarSolicitaciones(i + 1, solicitaciones);
+    double omegadDer = omegaD(_vigaAislada.at(i + 1), solicitacionesTrasladadasDer);
     double Lder = _vigaAislada.at(i + 1)->longitud();
 
-    double mEmpotramiento = 0.;
-    double L = 0.;
+    double mEmpotramientoIzq = 0.;
+    double LIzq = 0.;
     if (i == 0)
     {
-        mEmpotramiento = calcularMomentoEmpotramientoIzquierdo(solicitaciones);
-        L = Lizq;
+        mEmpotramientoIzq += calcularMomentoEmpotramientoIzquierdo(solicitaciones);
+        LIzq = Lizq;
     }
-    else if (i == _apoyos.size() - 3)
+    double mEmpotramientoDer = 0.;
+    double LDer = 0.;
+    if (i == _apoyos.size() - 3)
     {
-        mEmpotramiento = calcularMomentoEmpotramientoDerecho(solicitaciones);
-        L = Lder;
+        mEmpotramientoDer += calcularMomentoEmpotramientoDerecho(solicitaciones);
+        LDer = Lder;
     }
 
-    _terminoIndependiente(i, 0) = -6 * ((omegaDIzq / Lizq) + (omegadDer / Lder)) - mEmpotramiento * L;
+    _terminoIndependiente(i, 0) = -6 * ((omegaDIzq / Lizq) + (omegadDer / Lder)) - mEmpotramientoIzq * LIzq - mEmpotramientoDer * LDer;
 }
 
 QList<SolicitacionPtr> VigaContinua::trasladarSolicitaciones(int i, const QList<SolicitacionPtr> &solicitaciones)
@@ -428,31 +476,39 @@ void VigaContinua::calcularMomentosApoyoPorClapeyron(const QList<SolicitacionPtr
     _momentosApoyos.append(calcularMomentoEmpotramientoDerecho(solicitaciones));
 }
 
-void VigaContinua::calcularReaccionesPorClapeyron()
+void VigaContinua::calcularReaccionesPorClapeyron(const QList<SolicitacionPtr> &solicitaciones)
 {
     _reaccionesVerticales.clear();
     for (int i = 0; i < _momentosApoyos.size(); ++i)
     {
         double terminoIzquierdo = 0.;
-        if (i > 0)
+        if (i != 0)
         {
-            double m1 = (i == 0) ? 0. : _momentosApoyos.at(i - 1);
+            double m1 = _momentosApoyos.at(i - 1);
             double m2 = _momentosApoyos.at(i);
-            double l = _vigaAislada.at(i - 1)->longitud();
+            double l =  _vigaAislada.at(i - 1)->longitud();
             double R = _vigaAislada.at(i - 1)->reaccionVerticalDerecha();
             terminoIzquierdo = (m1 - m2) / l + R;
         }
+        else
+        {
+            terminoIzquierdo = reaccionPorEmpotramientoIzquierda(solicitaciones);
+        }
+
         //((Mk-1 - Mk)/Lk + RkDerISO) + ((Mk+1 - Mk)/Lk+1 + Rk+1IzqISO)
         double terminoDerecho = 0.;
-        if (i < _momentosApoyos.size() - 1)
+        if (i != _momentosApoyos.size() - 1)
         {
-            double m1 = (i == _momentosApoyos.size() -1) ? 0. : _momentosApoyos.at(i + 1);
+            double m1 = _momentosApoyos.at(i + 1);
             double m2 = _momentosApoyos.at(i);
             double l = _vigaAislada.at(i)->longitud();
             double R = _vigaAislada.at(i)->reaccionVerticalIzquierda();
             terminoDerecho = (m1 - m2) / l + R;
         }
-
+        else
+        {
+            terminoDerecho = reaccionPorEmpotramientoDerecha(solicitaciones);
+        }
         double reaccion = terminoIzquierdo + terminoDerecho;
         _reaccionesVerticales.append(reaccion);
     }
@@ -560,6 +616,21 @@ double VigaContinua::calcularMomentoEmpotramientoIzquierdo(const QList<Solicitac
     return momento;
 }
 
+double VigaContinua::reaccionPorEmpotramientoIzquierda(const QList<SolicitacionPtr> &solicitaciones)
+{
+    double apoyoIzquierdo = _apoyos.first();
+    if (apoyoIzquierdo == 0.0)
+    {
+        return 0.;
+    }
+    double corte = 0.;
+    foreach (SolicitacionPtr solicitacion, solicitaciones)
+    {
+        corte += solicitacion->corteIzquierda(apoyoIzquierdo);
+    }
+    return -corte;
+}
+
 double VigaContinua::calcularMomentoEmpotramientoDerecho(const QList<SolicitacionPtr> &solicitaciones)
 {
     double apoyoDerecho = _apoyos.last();
@@ -572,9 +643,23 @@ double VigaContinua::calcularMomentoEmpotramientoDerecho(const QList<Solicitacio
     {
         momento += solicitacion->momentoDerecha(apoyoDerecho);
     }
-    return momento;
+    return -momento;
 }
 
+double VigaContinua::reaccionPorEmpotramientoDerecha(const QList<SolicitacionPtr> &solicitaciones)
+{
+    double apoyoDerecho = _apoyos.last();
+    if (apoyoDerecho == 0.0)
+    {
+        return 0.;
+    }
+    double corte = 0.;
+    foreach (SolicitacionPtr solicitacion, solicitaciones)
+    {
+        corte += solicitacion->corteDerecha(apoyoDerecho);
+    }
+    return corte;
+}
 
 double VigaContinua::obtenerMinimo(QList<double> &valores)
 {

@@ -3,7 +3,7 @@
 #include "../../widgets/widgeteditvoladizo.h"
 #include "../solicitaciones/solicitacion.h"
 #include "../esfuerzos_internos/esfuerzointerno.h"
-#include <QDebug>
+#include <QTextFrame>
 
 Voladizo::Voladizo(QObject *parent) :
     EsquemaEstructural("voladizo", parent), QEnableSharedFromThis()
@@ -88,13 +88,17 @@ void Voladizo::calcularEsfuerzosInternos(const QList<SolicitacionPtr> &solicitac
             momentoPto = _reaccionVertical * x + _momentoEmpotramiento;
             cortePto = _reaccionVertical;
         }
+        else
+        {
+            momentoPto = 0.;
+            cortePto = 0.;
+        }
         foreach (SolicitacionPtr s, solicitaciones)
         {
             momentoPto += s->momentoIzquierda(x);
             cortePto += s->corteIzquierda(x);
         }
 
-        qDebug() << momentoPto << ", " << cortePto;
         EsfuerzoInternoPtr esfuerzo = EsfuerzoInternoPtr::create();
         esfuerzo->setMomento(momentoPto);
         esfuerzo->setCorte(cortePto);
@@ -207,6 +211,47 @@ QString Voladizo::reporteCalculo()
     reporte += "<br>";
 
     return reporte;
+}
+
+
+void Voladizo::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+
+    c.insertHtml(QString("<h4>Cálculo de reacciones</h4><br>"));
+
+    insertImage(textEdit, generarDiagrama(Diagrama::solicitaciones));
+    c.insertHtml(QString("<br>"));
+
+    c.insertHtml(QString("Reacción horizontal: %1 t.<br>").arg(_reaccionHorizontal));
+    c.insertHtml(QString("Reacción vertical: %1 t.<br>").arg(_reaccionVertical));
+    c.insertHtml(QString("Momento de empotramiento: %1 tcm.<br>").arg(_momentoEmpotramiento));
+    c.insertHtml(QString("<br>"));
+
+    c.insertHtml(QString("<h4>Diagramas de esfuerzos internos</h4><br>"));
+    c.insertHtml(QString("<h5>Esfuerzo Normal</h5><br>"));
+    insertImage(textEdit, generarDiagrama(Diagrama::normal));
+    c.insertHtml(QString("<br>"));
+    c.insertHtml(QString("<h5>Esfuerzo de Corte</h5><br>"));
+    insertImage(textEdit, generarDiagrama(Diagrama::corte));
+    c.insertHtml(QString("<br>"));
+    c.insertHtml(QString("<h5>Momento Flector</h5><br>"));
+    insertImage(textEdit, generarDiagrama(Diagrama::momentoFlector));
+    c.insertHtml(QString("<br>"));
+
+    c.insertHtml(QString("<h4>Maximos esfuerzos internos</h4><br>"));
+    c.insertHtml(QString("<h5>Momento Mínimo</h5><br>"));
+    _esfuerzosInternos[_idMinMomento]->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h5>Momento Máximo</h5><br>"));
+    _esfuerzosInternos[_idMaxMomento]->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h5>Corte Mínimo</h5><br>"));
+    _esfuerzosInternos[_idMinCorte]->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h5>Corte Máximo</h5><br>"));
+    _esfuerzosInternos[_idMaxCorte]->crearReporte(textEdit);
+    c.insertHtml("<br>");
 }
 
 QGraphicsScene *Voladizo::generarDiagrama(Diagrama diagrama)

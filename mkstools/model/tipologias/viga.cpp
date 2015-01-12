@@ -46,6 +46,7 @@ QString Viga::description()
 }
 
 
+
 void Viga::calcular()
 {
     _metodoCalculo->init(this, _esquemaEstructural, _solicitaciones, _material, _seccion);

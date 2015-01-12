@@ -48,6 +48,11 @@ QString Elemento::reporteCalculo()
     return _elemento->reporteCalculo();
 }
 
+void Elemento::crearReporte(QTextEdit *textEdit)
+{
+    _elemento->crearReporte(textEdit);
+}
+
 QString Elemento::tipo()
 {
     return _elemento->tipo();

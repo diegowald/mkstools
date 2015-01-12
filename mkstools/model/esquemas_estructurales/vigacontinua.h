@@ -51,6 +51,7 @@ public:
     virtual double posMaxCorte() const;
     virtual QVarLengthArray<EsfuerzoInternoPtr, 1024> esfuerzosInternos();
     virtual QString reporteCalculo();
+    virtual void crearReporte(QTextEdit *textEdit);
     virtual QGraphicsScene *generarDiagrama(Diagrama diagrama);
     virtual QGraphicsScene *generarDiagrama(Diagrama diagrama, QList<double> &valoresInferiores, QList<double> &valoresSupoeriores,
                                             QList<double> &seccionesArmaduraInferiores, QList<double> &seccionesArmarudaSuperiores);
@@ -61,7 +62,7 @@ private:
     void armarVigasAisladas();
     void crearViga(int apoyoIzquierdo, int apoyoDerecho);
     void calcularMomentosApoyoPorClapeyron(const QList<SolicitacionPtr> &solicitaciones);
-    void calcularReaccionesPorClapeyron();
+    void calcularReaccionesPorClapeyron(const QList<SolicitacionPtr> &solicitaciones);
     QList<SolicitacionPtr> trasladarSolicitaciones(int i, const QList<SolicitacionPtr> &solicitaciones);
 
     double omega(VigaSimplementeApoyadaPtr viga, const QList<SolicitacionPtr> &solicitaciones);
@@ -71,6 +72,8 @@ private:
     double d(VigaSimplementeApoyadaPtr viga, const QList<SolicitacionPtr> &solicitaciones);
     double calcularMomentoEmpotramientoIzquierdo(const QList<SolicitacionPtr> &solicitaciones);
     double calcularMomentoEmpotramientoDerecho(const QList<SolicitacionPtr> &solicitaciones);
+    double reaccionPorEmpotramientoIzquierda(const QList<SolicitacionPtr> &solicitaciones);
+    double reaccionPorEmpotramientoDerecha(const QList<SolicitacionPtr> &solicitaciones);
 
     double obtenerMinimo(QList<double> &valores);
     double obtenerMaximo(QList<double> &valores);

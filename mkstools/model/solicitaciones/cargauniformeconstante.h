@@ -23,6 +23,7 @@ public:
     virtual double momentoIzquierda(double pos);
     virtual double momentoDerecha(double pos);
     virtual double corteIzquierda(double pos);
+    virtual double corteDerecha(double pos);
     virtual double resultanteX();
     virtual double resultanteY();
     virtual void edit();
@@ -42,6 +43,7 @@ public:
     // Base interface
 public:
     virtual QString description();
+    virtual void crearReporte(QTextEdit *textEdit);
 };
 
 

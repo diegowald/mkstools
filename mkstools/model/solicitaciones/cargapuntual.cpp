@@ -1,5 +1,6 @@
 #include "cargapuntual.h"
 #include "../../dialogs/dlgcargapuntual.h"
+#include <QTextFrame>
 
 CargaPuntual::CargaPuntual(QObject *parent) :
     Solicitacion("carga puntual", parent)
@@ -51,6 +52,15 @@ double CargaPuntual::corteIzquierda(double pos)
     return _fuerzaY;
 }
 
+double CargaPuntual::corteDerecha(double pos)
+{
+    if (pos > _posAplicacion)
+    {
+        return 0.;
+    }
+    return -_fuerzaY;
+}
+
 double CargaPuntual::resultanteX()
 {
     return _fuerzaX;
@@ -90,6 +100,12 @@ QString CargaPuntual::description()
             .arg(_fuerzaX)
             .arg(_fuerzaY)
             .arg(_posAplicacion);
+}
+
+void CargaPuntual::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+    c.insertHtml(description());
 }
 
 void CargaPuntual::trasladarOrigen(double nuevoOrigen, double maxLongitud)

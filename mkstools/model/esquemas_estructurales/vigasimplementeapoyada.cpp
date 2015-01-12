@@ -5,6 +5,7 @@
 #include "../solicitaciones/solicitacion.h"
 #include <limits>
 #include "../esfuerzos_internos/esfuerzointerno.h"
+#include <QTextFrame>
 
 VigaSimplementeApoyada::VigaSimplementeApoyada(QObject *parent) :
     EsquemaEstructural("simplemente apoyada", parent), QEnableSharedFromThis()
@@ -211,6 +212,51 @@ QString VigaSimplementeApoyada::reporteCalculo()
     reporte += "<br>";
 
     return reporte;
+}
+
+void VigaSimplementeApoyada::crearReporte(QTextEdit *textEdit)
+{
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+
+
+    c.insertHtml(QString("<h4>Cálculo de reacciones</h4><br>"));
+
+    insertImage(textEdit, generarDiagrama(Diagrama::solicitaciones));
+    c.insertHtml(QString("<br>"));
+
+    c.insertHtml(QString("<h5>Reacción A</h5><br>"));
+    c.insertHtml(QString("Reacción horizontal: %1 t.<br>").arg(_reaccionHorizontalA));
+    c.insertHtml(QString("Reacción vertical: %1 t.<br>").arg(_reaccionVerticalA));
+    c.insertHtml(QString("<br>"));
+    c.insertHtml(QString("<h5>Reacción B</h5><br>"));
+    c.insertHtml(QString("Reacción horizontal: %1 t.<br>").arg(_reaccionHorizontalB));
+    c.insertHtml(QString("Reacción vertical: %1 t.<br>").arg(_reaccionVerticalB));
+    c.insertHtml(QString("<br>"));
+
+    c.insertHtml(QString("<h4>Diagramas de esfuerzos internos</h4><br>"));
+    c.insertHtml(QString("<h5>Esfuerzo Normal</h5><br>"));
+    insertImage(textEdit, generarDiagrama(Diagrama::normal));
+    c.insertHtml(QString("<br>"));
+    c.insertHtml(QString("<h5>Esfuerzo de Corte</h5><br>"));
+    insertImage(textEdit, generarDiagrama(Diagrama::corte));
+    c.insertHtml(QString("<br>"));
+    c.insertHtml(QString("<h5>Momento Flector</h5><br>"));
+    insertImage(textEdit, generarDiagrama(Diagrama::momentoFlector));
+    c.insertHtml(QString("<br>"));
+
+    c.insertHtml(QString("<h4>Maximos esfuerzos internos</h4><br>"));
+    c.insertHtml(QString("<h5>Momento Mínimo</h5><br>"));
+    _esfuerzosInternos[_idMinMomento]->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h5>Momento Máximo</h5><br>"));
+    _esfuerzosInternos[_idMaxMomento]->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h5>Corte Mínimo</h5><br>"));
+    _esfuerzosInternos[_idMinCorte]->crearReporte(textEdit);
+
+    c.insertHtml(QString("<h5>Corte Máximo</h5><br>"));
+    _esfuerzosInternos[_idMaxCorte]->crearReporte(textEdit);
+    c.insertHtml("<br>");
 }
 
 QGraphicsScene *VigaSimplementeApoyada::generarDiagrama(Diagrama diagrama)

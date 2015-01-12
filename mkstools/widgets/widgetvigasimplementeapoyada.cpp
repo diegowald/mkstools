@@ -55,16 +55,19 @@ void WidgetVigaSimplementeApoyada::setViga(VigaSimplementeApoyadaPtr viga)
 
 void WidgetVigaSimplementeApoyada::on_txtPosicionApoyoIzquierdo_textEdited(const QString &arg1)
 {
+    (void) arg1;
     _viga->setPosicionApoyoIzquierdo(posicionApoyoIzquierdo());
 }
 
 void WidgetVigaSimplementeApoyada::on_lineEdit_textEdited(const QString &arg1)
 {
+    (void) arg1;
     _viga->setLongitud(longitud());
 }
 
 
 void WidgetVigaSimplementeApoyada::on_txtPosicionApoyoDerecho_textEdited(const QString &arg1)
 {
+    (void) arg1;
     _viga->setPosicionApoyoDerecho(posicinoApoyoDerecho());
 }

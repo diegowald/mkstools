@@ -45,6 +45,7 @@ public:
     virtual double posMaxCorte() const;
     virtual QVarLengthArray<EsfuerzoInternoPtr, 1024> esfuerzosInternos();
     virtual QString reporteCalculo();
+    virtual void crearReporte(QTextEdit *textEdit);
     virtual QGraphicsScene *generarDiagrama(Diagrama diagrama);
     virtual QGraphicsScene *generarDiagrama(Diagrama diagrama, QList<double> &valoresInferiores, QList<double> &valoresSupoeriores,
                                             QList<double> &seccionesArmaduraInferiores, QList<double> &seccionesArmarudaSuperiores);

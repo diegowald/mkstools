@@ -21,7 +21,8 @@ public:
     double corte() const;
     double pos() const;
 
-    QString reporteCalculo();
+    virtual QString reporteCalculo();
+    virtual void crearReporte(QTextEdit *textEdit);
 private:
     double _momento;
     double _normal;
