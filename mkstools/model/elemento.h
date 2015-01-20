@@ -3,8 +3,9 @@
 
 #include "base.h"
 #include "tipologias/tipologia.h"
+#include "IClonable.h"
 
-class Elemento : public Base
+class Elemento : public Base, public IClonable<Elemento>
 {
     Q_OBJECT
 public:
@@ -25,6 +26,8 @@ public:
     bool calculado();
     QString esquemaEstructural();
     QString seccion();
+
+    virtual ElementoPtr clone();
 private:
     void createInnerElement(const QString &tipo);
 

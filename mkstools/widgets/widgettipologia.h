@@ -29,12 +29,6 @@ private slots:
 
     void on_cboMetodoCalculo_currentTextChanged(const QString &arg1);
 
-    void on_btnDiagramas_released();
-
-    void on_btnArmadura_released();
-
-    void on_btnReporte_released();
-
 private:
     void llenarSecciones();
     void llenarEsquemasEstructurales();

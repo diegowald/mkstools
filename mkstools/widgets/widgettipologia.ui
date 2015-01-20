@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>274</width>
-    <height>386</height>
+    <width>262</width>
+    <height>355</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -137,6 +137,9 @@
        </property>
       </widget>
      </item>
+     <item row="5" column="0" colspan="2">
+      <widget class="QListWidget" name="listSolicitaciones"/>
+     </item>
      <item row="6" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
@@ -163,37 +166,6 @@
      <item row="7" column="1">
       <widget class="QComboBox" name="cboMetodoCalculo"/>
      </item>
-     <item row="5" column="0" colspan="2">
-      <widget class="QListWidget" name="listSolicitaciones"/>
-     </item>
-     <item row="8" column="0" colspan="2">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <property name="spacing">
-        <number>2</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="btnDiagramas">
-         <property name="text">
-          <string>Diagramas</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnArmadura">
-         <property name="text">
-          <string>Armaduras...</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnReporte">
-         <property name="text">
-          <string>Reporte...</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
     </layout>
    </item>
   </layout>
@@ -205,9 +177,6 @@
   <tabstop>listSolicitaciones</tabstop>
   <tabstop>cboMaterial</tabstop>
   <tabstop>cboMetodoCalculo</tabstop>
-  <tabstop>btnDiagramas</tabstop>
-  <tabstop>btnArmadura</tabstop>
-  <tabstop>btnReporte</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -8,9 +8,6 @@
 #include "../model/esquemas_estructurales/esquemaestructural.h"
 #include "../model/materiales/material.h"
 #include "../model/metodosCalculo/metodocalculo.h"
-#include "../dialogs/dlgdiagramas.h"
-#include "../dialogs/dlgsetarmadurasfelxion.h"
-#include "../dialogs/dlgresults.h"
 
 WidgetTipologia::WidgetTipologia(QWidget *parent) :
     QWidget(parent),
@@ -185,31 +182,4 @@ void WidgetTipologia::on_cboMetodoCalculo_currentTextChanged(const QString &arg1
     {
         crearMetodoCalculo();
     }
-}
-
-void WidgetTipologia::on_btnDiagramas_released()
-{
-    _tipologia->calcular();
-    DlgDiagramas dlg;
-    dlg.setData(_tipologia->seccion(),
-                _tipologia->esquemaEstructural(),
-                _tipologia->material(),
-                _tipologia->metodoCalculo());
-    dlg.exec();
-}
-
-void WidgetTipologia::on_btnArmadura_released()
-{
-    _tipologia->calcular();
-    DlgSetArmadurasFelxion dlg;
-    dlg.setData(_tipologia->metodoCalculo());
-    dlg.exec();
-}
-
-void WidgetTipologia::on_btnReporte_released()
-{
-    _tipologia->calcular();
-    DlgResults dlg;
-    _tipologia->crearReporte(dlg.textEdit());
-    dlg.exec();
 }

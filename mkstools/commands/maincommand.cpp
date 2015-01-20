@@ -65,9 +65,8 @@ void MainCommand::on_CloseProjecttriggered()
 
 void MainCommand::on_NewElementtriggered()
 {
-    DlgNewElement dlg;
     ElementoPtr elemento = ElementoPtr::create("");
-    dlg.setElemento(elemento);
+    DlgNewElement dlg(elemento);
     if (dlg.exec() == QDialog::Accepted)
     {
         elemento = dlg.elemento();

@@ -5,6 +5,7 @@
 #include "../model/metodosCalculo/metodocalculo.h"
 #include "../model/esquemas_estructurales/esquemaestructural.h"
 #include "../model/secciones/seccion.h"
+#include <QTextFrame>
 
 Elemento::Elemento(const QString &name, const QString &tipo, QObject *parent) :
     Base(name, parent)
@@ -50,6 +51,9 @@ QString Elemento::reporteCalculo()
 
 void Elemento::crearReporte(QTextEdit *textEdit)
 {
+    QTextCursor c = textEdit->document()->rootFrame()->lastCursorPosition();
+    c.insertHtml("<h4>Designación " + name() + "</h4>");
+    c.insertHtml("<br>");
     _elemento->crearReporte(textEdit);
 }
 
@@ -95,5 +99,12 @@ TipologiaPtr Elemento::tipologia()
 
 void Elemento::setTipologia(TipologiaPtr value)
 {
-    _elemento = value->clone();
+    _elemento = value;
+}
+
+ElementoPtr Elemento::clone()
+{
+    ElementoPtr elemento = ElementoPtr(new Elemento(_name));
+    elemento->_elemento = _elemento->clone();
+    return elemento;
 }

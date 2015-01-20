@@ -28,7 +28,7 @@ void Proyecto::addElemento(ElementoPtr elemento)
 ElementoPtr Proyecto::editElemento(const QString &name)
 {
     ElementoPtr elemento = _elementos[name];
-    DlgNewElement dlg;
+    DlgNewElement dlg(elemento);
     dlg.setElemento(elemento);
     if (dlg.exec() == QDialog::Accepted)
     {
